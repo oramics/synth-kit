@@ -29,7 +29,11 @@ function plug(node, name, value) {
     // ignore
   } else if (target.value !== undefined) {
     // it's a parameter
-    if (isFn(value.connect)) value.connect(target);else target.setValueAtTime(value, 0);
+    if (isFn(value.connect)) {
+      value.connect(target);
+    } else {
+      target.setValueAtTime(value, 0);
+    }
   } else if (target === undefined) {
     // replace the old value with a new one
     node[name] = value;
@@ -51,31 +55,6 @@ function update(node, newState) {
     node.state = state;
   });
   return node;
-}
-
-function triggerAttack(time, param, adsr) {
-  param.cancelScheduledValues(0);
-  // attack phase
-  var attack = adsr.attack || 0.01;
-  param.setValueAtTime(0, time);
-  time += attack;
-  param.linearRampToValueAtTime(1, time);
-
-  // decay-sustain phase
-  var sustain = adsr.sustain || 1;
-  if (sustain !== 1) {
-    time += adsr.decay || 0.01;
-    param.exponentialRampToValueAtTime(adsr.sustain, time);
-  }
-
-  // only trigger release if hold is defined
-  if (adsr.hold !== undefined) {
-    time += adsr.hold || 0;
-    param.setValueAtTime(adsr.sustain);
-    time += adsr.release || 0.1;
-    param.exponentialRampToValueAtTime(0.00001, time - 0.01);
-    param.setValueAtTime(0, time);
-  }
 }
 
 function polyphony(init) {
@@ -112,8 +91,7 @@ function connect() {
     prev.connect(next);
     return next;
   });
-  var last = nodes[nodes.length - 1];
-  return connectWith(last);
+  return nodes;
 }
 
 /**
@@ -122,17 +100,20 @@ function connect() {
  * - It's chainable
  * - It accepts `true` as param to connect to node's AudioContext's destination
  */
-function connectWith(node) {
+function connectWith(node, parent) {
+  if (!parent) throw Error("no parent!");
   var conn = node.connect;
   return function (dest) {
     if (dest === true) conn.call(node, node.context.destination);else conn.apply(node, arguments);
-    return node;
+    return parent;
   };
 }
 
+var assign = Object.assign;
+
 function createNode(ac, name, initialState, state, params) {
   var node = ac["create" + name].apply(ac, params);
-  node.state = initialState;
+  node.state = assign({}, initialState);
   return state ? update(node, state) : node;
 }
 
@@ -166,7 +147,7 @@ Filter.state = {
  * Create a Gain node. By default a it's gain value it's 0
  */
 var Gain = function Gain(ac, state) {
-  var gain = createNode(ac, "Gain", Osc.state, state);
+  var gain = createNode(ac, "Gain", Gain.state, state);
   if (gain.state.gain === 0) gain.gain.setValueAtTime(0, 0);
   return gain;
 };
@@ -175,10 +156,11 @@ Gain.state = {
 };
 
 function GainEnvelope(ac, state) {
-  var env = Gain(null, ac);
-  env.state = state;
+  var env = Gain(ac);
+  env.state = assign({}, GainEnvelope.state, state);
+  env.gain.value = 0.5;
   env.trigger = function (time, dur) {
-    triggerAttack(time, env.gain, env.state);
+    triggerAttack(time || 0, env.gain, env.state);
   };
   return env;
 }
@@ -189,6 +171,35 @@ GainEnvelope.state = {
 
 function FilterEnvelope(ac, state) {}
 
+// ## Private utility functions
+
+function triggerAttack(time, param, adsr) {
+  param.cancelScheduledValues(0);
+  // attack phase
+  var attack = adsr.attack || 0.01;
+  param.setValueAtTime(0, time);
+  time += attack;
+  param.linearRampToValueAtTime(1, time);
+
+  // decay-sustain phase
+  var sustain = adsr.sustain || 1;
+  if (sustain !== 1) {
+    time += adsr.decay || 0.01;
+    param.exponentialRampToValueAtTime(sustain, time);
+  }
+
+  // only trigger release if hold is defined
+  if (adsr.hold !== undefined) {
+    time += adsr.hold || 0;
+    param.setValueAtTime(sustain, time);
+    time += adsr.release || 0.1;
+    param.exponentialRampToValueAtTime(0.00001, time - 0.01);
+  }
+}
+
+/**
+ * Low Frequency Oscillator
+ */
 function LFO(ac, state) {
   var lfo = Osc(ac);
   lfo.amp = Gain(ac);
@@ -197,8 +208,10 @@ function LFO(ac, state) {
   lfo.update = function (state) {
     return update(lfo, state);
   };
-  lfo.connect = connect(lfo, lfo.amp);
-  return update(lfo, LFO.state);
+  lfo.connect(lfo.amp);
+  lfo.connect = connectWith(lfo.amp, lfo);
+  update(lfo, LFO.state);
+  console.log("JODER", lfo.frequency.value, lfo.amp.gain.value);
 }
 LFO.state = {
   type: "sine",
@@ -215,8 +228,8 @@ function VCO(ac, state) {
   state = Object.assign({}, VCO.state, state);
   var vco = Osc(ac, state);
   vco.modulator = LFO(ac, state.modulator);
-  plug(vco, "frequency", vco.modulator);
-  vco.connect = connectWith(vco);
+  plug(vco, "detune", vco.modulator);
+  vco.connect = connectWith(vco, vco);
   return vco;
 }
 VCO.state = {
@@ -224,15 +237,20 @@ VCO.state = {
   frequency: 440,
   detune: 0,
   modulator: {
-    rate: 2,
-    amount: 0.2
+    rate: 5,
+    amount: 1
   }
 };
 
-function VCF(ac, state) {
+function VCF(ac, state, envState) {
+  if (!envState) envState = state;
   var filter = Filter(ac, state);
-  filter.envelope = FilterEnvelope(state);
-  filter.trigger = filter.envelope.trigger;
+  // filter.envelope = FilterEnvelope(state)
+  // filter.trigger = filter.envelope.trigger
+  filter.trigger = function () {
+    // TODO
+  };
+  console.log("FILTER", filter, filter.state);
   return filter;
 }
 
@@ -240,31 +258,45 @@ function VCF(ac, state) {
  * Voltage controlled amplified
  */
 function VCA(ac, state, envState) {
-  if (envState) envState = state;
+  if (!envState) envState = state;
   var vca = Gain(ac, state);
   vca.envelope = GainEnvelope(ac, envState);
+  vca.connect(vca.envelope);
+  // add connect function
+  vca.connect = connectWith(vca.envelope, vca);
+  // add trigger function
   vca.trigger = vca.envelope.trigger;
+  return vca;
 }
 
 function MonoSynth(ac, state) {
   if (!state) state = MonoSynth.defaults;else state = Object.assign({}, MonoSynth.defaults, state);
 
-  var synth = connected({
+  // Create the synth
+  var synth = {
+    state: state,
     oscillator: VCO(ac, state.oscillator),
     filter: VCF(ac, state.filter),
     amp: VCA(ac, state, state.envelope)
-  }, ["oscillator", "filter", "envelope", "amp"]);
-  synth.state = state;
-  synth.trigger = function (freq, time, dur) {
-    synth.oscillator.frequency.setValueAt(freq, time);
-    synth.amp.envelope.trigger(time, dur);
   };
+  connect(synth.oscillator, synth.filter, synth.amp);
 
+  // Synth API
+  synth.connect = connectWith(synth.amp, synth);
+  synth.trigger = function (freq, time, dur) {
+    time = time || ac.currentTime;
+    if (freq) synth.oscillator.frequency.setValueAtTime(freq, time);
+    synth.amp.trigger(time, dur);
+  };
   return synth;
 }
 MonoSynth.defaults = {
   oscillator: {
     type: "sawtooth"
+  },
+  filter: {
+    type: "lowpass",
+    frequency: 4000
   },
   envelope: {
     attack: 0.01,
@@ -280,7 +312,6 @@ function Kick(ac, state) {}
 exports.ampToGain = ampToGain;
 exports.plug = plug;
 exports.update = update;
-exports.triggerAttack = triggerAttack;
 exports.polyphony = polyphony;
 exports.connected = connected;
 exports.connect = connect;
