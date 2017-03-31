@@ -1,14 +1,14 @@
 /* global AudioContext */
 require("web-audio-test-api")
-const { VCA } = require("../lib/synths")
+const { Gain } = require("../lib/index")
 
 const output = (node) => node.toJSON()
 const inputs = (node) => node.toJSON().inputs
 
-describe("synth-kit -- Synths", () => {
-  test("VCA", () => {
+describe("synth-kit -- Gain", () => {
+  test("state", () => {
     const ac = new AudioContext()
-    const vca = VCA(ac)
-    expect(vca.state).toEqual({ gain: 0 })
+    const gain = Gain(ac)
+    expect(gain.state).toEqual({ gain: 0 })
   })
 })

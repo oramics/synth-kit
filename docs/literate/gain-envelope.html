@@ -2,7 +2,7 @@
 
 <html>
 <head>
-  <title>nodes.js</title>
+  <title>gain-envelope.js</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
   <link rel="stylesheet" media="all" href="docco.css" />
@@ -40,13 +40,68 @@
                 </a>
               
                 
-                <a class="source" href="kit.html">
-                  kit.js
+                <a class="source" href="snare.html">
+                  snare.js
                 </a>
               
                 
-                <a class="source" href="nodes.html">
-                  nodes.js
+                <a class="source" href="filter.html">
+                  filter.js
+                </a>
+              
+                
+                <a class="source" href="gain-envelope.html">
+                  gain-envelope.js
+                </a>
+              
+                
+                <a class="source" href="gain.html">
+                  gain.js
+                </a>
+              
+                
+                <a class="source" href="lfo.html">
+                  lfo.js
+                </a>
+              
+                
+                <a class="source" href="mono-buffer.html">
+                  mono-buffer.js
+                </a>
+              
+                
+                <a class="source" href="noise.html">
+                  noise.js
+                </a>
+              
+                
+                <a class="source" href="osc.html">
+                  osc.js
+                </a>
+              
+                
+                <a class="source" href="sample.html">
+                  sample.js
+                </a>
+              
+                
+                <a class="source" href="source.html">
+                  source.js
+                </a>
+              
+                
+                <a class="source" href="vca.html">
+                  vca.js
+                </a>
+              
+                
+                <a class="source" href="vcf.html">
+                  vcf.js
+                </a>
+              
+                
+                <a class="source" href="vco.html">
+                  vco.js
                 </a>
               
             </div>
@@ -58,7 +113,7 @@
         
           <li id="title">
               <div class="annotation">
-                  <h1>nodes.js</h1>
+                  <h1>gain-envelope.js</h1>
               </div>
           </li>
         
@@ -73,61 +128,31 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> { update } <span class="hljs-keyword">from</span> <span class="hljs-string">"./core"</span>
-<span class="hljs-keyword">const</span> assign = <span class="hljs-built_in">Object</span>.assign
-
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createNode</span> (<span class="hljs-params">ac, name, initialState, state, params</span>) </span>{
-  <span class="hljs-keyword">const</span> node = ac[<span class="hljs-string">"create"</span> + name].apply(ac, params)
-  node.state = assign({}, initialState)
-  <span class="hljs-keyword">return</span> state ? update(node, state) : node
-}
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> Gain <span class="hljs-keyword">from</span> <span class="hljs-string">"./gain"</span>
 
 <span class="hljs-comment">/**
- * Create an Oscillator
- * A oscillator is always started
+ * Create a Gain envelope. Any audio source can be connected to an
+ * audio envelope.
+ *
+ * @example
+ * const [osc, adsr] = connect(Osc(ac), GainEnvelope(ac))
+ * adsr.trigger()
  */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Osc</span> (<span class="hljs-params">ac, state</span>) </span>{
-  <span class="hljs-keyword">const</span> osc = createNode(ac, <span class="hljs-string">"Oscillator"</span>, Osc.state, state)
-  <span class="hljs-keyword">const</span> start = state ? state.start : <span class="hljs-number">0</span>
-  <span class="hljs-keyword">if</span> (start !== <span class="hljs-literal">false</span>) osc.start(start || <span class="hljs-number">0</span>)
-  <span class="hljs-keyword">return</span> osc
-}
-Osc.state = {
-  <span class="hljs-attr">type</span>: <span class="hljs-string">"sine"</span>,
-  <span class="hljs-attr">frequency</span>: <span class="hljs-number">440</span>,
-  <span class="hljs-attr">detune</span>: <span class="hljs-number">0</span>
-}
-
-<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Filter</span> (<span class="hljs-params">ac, state</span>) </span>{
-  <span class="hljs-keyword">return</span> createNode(ac, <span class="hljs-string">"BiquadFilter"</span>, Filter.state, state)
-}
-Filter.state = {
-  <span class="hljs-attr">type</span>: <span class="hljs-string">"lowpass"</span>,
-  <span class="hljs-attr">frequency</span>: <span class="hljs-number">350</span>,
-  <span class="hljs-attr">detune</span>: <span class="hljs-number">0</span>,
-  <span class="hljs-attr">Q</span>: <span class="hljs-number">1</span>,
-}
-
-<span class="hljs-comment">/**
- * Create a Gain node. By default a it's gain value it's 0
- */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> Gain = <span class="hljs-function">(<span class="hljs-params">ac, state</span>) =&gt;</span> {
-  <span class="hljs-keyword">const</span> gain = createNode(ac, <span class="hljs-string">"Gain"</span>, Gain.state, state)
-  <span class="hljs-keyword">if</span> (gain.state.gain === <span class="hljs-number">0</span>) gain.gain.setValueAtTime(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>)
-  <span class="hljs-keyword">return</span> gain
-}
-Gain.state = {
-  <span class="hljs-attr">gain</span>: <span class="hljs-number">0</span>
-}
-
-<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">GainEnvelope</span> (<span class="hljs-params">ac, state</span>) </span>{
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">GainEnvelope</span> (<span class="hljs-params">ac, state</span>) </span>{
   <span class="hljs-keyword">const</span> env = Gain(ac)
-  env.state = assign({}, GainEnvelope.state, state)
-  env.gain.value = <span class="hljs-number">0.5</span>
+  env.state = <span class="hljs-built_in">Object</span>.assign({}, GainEnvelope.state, state)
+
+  <span class="hljs-comment">/**
+   * Trigger the envelope. It triggers the attack phase of the envelope
+   * at a given time and the release phase if a duration is given.
+   * @param {Number} [when=now]
+   * @param {Number} [duration]
+   * @return {GainEnvelope} this
+   */</span>
   env.trigger = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">time, dur</span>) </span>{
     <span class="hljs-keyword">if</span> (!time) time = ac.currentTime
     <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"trigger env"</span>, time, dur, env.state)
-    <span class="hljs-keyword">const</span> release = triggerAttack(time, env.gain, env.state)
+    <span class="hljs-keyword">const</span> release = triggerAdsr(time, env.gain, env.state)
     <span class="hljs-keyword">if</span> (dur) release(time + dur)
     <span class="hljs-keyword">return</span> release
   }
@@ -138,8 +163,8 @@ GainEnvelope.state = {
   <span class="hljs-attr">release</span>: <span class="hljs-number">0.2</span>
 }
 
-<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">FilterEnvelope</span> (<span class="hljs-params">ac, state</span>) </span>{
-}</pre></div></div>
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">triggerAdsr</span> (<span class="hljs-params">time, param, adsr</span>) </span>{
+  param.cancelScheduledValues(<span class="hljs-number">0</span>)</pre></div></div>
             
         </li>
         
@@ -149,23 +174,6 @@ GainEnvelope.state = {
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-2">&#182;</a>
-              </div>
-              <h2 id="private-utility-functions">Private utility functions</h2>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">triggerAttack</span> (<span class="hljs-params">time, param, adsr</span>) </span>{
-  param.cancelScheduledValues(<span class="hljs-number">0</span>)</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-3">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-3">&#182;</a>
               </div>
               <p>attack phase</p>
 
@@ -179,11 +187,11 @@ GainEnvelope.state = {
         </li>
         
         
-        <li id="section-4">
+        <li id="section-3">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-4">&#182;</a>
+                <a class="pilcrow" href="#section-3">&#182;</a>
               </div>
               <p>decay-sustain phase</p>
 
@@ -203,11 +211,11 @@ GainEnvelope.state = {
         </li>
         
         
-        <li id="section-5">
+        <li id="section-4">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-5">&#182;</a>
+                <a class="pilcrow" href="#section-4">&#182;</a>
               </div>
               <p>only trigger release if hold is defined</p>
 

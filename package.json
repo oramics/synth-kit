@@ -18,7 +18,7 @@
     "dist": "rollup -cm -n SynthKit -f umd -i lib/index.js -o dist/synth-kit.js && cp dist/* docs/dist/",
     "watch": "rollup --watch -cm -n SynthKit -f umd -i lib/index.js -o dist/synth-kit.js",
     "release": "npm run build && npm test && git commit -am $npm_package_version && git tag $npm_package_version && git push && git push --tags && npm publish",
-    "docs": "docco lib/* -o docs/literate"
+    "docs": "docco lib/* lib/**/* -o docs/literate"
   },
   "authors": "@danigb",
   "keywords": [

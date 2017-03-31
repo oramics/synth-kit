@@ -38,4 +38,9 @@ mono.trigger('C4')
 mono.filter.frequency.value = 500
 ```
 
-***Work in progress**
+**Work in progress**
+
+
+## License
+
+MIT License

@@ -17,7 +17,8 @@ const viewSynth = (name, synth, trigger) => html`
 app({
   model: {
     MonoSynth: SynthKit.MonoSynth(ac).connect(true),
-    Kick: SynthKit.Kick(ac).connect(true)
+    Kick: SynthKit.Kick(ac).connect(true),
+    Snare: SynthKit.Snare(ac).connect(true)
   },
   actions: {
     MonoSynth: (model) => {
@@ -26,11 +27,15 @@ app({
     },
     Kick: (model) => {
       model.Kick.trigger()
+    },
+    Snare: (model) => {
+      model.Snare.trigger()
     }
   },
   view: (model, actions) => html`
     <div>
       <h1>SynthKit examples</h1>
+      ${viewSynth("Snare", model.Snare, actions.Snare)}
       ${viewSynth("Kick", model.Kick, actions.Kick)}
       ${viewSynth("MonoSynth", model.MonoSynth, actions.MonoSynth)}
     </div>

@@ -2,7 +2,7 @@
 
 <html>
 <head>
-  <title>index.js</title>
+  <title>sample.js</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
   <link rel="stylesheet" media="all" href="docco.css" />
@@ -113,7 +113,7 @@
         
           <li id="title">
               <div class="annotation">
-                  <h1>index.js</h1>
+                  <h1>sample.js</h1>
               </div>
           </li>
         
@@ -128,6 +128,24 @@
               
             </div>
             
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> { connectWith } <span class="hljs-keyword">from</span> <span class="hljs-string">"../core"</span>
+<span class="hljs-keyword">import</span> Gain <span class="hljs-keyword">from</span> <span class="hljs-string">"./gain"</span>
+<span class="hljs-keyword">import</span> Source <span class="hljs-keyword">from</span> <span class="hljs-string">"./source"</span>
+
+<span class="hljs-comment">/**
+ * Sample player. It's like a BufferSource but can be triggered more than once.
+ *
+ * @param {AudioContext} context
+ * @param {AudioBuffer} buffer
+ * @param {Object} [state]
+ * - gain: the gain of the sample
+ *
+ * @constructor
+ */</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Sample</span> (<span class="hljs-params">ac, buffer, state</span>) </span>{
+  <span class="hljs-keyword">if</span> (!buffer) <span class="hljs-keyword">throw</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">"Sample needs a buffer."</span>)
+  state = <span class="hljs-built_in">Object</span>.assign({}, Sample.state, state)</pre></div></div>
+            
         </li>
         
         
@@ -137,11 +155,13 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-2">&#182;</a>
               </div>
-              <p>Functions</p>
+              <p>create component</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> * <span class="hljs-keyword">from</span> <span class="hljs-string">"./core"</span></pre></div></div>
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">const</span> sample = {
+    <span class="hljs-attr">amp</span>: Gain(ac, state)
+  }</pre></div></div>
             
         </li>
         
@@ -152,33 +172,39 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-3">&#182;</a>
               </div>
-              <p>Kit</p>
+              <p>API</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> Gain } <span class="hljs-keyword">from</span> <span class="hljs-string">"./kit/gain"</span>
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> GainEnvelope } <span class="hljs-keyword">from</span> <span class="hljs-string">"./kit/gain-envelope"</span>
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> Noise } <span class="hljs-keyword">from</span> <span class="hljs-string">"./kit/noise"</span>
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> VCA } <span class="hljs-keyword">from</span> <span class="hljs-string">"./kit/vca"</span>
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> VCO } <span class="hljs-keyword">from</span> <span class="hljs-string">"./kit/vco"</span>
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> VCF } <span class="hljs-keyword">from</span> <span class="hljs-string">"./kit/vcf"</span></pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-4">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-4">&#182;</a>
-              </div>
-              <p>Instruments</p>
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-comment">/**
+   * Connect to a node
+   * @chainable
+   * @param {AudioNode} dest
+   * @return {Sample} this
+   */</span>
+  sample.connect = connectWith(sample.amp, sample)
 
-            </div>
-            
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> Kick } <span class="hljs-keyword">from</span> <span class="hljs-string">"./instruments/kick"</span>
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> Snare } <span class="hljs-keyword">from</span> <span class="hljs-string">"./instruments/snare"</span>
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> MonoSynth } <span class="hljs-keyword">from</span> <span class="hljs-string">"./instruments/monosynth"</span></pre></div></div>
+  <span class="hljs-comment">/**
+   * trigger attack/release
+   * @param {Integer} [when=now]
+   * @param {Duration} [dur]
+   */</span>
+  sample.trigger = <span class="hljs-function">(<span class="hljs-params">time, dur</span>) =&gt;</span> {
+    <span class="hljs-keyword">if</span> (!time) time = ac.currentTime
+    <span class="hljs-keyword">const</span> source = Source(ac, buffer, state)
+    source.connect(sample.amp)
+    source.onended = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+      <span class="hljs-keyword">if</span> (sample.onended) sample.onended()
+      source.disconnect()
+    }
+    source.start(time)
+  }
+  <span class="hljs-keyword">return</span> sample
+}
+
+Sample.state = {
+  <span class="hljs-attr">gain</span>: <span class="hljs-number">0.8</span>
+}</pre></div></div>
             
         </li>
         

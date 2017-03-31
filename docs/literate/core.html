@@ -20,28 +20,88 @@
             <div id="jump_page">
               
                 
-                <a class="source" href="index.html">
-                  index.js
-                </a>
-              
-                
                 <a class="source" href="core.html">
                   core.js
                 </a>
               
                 
-                <a class="source" href="drums.html">
-                  drums.js
+                <a class="source" href="index.html">
+                  index.js
                 </a>
               
                 
-                <a class="source" href="nodes.html">
-                  nodes.js
+                <a class="source" href="kick.html">
+                  kick.js
                 </a>
               
                 
-                <a class="source" href="synths.html">
-                  synths.js
+                <a class="source" href="monosynth.html">
+                  monosynth.js
+                </a>
+              
+                
+                <a class="source" href="snare.html">
+                  snare.js
+                </a>
+              
+                
+                <a class="source" href="filter.html">
+                  filter.js
+                </a>
+              
+                
+                <a class="source" href="gain-envelope.html">
+                  gain-envelope.js
+                </a>
+              
+                
+                <a class="source" href="gain.html">
+                  gain.js
+                </a>
+              
+                
+                <a class="source" href="lfo.html">
+                  lfo.js
+                </a>
+              
+                
+                <a class="source" href="mono-buffer.html">
+                  mono-buffer.js
+                </a>
+              
+                
+                <a class="source" href="noise.html">
+                  noise.js
+                </a>
+              
+                
+                <a class="source" href="osc.html">
+                  osc.js
+                </a>
+              
+                
+                <a class="source" href="sample.html">
+                  sample.js
+                </a>
+              
+                
+                <a class="source" href="source.html">
+                  source.js
+                </a>
+              
+                
+                <a class="source" href="vca.html">
+                  vca.js
+                </a>
+              
+                
+                <a class="source" href="vcf.html">
+                  vcf.js
+                </a>
+              
+                
+                <a class="source" href="vco.html">
+                  vco.js
                 </a>
               
             </div>
@@ -68,25 +128,9 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-comment">/* global AudioContext */</span>
-<span class="hljs-keyword">const</span> isString = <span class="hljs-function">(<span class="hljs-params">o</span>) =&gt;</span> <span class="hljs-keyword">typeof</span> o === <span class="hljs-string">"string"</span>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">const</span> isString = <span class="hljs-function">(<span class="hljs-params">o</span>) =&gt;</span> <span class="hljs-keyword">typeof</span> o === <span class="hljs-string">"string"</span>
 <span class="hljs-keyword">const</span> isFn = <span class="hljs-function">(<span class="hljs-params">o</span>) =&gt;</span> <span class="hljs-keyword">typeof</span> o === <span class="hljs-string">"function"</span>
 <span class="hljs-keyword">const</span> { exp, E } = <span class="hljs-built_in">Math</span>
-
-<span class="hljs-keyword">let</span> ctx = <span class="hljs-literal">null</span>
-<span class="hljs-comment">/**
- * Get an audio context.
- */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">context</span> (<span class="hljs-params">config, ac</span>) </span>{
-  <span class="hljs-keyword">if</span> (ac) {
-    <span class="hljs-keyword">return</span> ac
-  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (config &amp;&amp; config.context) {
-    <span class="hljs-keyword">return</span> config.context
-  } <span class="hljs-keyword">else</span> {
-    <span class="hljs-keyword">if</span> (ctx === <span class="hljs-literal">null</span>) ctx = <span class="hljs-keyword">new</span> AudioContext()
-    <span class="hljs-keyword">return</span> ctx
-  }
-}
 
 <span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ampToGain</span> (<span class="hljs-params">amp</span>) </span>{
   <span class="hljs-keyword">return</span> (exp(amp) - <span class="hljs-number">1</span>) / (E - <span class="hljs-number">1</span>)
@@ -129,9 +173,12 @@
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">if</span> (isFn(value.connect)) value.connect(target)
-    <span class="hljs-keyword">else</span> target.setValueAtTime(value, <span class="hljs-number">0</span>)
-  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (target === <span class="hljs-literal">undefined</span>) {</pre></div></div>
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">if</span> (isFn(value.connect)) {
+      value.connect(target)
+    } <span class="hljs-keyword">else</span> {
+      target.setValueAtTime(value, <span class="hljs-number">0</span>)
+    }
+  } <span class="hljs-keyword">else</span> {</pre></div></div>
             
         </li>
         
@@ -153,22 +200,12 @@
 <span class="hljs-comment">/**
  * Update a node
  */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">update</span> (<span class="hljs-params">node, newState</span>) </span>{
-  <span class="hljs-keyword">const</span> state = node.state || {}
-  <span class="hljs-built_in">Object</span>.keys(newState).forEach(<span class="hljs-function"><span class="hljs-params">key</span> =&gt;</span> {
-    <span class="hljs-keyword">const</span> newValue = newState[key]
-    <span class="hljs-keyword">const</span> prevValue = state[key]
-    <span class="hljs-keyword">if</span> (newValue !== prevValue) {
-      plug(node, key, newValue)
-      state[key] = newValue
-    }
-    node.state = state
-  })
-  <span class="hljs-keyword">return</span> node
-}
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">update</span> (<span class="hljs-params">node, newState, initialState</span>) </span>{
+  <span class="hljs-keyword">if</span> (initialState) node.state = <span class="hljs-built_in">Object</span>.assign({}, initialState)
+  <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!node.state) node.state = {}
 
-<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">triggerAttack</span> (<span class="hljs-params">time, param, adsr</span>) </span>{
-  param.cancelScheduledValues(<span class="hljs-number">0</span>)</pre></div></div>
+  <span class="hljs-keyword">if</span> (newState) {
+    <span class="hljs-keyword">const</span> state = node.state</pre></div></div>
             
         </li>
         
@@ -179,54 +216,20 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-5">&#182;</a>
               </div>
-              <p>attack phase</p>
+              <p>diffing algorithm</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">const</span> attack = adsr.attack || <span class="hljs-number">0.01</span>
-  param.setValueAtTime(<span class="hljs-number">0</span>, time)
-  time += attack
-  param.linearRampToValueAtTime(<span class="hljs-number">1</span>, time)</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-6">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-6">&#182;</a>
-              </div>
-              <p>decay-sustain phase</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">const</span> sustain = adsr.sustain || <span class="hljs-number">1</span>
-  <span class="hljs-keyword">if</span> (sustain !== <span class="hljs-number">1</span>) {
-    time += (adsr.decay || <span class="hljs-number">0.01</span>)
-    param.exponentialRampToValueAtTime(adsr.sustain, time)
-  }</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-7">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-7">&#182;</a>
-              </div>
-              <p>only trigger release if hold is defined</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">if</span> (adsr.hold !== <span class="hljs-literal">undefined</span>) {
-    time += (adsr.hold || <span class="hljs-number">0</span>)
-    param.setValueAtTime(adsr.sustain)
-    time += (adsr.release || <span class="hljs-number">0.1</span>)
-    param.exponentialRampToValueAtTime(<span class="hljs-number">0.00001</span>, time - <span class="hljs-number">0.01</span>)
-    param.setValueAtTime(<span class="hljs-number">0</span>, time)
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-built_in">Object</span>.keys(newState).forEach(<span class="hljs-function"><span class="hljs-params">key</span> =&gt;</span> {
+      <span class="hljs-keyword">const</span> newValue = newState[key]
+      <span class="hljs-keyword">const</span> prevValue = state[key]
+      <span class="hljs-keyword">if</span> (newValue !== prevValue) {
+        plug(node, key, newValue)
+        state[key] = newValue
+      }
+    })
   }
+  <span class="hljs-keyword">return</span> node
 }
 
 <span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">polyphony</span> (<span class="hljs-params">init, options = {}</span>) </span>{
@@ -257,6 +260,22 @@
     <span class="hljs-keyword">return</span> next
   })
   <span class="hljs-keyword">return</span> nodes
+}
+
+<span class="hljs-comment">/**
+ * Create a connect function with for the given node
+ * The return function have two special characteristics:
+ * - It's chainable
+ * - It accepts `true` as param to connect to node's AudioContext's destination
+ */</span>
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">connectWith</span> (<span class="hljs-params">node, parent</span>) </span>{
+  <span class="hljs-keyword">if</span> (!parent) <span class="hljs-keyword">throw</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">"no parent!"</span>)
+  <span class="hljs-keyword">const</span> conn = node.connect
+  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">dest</span>) </span>{
+    <span class="hljs-keyword">if</span> (dest === <span class="hljs-literal">true</span>) conn.call(node, node.context.destination)
+    <span class="hljs-keyword">else</span> conn.apply(node, <span class="hljs-built_in">arguments</span>)
+    <span class="hljs-keyword">return</span> parent
+  }
 }</pre></div></div>
             
         </li>

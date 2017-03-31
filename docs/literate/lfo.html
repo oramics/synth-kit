@@ -2,7 +2,7 @@
 
 <html>
 <head>
-  <title>index.js</title>
+  <title>lfo.js</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
   <link rel="stylesheet" media="all" href="docco.css" />
@@ -113,7 +113,7 @@
         
           <li id="title">
               <div class="annotation">
-                  <h1>index.js</h1>
+                  <h1>lfo.js</h1>
               </div>
           </li>
         
@@ -128,6 +128,27 @@
               
             </div>
             
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> { update, connectWith } <span class="hljs-keyword">from</span> <span class="hljs-string">"../core"</span>
+<span class="hljs-keyword">import</span> Osc <span class="hljs-keyword">from</span> <span class="hljs-string">"./osc"</span>
+<span class="hljs-keyword">import</span> Gain <span class="hljs-keyword">from</span> <span class="hljs-string">"./gain"</span>
+
+<span class="hljs-comment">/**
+
+ * Low Frequency Oscillator
+ */</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">LFO</span> (<span class="hljs-params">ac, state</span>) </span>{
+  <span class="hljs-keyword">const</span> lfo = Osc(ac)
+  lfo.amp = Gain(ac)
+  lfo.rate = lfo.frequency
+  lfo.amount = lfo.amp.gain
+  lfo.update = <span class="hljs-function">(<span class="hljs-params">state</span>) =&gt;</span> update(lfo, state)
+  lfo.connect(lfo.amp)
+  lfo.connect = connectWith(lfo.amp, lfo)
+  update(lfo, LFO.state)
+}
+LFO.state = {
+  <span class="hljs-attr">type</span>: <span class="hljs-string">"sine"</span>,</pre></div></div>
+            
         </li>
         
         
@@ -137,11 +158,11 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-2">&#182;</a>
               </div>
-              <p>Functions</p>
+              <p>the lfo frequency</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> * <span class="hljs-keyword">from</span> <span class="hljs-string">"./core"</span></pre></div></div>
+            <div class="content"><div class='highlight'><pre>  rate: <span class="hljs-number">3</span>,</pre></div></div>
             
         </li>
         
@@ -152,33 +173,12 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-3">&#182;</a>
               </div>
-              <p>Kit</p>
+              <p>the lfo intensity</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> Gain } <span class="hljs-keyword">from</span> <span class="hljs-string">"./kit/gain"</span>
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> GainEnvelope } <span class="hljs-keyword">from</span> <span class="hljs-string">"./kit/gain-envelope"</span>
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> Noise } <span class="hljs-keyword">from</span> <span class="hljs-string">"./kit/noise"</span>
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> VCA } <span class="hljs-keyword">from</span> <span class="hljs-string">"./kit/vca"</span>
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> VCO } <span class="hljs-keyword">from</span> <span class="hljs-string">"./kit/vco"</span>
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> VCF } <span class="hljs-keyword">from</span> <span class="hljs-string">"./kit/vcf"</span></pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-4">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-4">&#182;</a>
-              </div>
-              <p>Instruments</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> Kick } <span class="hljs-keyword">from</span> <span class="hljs-string">"./instruments/kick"</span>
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> Snare } <span class="hljs-keyword">from</span> <span class="hljs-string">"./instruments/snare"</span>
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> MonoSynth } <span class="hljs-keyword">from</span> <span class="hljs-string">"./instruments/monosynth"</span></pre></div></div>
+            <div class="content"><div class='highlight'><pre>  amount: <span class="hljs-number">0.5</span>
+}</pre></div></div>
             
         </li>
         

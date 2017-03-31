@@ -1,17 +1,12 @@
 /* global AudioContext */
 require("web-audio-test-api")
-const { Gain, GainEnvelope } = require("../lib/nodes")
+const { GainEnvelope } = require("../lib/index")
 
 const output = (node) => node.toJSON()
 const inputs = (node) => node.toJSON().inputs
 
-describe("synth-kit -- Nodes", () => {
-  test("Gain", () => {
-    const ac = new AudioContext()
-    const gain = Gain(ac)
-    expect(gain.state).toEqual({ gain: 0 })
-  })
-  test("GainEnvelope", () => {
+describe("GainEnvelope", () => {
+  test("state", () => {
     const ac = new AudioContext()
     const env = GainEnvelope(ac)
     expect(env.state).toEqual({

@@ -2,7 +2,7 @@
 
 <html>
 <head>
-  <title>index.js</title>
+  <title>mono-buffer.js</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
   <link rel="stylesheet" media="all" href="docco.css" />
@@ -113,7 +113,7 @@
         
           <li id="title">
               <div class="annotation">
-                  <h1>index.js</h1>
+                  <h1>mono-buffer.js</h1>
               </div>
           </li>
         
@@ -128,57 +128,15 @@
               
             </div>
             
-        </li>
-        
-        
-        <li id="section-2">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-2">&#182;</a>
-              </div>
-              <p>Functions</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> * <span class="hljs-keyword">from</span> <span class="hljs-string">"./core"</span></pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-3">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-3">&#182;</a>
-              </div>
-              <p>Kit</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> Gain } <span class="hljs-keyword">from</span> <span class="hljs-string">"./kit/gain"</span>
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> GainEnvelope } <span class="hljs-keyword">from</span> <span class="hljs-string">"./kit/gain-envelope"</span>
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> Noise } <span class="hljs-keyword">from</span> <span class="hljs-string">"./kit/noise"</span>
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> VCA } <span class="hljs-keyword">from</span> <span class="hljs-string">"./kit/vca"</span>
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> VCO } <span class="hljs-keyword">from</span> <span class="hljs-string">"./kit/vco"</span>
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> VCF } <span class="hljs-keyword">from</span> <span class="hljs-string">"./kit/vcf"</span></pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-4">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-4">&#182;</a>
-              </div>
-              <p>Instruments</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> Kick } <span class="hljs-keyword">from</span> <span class="hljs-string">"./instruments/kick"</span>
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> Snare } <span class="hljs-keyword">from</span> <span class="hljs-string">"./instruments/snare"</span>
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> MonoSynth } <span class="hljs-keyword">from</span> <span class="hljs-string">"./instruments/monosynth"</span></pre></div></div>
+            <div class="content"><div class='highlight'><pre>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">MonoBuffer</span> (<span class="hljs-params">ac, samples, generator, inverse = false</span>) </span>{
+  <span class="hljs-keyword">const</span> buffer = ac.createBuffer(<span class="hljs-number">1</span>, samples, ac.sampleRate)
+  <span class="hljs-keyword">const</span> data = buffer.getChannelData(<span class="hljs-number">0</span>)
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; samples; i++) {
+    data[i] = generator(inverse ? samples - i : i)
+  }
+  <span class="hljs-keyword">return</span> buffer
+}</pre></div></div>
             
         </li>
         

@@ -2,7 +2,7 @@
 
 <html>
 <head>
-  <title>index.js</title>
+  <title>vco.js</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
   <link rel="stylesheet" media="all" href="docco.css" />
@@ -113,7 +113,7 @@
         
           <li id="title">
               <div class="annotation">
-                  <h1>index.js</h1>
+                  <h1>vco.js</h1>
               </div>
           </li>
         
@@ -128,57 +128,38 @@
               
             </div>
             
-        </li>
-        
-        
-        <li id="section-2">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-2">&#182;</a>
-              </div>
-              <p>Functions</p>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> { plug, connectWith } <span class="hljs-keyword">from</span> <span class="hljs-string">"../core"</span>
+<span class="hljs-keyword">import</span> Osc <span class="hljs-keyword">from</span> <span class="hljs-string">"./osc"</span>
+<span class="hljs-keyword">import</span> LFO <span class="hljs-keyword">from</span> <span class="hljs-string">"./lfo"</span>
 
-            </div>
-            
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> * <span class="hljs-keyword">from</span> <span class="hljs-string">"./core"</span></pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-3">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-3">&#182;</a>
-              </div>
-              <p>Kit</p>
+<span class="hljs-comment">/**
+ * Voltage Controlled Oscillator. An oscillator with the detune parameter
+ * modulated by a low frequency oscillator
+ */</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">VCO</span> (<span class="hljs-params">ac, state</span>) </span>{
+  state = <span class="hljs-built_in">Object</span>.assign({}, VCO.state, state)
+  <span class="hljs-keyword">const</span> vco = Osc(ac, state)
+  vco.modulator = LFO(ac, state.modulator)
+  plug(vco, <span class="hljs-string">"detune"</span>, vco.modulator)
 
-            </div>
-            
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> Gain } <span class="hljs-keyword">from</span> <span class="hljs-string">"./kit/gain"</span>
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> GainEnvelope } <span class="hljs-keyword">from</span> <span class="hljs-string">"./kit/gain-envelope"</span>
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> Noise } <span class="hljs-keyword">from</span> <span class="hljs-string">"./kit/noise"</span>
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> VCA } <span class="hljs-keyword">from</span> <span class="hljs-string">"./kit/vca"</span>
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> VCO } <span class="hljs-keyword">from</span> <span class="hljs-string">"./kit/vco"</span>
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> VCF } <span class="hljs-keyword">from</span> <span class="hljs-string">"./kit/vcf"</span></pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-4">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-4">&#182;</a>
-              </div>
-              <p>Instruments</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> Kick } <span class="hljs-keyword">from</span> <span class="hljs-string">"./instruments/kick"</span>
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> Snare } <span class="hljs-keyword">from</span> <span class="hljs-string">"./instruments/snare"</span>
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> MonoSynth } <span class="hljs-keyword">from</span> <span class="hljs-string">"./instruments/monosynth"</span></pre></div></div>
+  <span class="hljs-comment">/**
+   * Connect to a node
+   * @chainable
+   * @param {AudioNode} destination
+   * @return {VCO} this
+   */</span>
+  vco.connect = connectWith(vco, vco)
+  <span class="hljs-keyword">return</span> vco
+}
+VCO.state = {
+  <span class="hljs-attr">type</span>: <span class="hljs-string">"sawtooth"</span>,
+  <span class="hljs-attr">frequency</span>: <span class="hljs-number">440</span>,
+  <span class="hljs-attr">detune</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-attr">modulator</span>: {
+    <span class="hljs-attr">rate</span>: <span class="hljs-number">5</span>,
+    <span class="hljs-attr">amount</span>: <span class="hljs-number">1</span>,
+  }
+}</pre></div></div>
             
         </li>
         

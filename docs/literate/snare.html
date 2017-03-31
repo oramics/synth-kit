@@ -2,7 +2,7 @@
 
 <html>
 <head>
-  <title>index.js</title>
+  <title>snare.js</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
   <link rel="stylesheet" media="all" href="docco.css" />
@@ -113,7 +113,7 @@
         
           <li id="title">
               <div class="annotation">
-                  <h1>index.js</h1>
+                  <h1>snare.js</h1>
               </div>
           </li>
         
@@ -128,6 +128,19 @@
               
             </div>
             
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> { connect, connectWith } <span class="hljs-keyword">from</span> <span class="hljs-string">"../core"</span>
+<span class="hljs-keyword">import</span> Noise <span class="hljs-keyword">from</span> <span class="hljs-string">"../kit/noise"</span>
+<span class="hljs-keyword">import</span> VCA <span class="hljs-keyword">from</span> <span class="hljs-string">"../kit/vca"</span>
+
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Snare</span> (<span class="hljs-params">ac, state</span>) </span>{
+  state = <span class="hljs-built_in">Object</span>.assign({}, Snare.state, state)
+  <span class="hljs-keyword">const</span> snare = {
+    state,
+    <span class="hljs-attr">noise</span>: Noise(ac, state.noise),
+    <span class="hljs-attr">amp</span>: VCA(ac, state.amp)
+  }
+  connect(snare.noise, snare.amp)</pre></div></div>
+            
         </li>
         
         
@@ -137,48 +150,30 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-2">&#182;</a>
               </div>
-              <p>Functions</p>
+              <p>API</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> * <span class="hljs-keyword">from</span> <span class="hljs-string">"./core"</span></pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-3">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-3">&#182;</a>
-              </div>
-              <p>Kit</p>
+            <div class="content"><div class='highlight'><pre>  snare.connect = connectWith(snare.amp, snare)
+  snare.trigger = snare.amp.trigger
 
-            </div>
-            
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> Gain } <span class="hljs-keyword">from</span> <span class="hljs-string">"./kit/gain"</span>
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> GainEnvelope } <span class="hljs-keyword">from</span> <span class="hljs-string">"./kit/gain-envelope"</span>
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> Noise } <span class="hljs-keyword">from</span> <span class="hljs-string">"./kit/noise"</span>
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> VCA } <span class="hljs-keyword">from</span> <span class="hljs-string">"./kit/vca"</span>
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> VCO } <span class="hljs-keyword">from</span> <span class="hljs-string">"./kit/vco"</span>
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> VCF } <span class="hljs-keyword">from</span> <span class="hljs-string">"./kit/vcf"</span></pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-4">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-4">&#182;</a>
-              </div>
-              <p>Instruments</p>
+  <span class="hljs-keyword">return</span> snare
+}
+Snare.state = {
+  <span class="hljs-attr">noise</span>: {
+    <span class="hljs-attr">type</span>: <span class="hljs-string">"white"</span>
+  },
+  <span class="hljs-attr">amp</span>: {
+    <span class="hljs-attr">gain</span>: <span class="hljs-number">0.3</span>,
+    <span class="hljs-attr">envelope</span>: {
+      <span class="hljs-attr">attack</span>: <span class="hljs-number">0.01</span>,
+      <span class="hljs-attr">hold</span>: <span class="hljs-number">0.1</span>,
+      <span class="hljs-attr">release</span>: <span class="hljs-number">0.1</span>
+    }
+  }
+}
 
-            </div>
-            
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> Kick } <span class="hljs-keyword">from</span> <span class="hljs-string">"./instruments/kick"</span>
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> Snare } <span class="hljs-keyword">from</span> <span class="hljs-string">"./instruments/snare"</span>
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> MonoSynth } <span class="hljs-keyword">from</span> <span class="hljs-string">"./instruments/monosynth"</span></pre></div></div>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> Snare</pre></div></div>
             
         </li>
         
