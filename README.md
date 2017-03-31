@@ -1,4 +1,9 @@
 # synth-kit
+[![Travis CI](https://img.shields.io/travis/oramics/synth-kit/master.svg)](https://travis-ci.org/oramics/synth-kit)
+[![Codecov](https://img.shields.io/codecov/c/github/oramics/synth-kit/master.svg)](https://codecov.io/gh/oramics/synth-kit)
+[![CDNJS](https://img.shields.io/cdnjs/v/ash-vm.svg?colorB=ff69b4)](https://cdnjs.com/libraries/ash-vm)
+[![npm](https://img.shields.io/npm/v/ash-vm.svg?colorB=ff69b4)](https://www.npmjs.org/package/ash-vm)
+
 
 > Synthesizers construction kit for Web Audio API
 

@@ -143,7 +143,7 @@ function createNode(ac, name, initialState, state, params) {
  */
 function Osc(ac, state) {
   var osc = createNode(ac, "Oscillator", Osc.state, state);
-  if (state.start !== false) osc.start(state.start || 0);
+  if (!state || state.start !== false) osc.start(state.start || 0);
   return osc;
 }
 Osc.state = {
@@ -189,9 +189,6 @@ GainEnvelope.state = {
 
 function FilterEnvelope(ac, state) {}
 
-/**
- * Low Frequency Oscillator
- */
 function LFO(ac, state) {
   var lfo = Osc(ac);
   lfo.amp = Gain(ac);
@@ -257,6 +254,10 @@ function MonoSynth(ac, state) {
     amp: VCA(ac, state, state.envelope)
   }, ["oscillator", "filter", "envelope", "amp"]);
   synth.state = state;
+  synth.trigger = function (freq, time, dur) {
+    synth.oscillator.frequency.setValueAt(freq, time);
+    synth.amp.envelope.trigger(time, dur);
+  };
 
   return synth;
 }

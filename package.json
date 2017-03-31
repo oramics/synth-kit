@@ -3,8 +3,8 @@
   "description": "Synthesizers construction kit",
   "version": "0.0.0",
   "main": "dist/synth-kit.js",
-  "jsnext:main": "index.js",
-  "module": "index.js",
+  "jsnext:main": "lib/index.js",
+  "module": "lib/index.js",
   "license": "MIT",
   "repository": "oramics/synth-kit",
   "files": [
@@ -15,10 +15,10 @@
     "format": "prettier-standard-formatter lib/* test/*",
     "test": "eslint lib && jest --coverage",
     "prepublish": "npm run test && npm run dist && npm run docs",
-    "dist": "rollup -cm -n SynthKit -f umd -i index.js -o dist/synth-kit.js && cp dist/* docs/dist/",
-    "watch": "rollup --watch -cm -n SynthKit -f umd -i index.js -o docs/dist/synth-kit.js",
+    "dist": "rollup -cm -n SynthKit -f umd -i lib/index.js -o dist/synth-kit.js && cp dist/* docs/dist/",
+    "watch": "rollup --watch -cm -n SynthKit -f umd -i lib/index.js -o dist/synth-kit.js",
     "release": "npm run build && npm test && git commit -am $npm_package_version && git tag $npm_package_version && git push && git push --tags && npm publish",
-    "docs": "docco index.js lib/* -o docs/literate"
+    "docs": "docco lib/* -o docs/literate"
   },
   "authors": "@danigb",
   "keywords": [
@@ -31,11 +31,11 @@
   "babel": {
     "presets": "es2015"
   },
-  "peerDependencies": {},
   "devDependencies": {
     "babel-jest": "^19.0.0",
     "babel-preset-es2015": "^6.24.0",
     "babel-preset-es2015-rollup": "^3.0.0",
+    "docco": "^0.7.0",
     "eslint": "^3.15.0",
     "eslint-config-standard": "^7.1.0",
     "eslint-plugin-import": "^2.2.0",
@@ -47,9 +47,7 @@
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-node-resolve": "^2.0.0",
     "rollup-plugin-uglify": "^1.0.1",
-    "rollup-watch": "^3.2.2"
-  },
-  "dependencies": {
+    "rollup-watch": "^3.2.2",
     "web-audio-test-api": "^0.5.2"
   }
 }

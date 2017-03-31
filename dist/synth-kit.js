@@ -4,7 +4,6 @@
 	(factory((global.SynthKit = global.SynthKit || {})));
 }(this, (function (exports) { 'use strict';
 
-/* global AudioContext */
 var isString = function isString(o) {
   return typeof o === "string";
 };
@@ -14,21 +13,6 @@ var isFn = function isFn(o) {
 var exp = Math.exp;
 var E = Math.E;
 
-
-var ctx = null;
-/**
- * Get an audio context.
- */
-function context(config, ac) {
-  if (ac) {
-    return ac;
-  } else if (config && config.context) {
-    return config.context;
-  } else {
-    if (ctx === null) ctx = new AudioContext();
-    return ctx;
-  }
-}
 
 function ampToGain(amp) {
   return (exp(amp) - 1) / (E - 1);
@@ -128,7 +112,22 @@ function connect() {
     prev.connect(next);
     return next;
   });
-  return nodes;
+  var last = nodes[nodes.length - 1];
+  return connectWith(last);
+}
+
+/**
+ * Create a connect function with for the given node
+ * The return function have two special characteristics:
+ * - It's chainable
+ * - It accepts `true` as param to connect to node's AudioContext's destination
+ */
+function connectWith(node) {
+  var conn = node.connect;
+  return function (dest) {
+    if (dest === true) conn.call(node, node.context.destination);else conn.apply(node, arguments);
+    return node;
+  };
 }
 
 function createNode(ac, name, initialState, state, params) {
@@ -143,7 +142,8 @@ function createNode(ac, name, initialState, state, params) {
  */
 function Osc(ac, state) {
   var osc = createNode(ac, "Oscillator", Osc.state, state);
-  if (state.start !== false) osc.start(state.start || 0);
+  var start = state ? state.start : 0;
+  if (start !== false) osc.start(start || 0);
   return osc;
 }
 Osc.state = {
@@ -189,20 +189,19 @@ GainEnvelope.state = {
 
 function FilterEnvelope(ac, state) {}
 
-/**
- * Low Frequency Oscillator
- */
 function LFO(ac, state) {
   var lfo = Osc(ac);
   lfo.amp = Gain(ac);
-  lfo.rate = lfo.osc.frequency;
+  lfo.rate = lfo.frequency;
   lfo.amount = lfo.amp.gain;
   lfo.update = function (state) {
     return update(lfo, state);
   };
+  lfo.connect = connect(lfo, lfo.amp);
   return update(lfo, LFO.state);
 }
 LFO.state = {
+  type: "sine",
   // the lfo frequency
   rate: 3,
   // the lfo intensity
@@ -217,8 +216,7 @@ function VCO(ac, state) {
   var vco = Osc(ac, state);
   vco.modulator = LFO(ac, state.modulator);
   plug(vco, "frequency", vco.modulator);
-  vco.start();
-  vco.modulator.start();
+  vco.connect = connectWith(vco);
   return vco;
 }
 VCO.state = {
@@ -257,6 +255,10 @@ function MonoSynth(ac, state) {
     amp: VCA(ac, state, state.envelope)
   }, ["oscillator", "filter", "envelope", "amp"]);
   synth.state = state;
+  synth.trigger = function (freq, time, dur) {
+    synth.oscillator.frequency.setValueAt(freq, time);
+    synth.amp.envelope.trigger(time, dur);
+  };
 
   return synth;
 }
@@ -275,7 +277,6 @@ MonoSynth.defaults = {
 
 function Kick(ac, state) {}
 
-exports.context = context;
 exports.ampToGain = ampToGain;
 exports.plug = plug;
 exports.update = update;
@@ -283,6 +284,7 @@ exports.triggerAttack = triggerAttack;
 exports.polyphony = polyphony;
 exports.connected = connected;
 exports.connect = connect;
+exports.connectWith = connectWith;
 exports.Osc = Osc;
 exports.Filter = Filter;
 exports.Gain = Gain;
