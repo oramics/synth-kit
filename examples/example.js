@@ -5,29 +5,35 @@ const { h, app } = require("hyperapp")
 const hyperx = require("hyperx")
 const html = hyperx(h)
 
+const viewSynth = (name, synth, trigger) => html`
+  <div>
+    <h2>${name}</h2>
+    <button onclick=${(e) => trigger()}>Trigger</button>
+    <pre><code>${synth ? JSON.stringify(synth.state, null, 2) : ""}
+    </code></pre>
+  </di>
+`
+
 app({
   model: {
-    MonoSynth: SynthKit.MonoSynth(ac, {
-      envelope: { hold: 0.6 }
-    }).connect(true)
+    MonoSynth: SynthKit.MonoSynth(ac).connect(true),
+    Kick: SynthKit.Kick(ac).connect(true)
   },
   actions: {
-    VCO: (model) => ({
-      VCO: model.VCO ? model.VCO.disconnect() : SynthKit.VCO(ac).connect(true)
-    }),
     MonoSynth: (model) => {
       console.log("AMP", model.MonoSynth.amp)
-      model.MonoSynth.trigger(440)
+      model.MonoSynth.trigger(440, 0, 0.2)
+    },
+    Kick: (model) => {
+      model.Kick.trigger()
     }
   },
   view: (model, actions) => html`
     <div>
-      <button onclick=${(e) => actions.VCO()}>VCO</button>
-      <button onclick=${(e) => actions.MonoSynth()}>MonoSynth</button>
-      <pre><code>${model.MonoSynth
-        ? JSON.stringify(model.MonoSynth.state, null, 2) : ""}
-      </code></pre>
-    </di>
+      <h1>SynthKit examples</h1>
+      ${viewSynth("Kick", model.Kick, actions.Kick)}
+      ${viewSynth("MonoSynth", model.MonoSynth, actions.MonoSynth)}
+    </div>
   `
 })
 

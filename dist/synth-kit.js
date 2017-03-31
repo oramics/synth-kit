@@ -160,7 +160,11 @@ function GainEnvelope(ac, state) {
   env.state = assign({}, GainEnvelope.state, state);
   env.gain.value = 0.5;
   env.trigger = function (time, dur) {
-    triggerAttack(time || 0, env.gain, env.state);
+    if (!time) time = ac.currentTime;
+    console.log("trigger env", time, dur, env.state);
+    var release = triggerAttack(time, env.gain, env.state);
+    if (dur) release(time + dur);
+    return release;
   };
   return env;
 }
@@ -188,18 +192,21 @@ function triggerAttack(time, param, adsr) {
     param.exponentialRampToValueAtTime(sustain, time);
   }
 
+  var release = function release(time) {
+    param.exponentialRampToValueAtTime(0.00001, time - 0.01);
+    param.setValueAtTime(0, time);
+  };
+
   // only trigger release if hold is defined
   if (adsr.hold !== undefined) {
     time += adsr.hold || 0;
     param.setValueAtTime(sustain, time);
-    time += adsr.release || 0.1;
-    param.exponentialRampToValueAtTime(0.00001, time - 0.01);
+    release(time + (adsr.release || 0.1));
   }
+
+  return release;
 }
 
-/**
- * Low Frequency Oscillator
- */
 function LFO(ac, state) {
   var lfo = Osc(ac);
   lfo.amp = Gain(ac);
@@ -242,6 +249,9 @@ VCO.state = {
   }
 };
 
+/**
+ * Voltage Controlled Filter
+ */
 function VCF(ac, state, envState) {
   if (!envState) envState = state;
   var filter = Filter(ac, state);
@@ -257,17 +267,22 @@ function VCF(ac, state, envState) {
 /**
  * Voltage controlled amplified
  */
-function VCA(ac, state, envState) {
-  if (!envState) envState = state;
+function VCA(ac, state) {
+  state = Object.assign({}, VCA.state, state);
   var vca = Gain(ac, state);
-  vca.envelope = GainEnvelope(ac, envState);
+  vca.envelope = GainEnvelope(ac, state.envelope);
   vca.connect(vca.envelope);
-  // add connect function
+
+  // API
+  vca.state = state;
   vca.connect = connectWith(vca.envelope, vca);
-  // add trigger function
   vca.trigger = vca.envelope.trigger;
   return vca;
 }
+VCA.state = {
+  gain: 0.8,
+  envelope: GainEnvelope.state
+};
 
 function MonoSynth(ac, state) {
   if (!state) state = MonoSynth.defaults;else state = Object.assign({}, MonoSynth.defaults, state);
@@ -307,7 +322,35 @@ MonoSynth.defaults = {
   gain: 0.5
 };
 
-function Kick(ac, state) {}
+function Kick(ac, state) {
+  state = Object.assign({}, Kick.state, state);
+  var kick = {
+    oscillator: VCO(ac, state.oscillator),
+    amp: VCA(ac, state.amp)
+  };
+  connect(kick.oscillator, kick.amp);
+
+  // API
+  kick.state = state;
+  kick.connect = connectWith(kick.amp, kick);
+  kick.trigger = kick.amp.trigger;
+
+  return kick;
+}
+Kick.state = {
+  oscillator: {
+    type: "sine",
+    frequency: 48
+  },
+  amp: {
+    gain: 1,
+    envelope: {
+      attack: 0.01,
+      hold: 0.1,
+      release: 0.1
+    }
+  }
+};
 
 exports.ampToGain = ampToGain;
 exports.plug = plug;
