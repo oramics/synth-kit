@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>lfo.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="../../doc-style.css" />
+  <script src="../../doc-filelist.js"></script>
+  <script>
+    var relativeDir = "../../";
+    var thisFile = "lib/kit/lfo.js";
+    var defaultSidebar = true;
+  </script>
+  <script src="../../doc-script.js"></script>
+
+</head>
+<body>
+  <div id="sidebar_wrapper">
+    <div id="sidebar_switch">
+      <span class="tree">Files</span>
+      <span class="headings">Headings</span>
+    </div>
+    <div id="tree"></div>
+    <div id="headings">
+
+    </div>
+  </div>
+  <div id="sidebar-toggle"></div>
+  <div id="container">
+    <div class="background highlight"></div>
+<table cellpadding="0" cellspacing="0">
+  <tbody>
+    
+      <tr>
+        <td class="docs">
+          <h1>lfo.js</h1>
+        </td>
+        <td class="code highlight"></td>
+      </tr>
+    
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-1" id="section-1"></a>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="javascript"><span class="hljs-keyword">import</span> { update, connectWith } <span class="hljs-keyword">from</span> <span class="hljs-string">"../core"</span>
+<span class="hljs-keyword">import</span> Osc <span class="hljs-keyword">from</span> <span class="hljs-string">"./osc"</span>
+<span class="hljs-keyword">import</span> Gain <span class="hljs-keyword">from</span> <span class="hljs-string">"./gain"</span>
+
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-2" id="section-2"></a>
+</div>
+<div class="dox">
+<div class="summary">
+<p>Low Frequency Oscillator</p>
+</div>
+<div class="body">
+</div>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">LFO</span> (<span class="hljs-params">ac, state</span>) </span>{
+  <span class="hljs-keyword">const</span> lfo = Osc(ac)
+  lfo.amp = Gain(ac)
+  lfo.rate = lfo.frequency
+  lfo.amount = lfo.amp.gain
+  lfo.update = <span class="hljs-function">(<span class="hljs-params">state</span>) =&gt;</span> update(lfo, state)
+  lfo.connect(lfo.amp)
+  lfo.connect = connectWith(lfo.amp, lfo)
+  update(lfo, LFO.state)
+}
+LFO.state = {
+  <span class="hljs-attr">type</span>: <span class="hljs-string">"sine"</span>,
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-3" id="section-3"></a>
+</div>
+<p>the lfo frequency</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="javascript">  rate: <span class="hljs-number">3</span>,
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-4" id="section-4"></a>
+</div>
+<p>the lfo intensity</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="javascript">  amount: <span class="hljs-number">0.5</span>
+}
+
+</pre>
+        </td>
+      </tr>
+    
+  </tbody>
+</table>
+
+  </div>
+</body>
+</html>

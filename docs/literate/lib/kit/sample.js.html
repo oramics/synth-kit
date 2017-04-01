@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>sample.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="../../doc-style.css" />
+  <script src="../../doc-filelist.js"></script>
+  <script>
+    var relativeDir = "../../";
+    var thisFile = "lib/kit/sample.js";
+    var defaultSidebar = true;
+  </script>
+  <script src="../../doc-script.js"></script>
+
+</head>
+<body>
+  <div id="sidebar_wrapper">
+    <div id="sidebar_switch">
+      <span class="tree">Files</span>
+      <span class="headings">Headings</span>
+    </div>
+    <div id="tree"></div>
+    <div id="headings">
+
+    </div>
+  </div>
+  <div id="sidebar-toggle"></div>
+  <div id="container">
+    <div class="background highlight"></div>
+<table cellpadding="0" cellspacing="0">
+  <tbody>
+    
+      <tr>
+        <td class="docs">
+          <h1>sample.js</h1>
+        </td>
+        <td class="code highlight"></td>
+      </tr>
+    
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-1" id="section-1"></a>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="javascript"><span class="hljs-keyword">import</span> { connectWith } <span class="hljs-keyword">from</span> <span class="hljs-string">"../core"</span>
+<span class="hljs-keyword">import</span> Gain <span class="hljs-keyword">from</span> <span class="hljs-string">"./gain"</span>
+<span class="hljs-keyword">import</span> Source <span class="hljs-keyword">from</span> <span class="hljs-string">"./source"</span>
+
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-2" id="section-2"></a>
+</div>
+<div class="dox">
+<div class="summary">
+<p>Sample player. It's like a BufferSource but can be triggered more than once.</p>
+</div>
+<div class="body">
+</div>
+<div class="details">
+<div class="dox_tag_title">Params</div>
+<div class="dox_tag_detail">
+<span class="dox_tag_name">context</span>
+<span class="dox_type">AudioContext</span>
+</div>
+<div class="dox_tag_detail">
+<span class="dox_tag_name">buffer</span>
+<span class="dox_type">AudioBuffer</span>
+</div>
+<div class="dox_tag_detail">
+<span class="dox_tag_name">[state]</span>
+<span class="dox_type">Object</span>
+<span><ul>
+<li>gain: the gain of the sample</li>
+</ul>
+</span>
+</div>
+</div>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Sample</span> (<span class="hljs-params">ac, buffer, state</span>) </span>{
+  <span class="hljs-keyword">if</span> (!buffer) <span class="hljs-keyword">throw</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">"Sample needs a buffer."</span>)
+  state = <span class="hljs-built_in">Object</span>.assign({}, Sample.state, state)
+
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-3" id="section-3"></a>
+</div>
+<p>create component</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="javascript">  <span class="hljs-keyword">const</span> sample = {
+    <span class="hljs-attr">amp</span>: Gain(ac, state)
+  }
+
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-4" id="section-4"></a>
+</div>
+<p>API</p>
+<div class="dox">
+<div class="summary">
+<p>Connect to a node</p>
+</div>
+<div class="body">
+</div>
+<div class="details">
+<div class="dox_tag_title">Params</div>
+<div class="dox_tag_detail">
+<span class="dox_tag_name">dest</span>
+<span class="dox_type">AudioNode</span>
+</div>
+<div class="dox_tag_title">Returns</div>
+<div class="dox_tag_detail">
+<span class="dox_tag_name"></span>
+<span class="dox_type">Sample</span>
+<span>this
+</span>
+</div>
+</div>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="javascript">  sample.connect = connectWith(sample.amp, sample)
+
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-5" id="section-5"></a>
+</div>
+<div class="dox">
+<div class="summary">
+<p>trigger attack/release</p>
+</div>
+<div class="body">
+</div>
+<div class="details">
+<div class="dox_tag_title">Params</div>
+<div class="dox_tag_detail">
+<span class="dox_tag_name">[when=now]</span>
+<span class="dox_type">Integer</span>
+</div>
+<div class="dox_tag_detail">
+<span class="dox_tag_name">[dur]</span>
+<span class="dox_type">Duration</span>
+</div>
+</div>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="javascript">  sample.trigger = <span class="hljs-function">(<span class="hljs-params">time, dur</span>) =&gt;</span> {
+    <span class="hljs-keyword">if</span> (!time) time = ac.currentTime
+    <span class="hljs-keyword">const</span> source = Source(ac, buffer, state)
+    source.connect(sample.amp)
+    source.onended = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+      <span class="hljs-keyword">if</span> (sample.onended) sample.onended()
+      source.disconnect()
+    }
+    source.start(time)
+  }
+  <span class="hljs-keyword">return</span> sample
+}
+
+Sample.state = {
+  <span class="hljs-attr">gain</span>: <span class="hljs-number">0.8</span>
+}
+
+</pre>
+        </td>
+      </tr>
+    
+  </tbody>
+</table>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Home - Postman Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="module.html#.exports">exports</a></li></ul><h3>Global</h3><ul><li><a href="global.html#connectWith">connectWith</a></li><li><a href="global.html#Filter">Filter</a></li><li><a href="global.html#MonoSynth">MonoSynth</a></li><li><a href="global.html#plug">plug</a></li><li><a href="global.html#update">update</a></li></ul>
+</nav>
+
+<div id="main">
+    
+
+    
+
+
+
+    
+
+
+
+
+
+
+
+
+
+    
+
+
+    <section class="readme">
+        <article><h1>synth-kit</h1><p><a href="https://travis-ci.org/oramics/synth-kit"><img src="https://img.shields.io/travis/oramics/synth-kit/master.svg" alt="Travis CI"></a>
+<a href="https://codecov.io/gh/oramics/synth-kit"><img src="https://img.shields.io/codecov/c/github/oramics/synth-kit/master.svg" alt="Codecov"></a>
+<a href="https://cdnjs.com/libraries/ash-vm"><img src="https://img.shields.io/cdnjs/v/ash-vm.svg?colorB=ff69b4" alt="CDNJS"></a>
+<a href="https://www.npmjs.org/package/ash-vm"><img src="https://img.shields.io/npm/v/ash-vm.svg?colorB=ff69b4" alt="npm"></a></p>
+<blockquote>
+<p>Synthesizers construction kit for Web Audio API</p>
+</blockquote>
+<p>A collection of ready-to-use Web Audio instruments:</p>
+<pre class="prettyprint source lang-js"><code>import { Kick } from 'synth-kit'
+const ac = new AudioContext()
+
+// create a Kick instrument and connect it to the audio context destination
+const kick = Kick(ac).connect(true)
+// trigger the kick
+kick.trigger()</code></pre><p>Simple API:</p>
+<pre class="prettyprint source lang-js"><code>import { MonoSynth, after } from 'synth-kit'
+
+const mono = MonoSynth(ac, {
+  oscillator: {
+    type: 'square'
+  },
+  filter: {
+    type: 'lowpass',
+    frequency: 400
+  }
+}).connect(true)
+
+mono.trigger('C4')
+mono.filter.frequency.value = 500</code></pre><p><strong>Work in progress</strong></p>
+<h2>License</h2><p>MIT License</p></article>
+    </section>
+
+
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated at Sat Apr 01 2017 10:17:55 GMT+0200 (CEST)
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

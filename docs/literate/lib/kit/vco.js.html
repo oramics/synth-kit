@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>vco.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="../../doc-style.css" />
+  <script src="../../doc-filelist.js"></script>
+  <script>
+    var relativeDir = "../../";
+    var thisFile = "lib/kit/vco.js";
+    var defaultSidebar = true;
+  </script>
+  <script src="../../doc-script.js"></script>
+
+</head>
+<body>
+  <div id="sidebar_wrapper">
+    <div id="sidebar_switch">
+      <span class="tree">Files</span>
+      <span class="headings">Headings</span>
+    </div>
+    <div id="tree"></div>
+    <div id="headings">
+
+    </div>
+  </div>
+  <div id="sidebar-toggle"></div>
+  <div id="container">
+    <div class="background highlight"></div>
+<table cellpadding="0" cellspacing="0">
+  <tbody>
+    
+      <tr>
+        <td class="docs">
+          <h1>vco.js</h1>
+        </td>
+        <td class="code highlight"></td>
+      </tr>
+    
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-1" id="section-1"></a>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="javascript"><span class="hljs-keyword">import</span> { plug, connectWith } <span class="hljs-keyword">from</span> <span class="hljs-string">"../core"</span>
+<span class="hljs-keyword">import</span> Osc <span class="hljs-keyword">from</span> <span class="hljs-string">"./osc"</span>
+<span class="hljs-keyword">import</span> LFO <span class="hljs-keyword">from</span> <span class="hljs-string">"./lfo"</span>
+
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-2" id="section-2"></a>
+</div>
+<div class="dox">
+<div class="summary">
+<p>Voltage Controlled Oscillator. An oscillator with the detune parameter
+modulated by a low frequency oscillator</p>
+</div>
+<div class="body">
+</div>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="javascript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">VCO</span> (<span class="hljs-params">ac, state</span>) </span>{
+  state = <span class="hljs-built_in">Object</span>.assign({}, VCO.state, state)
+  <span class="hljs-keyword">const</span> vco = Osc(ac, state)
+  vco.modulator = LFO(ac, state.modulator)
+  plug(vco, <span class="hljs-string">"detune"</span>, vco.modulator)
+
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-3" id="section-3"></a>
+</div>
+<div class="dox">
+<div class="summary">
+<p>Connect to a node</p>
+</div>
+<div class="body">
+</div>
+<div class="details">
+<div class="dox_tag_title">Params</div>
+<div class="dox_tag_detail">
+<span class="dox_tag_name">destination</span>
+<span class="dox_type">AudioNode</span>
+</div>
+<div class="dox_tag_title">Returns</div>
+<div class="dox_tag_detail">
+<span class="dox_tag_name"></span>
+<span class="dox_type">VCO</span>
+<span>this
+</span>
+</div>
+</div>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="javascript">  vco.connect = connectWith(vco, vco)
+  <span class="hljs-keyword">return</span> vco
+}
+VCO.state = {
+  <span class="hljs-attr">type</span>: <span class="hljs-string">"sawtooth"</span>,
+  <span class="hljs-attr">frequency</span>: <span class="hljs-number">440</span>,
+  <span class="hljs-attr">detune</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-attr">modulator</span>: {
+    <span class="hljs-attr">rate</span>: <span class="hljs-number">5</span>,
+    <span class="hljs-attr">amount</span>: <span class="hljs-number">1</span>,
+  }
+}
+
+</pre>
+        </td>
+      </tr>
+    
+  </tbody>
+</table>
+
+  </div>
+</body>
+</html>

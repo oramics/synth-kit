@@ -1,0 +1,1 @@
+var tree={"dirs":{"lib":{"files":["index.js","core.js"],"dirs":{"kit":{"files":["filter.js","gain-envelope.js","gain.js","lfo.js","mono-buffer.js","noise.js","osc.js","sample.js","source.js","vca.js","vcf.js","vco.js"]},"instruments":{"files":["kick.js","monosynth.js","snare.js"]}}}}};

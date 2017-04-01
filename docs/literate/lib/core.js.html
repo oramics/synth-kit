@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>core.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="../doc-style.css" />
+  <script src="../doc-filelist.js"></script>
+  <script>
+    var relativeDir = "../";
+    var thisFile = "lib/core.js";
+    var defaultSidebar = true;
+  </script>
+  <script src="../doc-script.js"></script>
+
+</head>
+<body>
+  <div id="sidebar_wrapper">
+    <div id="sidebar_switch">
+      <span class="tree">Files</span>
+      <span class="headings">Headings</span>
+    </div>
+    <div id="tree"></div>
+    <div id="headings">
+
+    </div>
+  </div>
+  <div id="sidebar-toggle"></div>
+  <div id="container">
+    <div class="background highlight"></div>
+<table cellpadding="0" cellspacing="0">
+  <tbody>
+    
+      <tr>
+        <td class="docs">
+          <h1>core.js</h1>
+        </td>
+        <td class="code highlight"></td>
+      </tr>
+    
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-1" id="section-1"></a>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="javascript"><span class="hljs-keyword">const</span> isString = <span class="hljs-function">(<span class="hljs-params">o</span>) =&gt;</span> <span class="hljs-keyword">typeof</span> o === <span class="hljs-string">"string"</span>
+<span class="hljs-keyword">const</span> isFn = <span class="hljs-function">(<span class="hljs-params">o</span>) =&gt;</span> <span class="hljs-keyword">typeof</span> o === <span class="hljs-string">"function"</span>
+<span class="hljs-keyword">const</span> { exp, E } = <span class="hljs-built_in">Math</span>
+
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ampToGain</span> (<span class="hljs-params">amp</span>) </span>{
+  <span class="hljs-keyword">return</span> (exp(amp) - <span class="hljs-number">1</span>) / (E - <span class="hljs-number">1</span>)
+}
+
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-2" id="section-2"></a>
+</div>
+<div class="dox">
+<div class="summary">
+<p>Update a node property with a value. If the property is a parameter and
+the value is a node, it will connect them</p>
+</div>
+<div class="body">
+</div>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="javascript"><span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">plug</span> (<span class="hljs-params">node, name, value</span>) </span>{
+  <span class="hljs-keyword">const</span> target = node[name]
+  <span class="hljs-keyword">if</span> (isFn(value)) value = value()
+  <span class="hljs-keyword">if</span> (target === <span class="hljs-literal">undefined</span> || value === <span class="hljs-literal">undefined</span> || value === <span class="hljs-literal">null</span>) {
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-3" id="section-3"></a>
+</div>
+<p>ignore</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="javascript">  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (target.value !== <span class="hljs-literal">undefined</span>) {
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-4" id="section-4"></a>
+</div>
+<p>it's a parameter</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="javascript">    <span class="hljs-keyword">if</span> (isFn(value.connect)) {
+      value.connect(target)
+    } <span class="hljs-keyword">else</span> {
+      target.setValueAtTime(value, <span class="hljs-number">0</span>)
+    }
+  } <span class="hljs-keyword">else</span> {
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-5" id="section-5"></a>
+</div>
+<p>replace the old value with a new one</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="javascript">    node[name] = value
+  }
+}
+
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-6" id="section-6"></a>
+</div>
+<div class="dox">
+<div class="summary">
+<p>Update a node</p>
+</div>
+<div class="body">
+</div>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="javascript"><span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">update</span> (<span class="hljs-params">node, newState, initialState</span>) </span>{
+  <span class="hljs-keyword">if</span> (initialState) node.state = <span class="hljs-built_in">Object</span>.assign({}, initialState)
+  <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!node.state) node.state = {}
+
+  <span class="hljs-keyword">if</span> (newState) {
+    <span class="hljs-keyword">const</span> state = node.state
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-7" id="section-7"></a>
+</div>
+<p>diffing algorithm</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="javascript">    <span class="hljs-built_in">Object</span>.keys(newState).forEach(<span class="hljs-function"><span class="hljs-params">key</span> =&gt;</span> {
+      <span class="hljs-keyword">const</span> newValue = newState[key]
+      <span class="hljs-keyword">const</span> prevValue = state[key]
+      <span class="hljs-keyword">if</span> (newValue !== prevValue) {
+        plug(node, key, newValue)
+        state[key] = newValue
+      }
+    })
+  }
+  <span class="hljs-keyword">return</span> node
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">polyphony</span> (<span class="hljs-params">init, options = {}</span>) </span>{
+  <span class="hljs-keyword">const</span> max = options.maxVoices || <span class="hljs-number">16</span>
+  <span class="hljs-keyword">const</span> voices = []
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; max; i++) voices[i] = init()
+  <span class="hljs-keyword">let</span> current = <span class="hljs-number">-1</span>
+
+  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">next</span> (<span class="hljs-params"></span>) </span>{
+    current = (current + <span class="hljs-number">1</span>) % max
+    <span class="hljs-keyword">return</span> voices[current]
+  }
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">connected</span> (<span class="hljs-params">object, connections</span>) </span>{
+  connections.reduce(<span class="hljs-function">(<span class="hljs-params">src, next</span>) =&gt;</span> {
+    <span class="hljs-keyword">if</span> (isString(src)) src = object[src]
+    <span class="hljs-keyword">if</span> (isString(next)) next = object[next]
+    src.connect(next)
+    <span class="hljs-keyword">return</span> next
+  })
+  <span class="hljs-keyword">return</span> object
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">connect</span> (<span class="hljs-params">...nodes</span>) </span>{
+  nodes.reduce(<span class="hljs-function">(<span class="hljs-params">prev, next</span>) =&gt;</span> {
+    prev.connect(next)
+    <span class="hljs-keyword">return</span> next
+  })
+  <span class="hljs-keyword">return</span> nodes
+}
+
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-8" id="section-8"></a>
+</div>
+<div class="dox">
+<div class="summary">
+<p>Create a connect function with for the given node
+The return function have two special characteristics:</p>
+<ul>
+<li>It's chainable</li>
+<li>It accepts <code>true</code> as param to connect to node's AudioContext's destination</li>
+</ul>
+</div>
+<div class="body">
+</div>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="javascript"><span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">connectWith</span> (<span class="hljs-params">node, parent</span>) </span>{
+  <span class="hljs-keyword">if</span> (!parent) <span class="hljs-keyword">throw</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">"no parent!"</span>)
+  <span class="hljs-keyword">const</span> conn = node.connect
+  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">dest</span>) </span>{
+    <span class="hljs-keyword">if</span> (dest === <span class="hljs-literal">true</span>) conn.call(node, node.context.destination)
+    <span class="hljs-keyword">else</span> conn.apply(node, <span class="hljs-built_in">arguments</span>)
+    <span class="hljs-keyword">return</span> parent
+  }
+}
+
+</pre>
+        </td>
+      </tr>
+    
+  </tbody>
+</table>
+
+  </div>
+</body>
+</html>

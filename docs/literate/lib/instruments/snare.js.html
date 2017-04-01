@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>snare.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="../../doc-style.css" />
+  <script src="../../doc-filelist.js"></script>
+  <script>
+    var relativeDir = "../../";
+    var thisFile = "lib/instruments/snare.js";
+    var defaultSidebar = true;
+  </script>
+  <script src="../../doc-script.js"></script>
+
+</head>
+<body>
+  <div id="sidebar_wrapper">
+    <div id="sidebar_switch">
+      <span class="tree">Files</span>
+      <span class="headings">Headings</span>
+    </div>
+    <div id="tree"></div>
+    <div id="headings">
+
+    </div>
+  </div>
+  <div id="sidebar-toggle"></div>
+  <div id="container">
+    <div class="background highlight"></div>
+<table cellpadding="0" cellspacing="0">
+  <tbody>
+    
+      <tr>
+        <td class="docs">
+          <h1>snare.js</h1>
+        </td>
+        <td class="code highlight"></td>
+      </tr>
+    
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-1" id="section-1"></a>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="javascript"><span class="hljs-keyword">import</span> { connect, connectWith } <span class="hljs-keyword">from</span> <span class="hljs-string">"../core"</span>
+<span class="hljs-keyword">import</span> Noise <span class="hljs-keyword">from</span> <span class="hljs-string">"../kit/noise"</span>
+<span class="hljs-keyword">import</span> VCA <span class="hljs-keyword">from</span> <span class="hljs-string">"../kit/vca"</span>
+
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Snare</span> (<span class="hljs-params">ac, state</span>) </span>{
+  state = <span class="hljs-built_in">Object</span>.assign({}, Snare.state, state)
+  <span class="hljs-keyword">const</span> snare = {
+    state,
+    <span class="hljs-attr">noise</span>: Noise(ac, state.noise),
+    <span class="hljs-attr">amp</span>: VCA(ac, state.amp)
+  }
+  connect(snare.noise, snare.amp)
+
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-2" id="section-2"></a>
+</div>
+<p>API</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="javascript">  snare.connect = connectWith(snare.amp, snare)
+  snare.trigger = snare.amp.trigger
+
+  <span class="hljs-keyword">return</span> snare
+}
+Snare.state = {
+  <span class="hljs-attr">noise</span>: {
+    <span class="hljs-attr">type</span>: <span class="hljs-string">"white"</span>
+  },
+  <span class="hljs-attr">amp</span>: {
+    <span class="hljs-attr">gain</span>: <span class="hljs-number">0.3</span>,
+    <span class="hljs-attr">envelope</span>: {
+      <span class="hljs-attr">attack</span>: <span class="hljs-number">0.01</span>,
+      <span class="hljs-attr">hold</span>: <span class="hljs-number">0.1</span>,
+      <span class="hljs-attr">release</span>: <span class="hljs-number">0.1</span>
+    }
+  }
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> Snare
+
+</pre>
+        </td>
+      </tr>
+    
+  </tbody>
+</table>
+
+  </div>
+</body>
+</html>

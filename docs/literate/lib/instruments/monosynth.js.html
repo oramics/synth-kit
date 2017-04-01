@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>monosynth.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="../../doc-style.css" />
+  <script src="../../doc-filelist.js"></script>
+  <script>
+    var relativeDir = "../../";
+    var thisFile = "lib/instruments/monosynth.js";
+    var defaultSidebar = true;
+  </script>
+  <script src="../../doc-script.js"></script>
+
+</head>
+<body>
+  <div id="sidebar_wrapper">
+    <div id="sidebar_switch">
+      <span class="tree">Files</span>
+      <span class="headings">Headings</span>
+    </div>
+    <div id="tree"></div>
+    <div id="headings">
+
+    </div>
+  </div>
+  <div id="sidebar-toggle"></div>
+  <div id="container">
+    <div class="background highlight"></div>
+<table cellpadding="0" cellspacing="0">
+  <tbody>
+    
+      <tr>
+        <td class="docs">
+          <h1>monosynth.js</h1>
+        </td>
+        <td class="code highlight"></td>
+      </tr>
+    
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-1" id="section-1"></a>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="javascript"><span class="hljs-keyword">import</span> { connectWith, connect } <span class="hljs-keyword">from</span> <span class="hljs-string">"../core"</span>
+<span class="hljs-keyword">import</span> VCO <span class="hljs-keyword">from</span> <span class="hljs-string">"../kit/vco"</span>
+<span class="hljs-keyword">import</span> VCA <span class="hljs-keyword">from</span> <span class="hljs-string">"../kit/vca"</span>
+<span class="hljs-keyword">import</span> VCF <span class="hljs-keyword">from</span> <span class="hljs-string">"../kit/vcf"</span>
+
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-2" id="section-2"></a>
+</div>
+<div class="dox">
+<div class="summary">
+<p>MonoSynth</p>
+</div>
+<div class="body">
+</div>
+</div>
+
+        </td>
+        <td class="code highlight">
+          <pre class="javascript"><span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">MonoSynth</span> (<span class="hljs-params">ac, state</span>) </span>{
+  <span class="hljs-keyword">if</span> (!state) state = MonoSynth.defaults
+  <span class="hljs-keyword">else</span> state = <span class="hljs-built_in">Object</span>.assign({}, MonoSynth.defaults, state)
+
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-3" id="section-3"></a>
+</div>
+<p>Create the synth</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="javascript">  <span class="hljs-keyword">const</span> synth = {
+    state,
+    <span class="hljs-attr">oscillator</span>: VCO(ac, state.oscillator),
+    <span class="hljs-attr">filter</span>: VCF(ac, state.filter),
+    <span class="hljs-attr">amp</span>: VCA(ac, state, state.envelope),
+  }
+  connect(synth.oscillator, synth.filter, synth.amp)
+
+</pre>
+        </td>
+      </tr>
+    
+      <tr>
+        <td class="docs">
+          <div class="pilwrap">
+  <a class="pilcrow" href="#section-4" id="section-4"></a>
+</div>
+<p>Synth API</p>
+
+        </td>
+        <td class="code highlight">
+          <pre class="javascript">  synth.connect = connectWith(synth.amp, synth)
+  synth.trigger = <span class="hljs-function">(<span class="hljs-params">freq, time, dur</span>) =&gt;</span> {
+    time = time || ac.currentTime
+    <span class="hljs-keyword">if</span> (freq) synth.oscillator.frequency.setValueAtTime(freq, time)
+    synth.amp.trigger(time, dur)
+  }
+  <span class="hljs-keyword">return</span> synth
+}
+MonoSynth.defaults = {
+  <span class="hljs-attr">oscillator</span>: {
+    <span class="hljs-attr">type</span>: <span class="hljs-string">"sawtooth"</span>
+  },
+  <span class="hljs-attr">filter</span>: {
+    <span class="hljs-attr">type</span>: <span class="hljs-string">"lowpass"</span>,
+    <span class="hljs-attr">frequency</span>: <span class="hljs-number">4000</span>,
+  },
+  <span class="hljs-attr">envelope</span>: {
+    <span class="hljs-attr">attack</span>: <span class="hljs-number">0.01</span>,
+    <span class="hljs-attr">decay</span>: <span class="hljs-number">0.1</span>,
+    <span class="hljs-attr">sustain</span>: <span class="hljs-number">0.8</span>,
+    <span class="hljs-attr">release</span>: <span class="hljs-number">0.3</span>,
+  },
+  <span class="hljs-attr">gain</span>: <span class="hljs-number">0.5</span>
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> MonoSynth
+
+</pre>
+        </td>
+      </tr>
+    
+  </tbody>
+</table>
+
+  </div>
+</body>
+</html>

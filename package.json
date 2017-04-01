@@ -18,7 +18,9 @@
     "dist": "rollup -cm -n SynthKit -f umd -i lib/index.js -o dist/synth-kit.js && cp dist/* docs/dist/",
     "watch": "rollup --watch -cm -n SynthKit -f umd -i lib/index.js -o dist/synth-kit.js",
     "release": "npm run build && npm test && git commit -am $npm_package_version && git tag $npm_package_version && git push && git push --tags && npm publish",
-    "docs": "docco lib/* lib/**/* -o docs/literate"
+    "docs": "docker lib/ -o docs/literate",
+    "docco": "docco lib/* lib/**/* -o docs/literate",
+    "jsdoc": "jsdoc -c jsdoc3.config.json && open docs/api/index.html"
   },
   "authors": "@danigb",
   "keywords": [
@@ -49,5 +51,8 @@
     "rollup-plugin-uglify": "^1.0.1",
     "rollup-watch": "^3.2.2",
     "web-audio-test-api": "^0.5.2"
+  },
+  "dependencies": {
+    "postman-jsdoc-theme": "0.0.2"
   }
 }
