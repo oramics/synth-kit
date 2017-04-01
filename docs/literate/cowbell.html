@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>Cowbell</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page_wrapper">
+            <div id="jump_page">
+              
+                
+                <a class="source" href="core.html">
+                  core.js
+                </a>
+              
+                
+                <a class="source" href="index.html">
+                  index.js
+                </a>
+              
+                
+                <a class="source" href="cowbell.html">
+                  cowbell.js
+                </a>
+              
+                
+                <a class="source" href="kick.html">
+                  kick.js
+                </a>
+              
+                
+                <a class="source" href="monosynth.html">
+                  monosynth.js
+                </a>
+              
+                
+                <a class="source" href="snare.html">
+                  snare.js
+                </a>
+              
+                
+                <a class="source" href="filter.html">
+                  filter.js
+                </a>
+              
+                
+                <a class="source" href="gain-envelope.html">
+                  gain-envelope.js
+                </a>
+              
+                
+                <a class="source" href="gain.html">
+                  gain.js
+                </a>
+              
+                
+                <a class="source" href="lfo.html">
+                  lfo.js
+                </a>
+              
+                
+                <a class="source" href="mono-buffer.html">
+                  mono-buffer.js
+                </a>
+              
+                
+                <a class="source" href="noise.html">
+                  noise.js
+                </a>
+              
+                
+                <a class="source" href="osc.html">
+                  osc.js
+                </a>
+              
+                
+                <a class="source" href="sample.html">
+                  sample.js
+                </a>
+              
+                
+                <a class="source" href="source.html">
+                  source.js
+                </a>
+              
+                
+                <a class="source" href="vca.html">
+                  vca.js
+                </a>
+              
+                
+                <a class="source" href="vcf.html">
+                  vcf.js
+                </a>
+              
+                
+                <a class="source" href="vco.html">
+                  vco.js
+                </a>
+              
+                
+                <a class="source" href="synth.html">
+                  synth.js
+                </a>
+              
+            </div>
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              <h1 id="cowbell">Cowbell</h1>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>The Cowbell is based on the 808 design:</p>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <blockquote>
+<p>“the block diagram for the cowbell sound generator in the TR808 is a
+relatively simple circuit, and uses just two of the six pulse-wave
+oscillators that provide the basis of the machine’s cymbal and hi-hat sounds.
+The outputs from these pass through a pair of VCAs controlled by a contour
+generator, and through a band-pass filter that removes the upper and lower
+partials. Finally, the result is then amplified before reaching the outside
+world.”</p>
+</blockquote>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>Source of all quotes: <a href="https://github.com/micjamking/synth-secrets/blob/master/part-41.md">https://github.com/micjamking/synth-secrets/blob/master/part-41.md</a></p>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <h4 id="oscillators">Oscillators</h4>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <blockquote>
+<p>“We should be able to recreate this sound on any synth with two oscillators
+and a band-pass (…) the sound comprises a pair of tones with fundamental
+pitches of approximately 587Hz and 845Hz. With a frequency ratio of 1:1.44,
+these are suitably clangy, and serve Roland’s purpose well.”</p>
+</blockquote>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <blockquote>
+<p>Firstly, we select two oscillators, and set them with triangle-wave outputs
+at frequencies of 587Hz and 845Hz</p>
+</blockquote>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <h4 id="filter">Filter</h4>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <blockquote>
+<p>“then added a band-pass filter, finding that a centre frequency of 2.64kHz
+worked well. The 12dB-per-octave option sounded a bit flabby, while the
+24dB-per-octave cutoff shaped the sound too severely, , so I chose the
+12dB-per-octave option and added a little resonance to accentuate the
+partials close to the centre frequency”</p>
+</blockquote>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <h4 id="envelope">Envelope</h4>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <blockquote>
+<p>“forms an envelope having abrupt level decay at the initial trailing edge
+to emphasise attack effect”</p>
+</blockquote>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <h4 id="the-instrument">The instrument</h4>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> { instrument } <span class="hljs-keyword">from</span> <span class="hljs-string">"../synth"</span>
+<span class="hljs-keyword">import</span> Gain <span class="hljs-keyword">from</span> <span class="hljs-string">"../kit/gain"</span>
+<span class="hljs-keyword">import</span> Osc <span class="hljs-keyword">from</span> <span class="hljs-string">"../kit/osc"</span>
+<span class="hljs-keyword">import</span> GainEnvelope <span class="hljs-keyword">from</span> <span class="hljs-string">"../kit/gain-envelope"</span>
+<span class="hljs-keyword">import</span> Filter <span class="hljs-keyword">from</span> <span class="hljs-string">"../kit/filter"</span>
+
+<span class="hljs-comment">/**
+ * Create a Cowbell
+ * @param {AudioContext} context
+ * @param {Object} config
+ * @return {AudioNode} the instrument
+ * @example
+ * const cowbell = Cowbell(ac)
+ * cowbell.trigger(ac.currentTime + 1)
+ */</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Cowbell</span> (<span class="hljs-params">ac, state</span>) </span>{
+  <span class="hljs-keyword">if</span> (state) state = <span class="hljs-built_in">Object</span>.assign({}, Cowbell.defaultState, state)
+  <span class="hljs-keyword">else</span> state = Cowbell.defaultState
+
+  <span class="hljs-keyword">const</span> cowbell = instrument({
+    <span class="hljs-attr">osc1</span>: [ Osc(ac), <span class="hljs-string">"env1"</span> ],
+    <span class="hljs-attr">env1</span>: [ GainEnvelope(ac), <span class="hljs-string">"filter"</span> ],
+    <span class="hljs-attr">osc2</span>: [ Osc(ac), <span class="hljs-string">"env2"</span> ],
+    <span class="hljs-attr">env2</span>: [ GainEnvelope(ac), <span class="hljs-string">"filter"</span> ],
+    <span class="hljs-attr">filter</span>: [ Filter(ac), <span class="hljs-string">"amp"</span> ],
+    <span class="hljs-attr">amp</span>: [ Gain(ac), <span class="hljs-string">"output"</span> ]
+  }).update(state)
+
+  cowbell.trigger = <span class="hljs-function">(<span class="hljs-params">time</span>) =&gt;</span> {
+    cowbell.env1.trigger(time)
+    cowbell.env2.trigger(time)
+  }
+  <span class="hljs-keyword">return</span> cowbell
+}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <p>The Cowbell default parameters</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>Cowbell.defaultState = {
+  <span class="hljs-attr">osc1</span>: {
+    <span class="hljs-attr">type</span>: <span class="hljs-string">"triangle"</span>,
+    <span class="hljs-attr">frequency</span>: <span class="hljs-number">587</span>
+  },
+  <span class="hljs-attr">env1</span>: {
+    <span class="hljs-attr">gain</span>: <span class="hljs-number">0.6</span>,
+    <span class="hljs-attr">attack</span>: <span class="hljs-number">0.01</span>,
+    <span class="hljs-attr">decay</span>: <span class="hljs-number">0.05</span>,
+    <span class="hljs-attr">sustain</span>: <span class="hljs-number">0</span>
+  },
+  <span class="hljs-attr">osc2</span>: {
+    <span class="hljs-attr">type</span>: <span class="hljs-string">"triangle"</span>,
+    <span class="hljs-attr">frequency</span>: <span class="hljs-number">845</span>
+  },
+  <span class="hljs-attr">env2</span>: {
+    <span class="hljs-attr">gain</span>: <span class="hljs-number">0.8</span>,
+    <span class="hljs-attr">attack</span>: <span class="hljs-number">0.1</span>,
+    <span class="hljs-attr">decay</span>: <span class="hljs-number">0.1</span>,
+  },
+  <span class="hljs-attr">filter</span>: {
+    <span class="hljs-attr">type</span>: <span class="hljs-string">"bandpass"</span>,
+    <span class="hljs-attr">frequency</span>: <span class="hljs-number">2640</span>,
+    <span class="hljs-attr">Q</span>: <span class="hljs-number">3.5</span>
+  },
+  <span class="hljs-attr">amp</span>: {
+    <span class="hljs-attr">gain</span>: <span class="hljs-number">1</span>
+  }
+}</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

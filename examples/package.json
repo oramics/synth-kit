@@ -3,13 +3,15 @@
   "private": true,
   "version": "1.0.0",
   "description": "synth-kit examples",
-  "scripts": {
-  },
+  "scripts": {},
   "keywords": [],
   "author": "danigb",
   "license": "MIT",
   "devDependencies": {
     "hyperapp": "^0.7.1",
     "hyperx": "^2.3.0"
+  },
+  "dependencies": {
+    "pick-random": "^2.0.0"
   }
 }

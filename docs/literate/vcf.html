@@ -2,7 +2,7 @@
 
 <html>
 <head>
-  <title>vcf.js</title>
+  <title>Voltage Controlled Filter</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
   <link rel="stylesheet" media="all" href="docco.css" />
@@ -27,6 +27,11 @@
                 
                 <a class="source" href="index.html">
                   index.js
+                </a>
+              
+                
+                <a class="source" href="cowbell.html">
+                  cowbell.js
                 </a>
               
                 
@@ -104,18 +109,17 @@
                   vco.js
                 </a>
               
+                
+                <a class="source" href="synth.html">
+                  synth.js
+                </a>
+              
             </div>
           </div>
         </li>
       </ul>
     
     <ul class="sections">
-        
-          <li id="title">
-              <div class="annotation">
-                  <h1>vcf.js</h1>
-              </div>
-          </li>
         
         
         
@@ -125,49 +129,17 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-1">&#182;</a>
               </div>
-              
+              <h1 id="voltage-controlled-filter">Voltage Controlled Filter</h1>
+
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> Filter <span class="hljs-keyword">from</span> <span class="hljs-string">"./filter"</span>
 
 <span class="hljs-comment">/**
- * Voltage Controlled Filter
+ * Create a VCF
  */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">VCF</span> (<span class="hljs-params">ac, state, envState</span>) </span>{
-  <span class="hljs-keyword">if</span> (!envState) envState = state
-  <span class="hljs-keyword">const</span> filter = Filter(ac, state)</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-2">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-2">&#182;</a>
-              </div>
-              <p>filter.envelope = FilterEnvelope(state)
-filter.trigger = filter.envelope.trigger</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>  filter.trigger = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-3">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-3">&#182;</a>
-              </div>
-              <p>TODO</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>  }
-  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"FILTER"</span>, filter, filter.state)
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">VCF</span> (<span class="hljs-params">ac, config</span>) </span>{
+  <span class="hljs-keyword">const</span> filter = Filter(ac, config)
   <span class="hljs-keyword">return</span> filter
 }</pre></div></div>
             

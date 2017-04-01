@@ -30,6 +30,11 @@
                 </a>
               
                 
+                <a class="source" href="cowbell.html">
+                  cowbell.js
+                </a>
+              
+                
                 <a class="source" href="kick.html">
                   kick.js
                 </a>
@@ -104,6 +109,11 @@
                   vco.js
                 </a>
               
+                
+                <a class="source" href="synth.html">
+                  synth.js
+                </a>
+              
             </div>
           </div>
         </li>
@@ -128,49 +138,37 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> { connect, connectWith } <span class="hljs-keyword">from</span> <span class="hljs-string">"../core"</span>
-<span class="hljs-keyword">import</span> VCO <span class="hljs-keyword">from</span> <span class="hljs-string">"../kit/vco"</span>
-<span class="hljs-keyword">import</span> VCA <span class="hljs-keyword">from</span> <span class="hljs-string">"../kit/vca"</span>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> { instrument } <span class="hljs-keyword">from</span> <span class="hljs-string">"../synth"</span>
+<span class="hljs-keyword">import</span> Osc <span class="hljs-keyword">from</span> <span class="hljs-string">"../kit/osc"</span>
+<span class="hljs-keyword">import</span> Gain <span class="hljs-keyword">from</span> <span class="hljs-string">"../kit/gain"</span>
+<span class="hljs-keyword">import</span> GainEnvelope <span class="hljs-keyword">from</span> <span class="hljs-string">"../kit/gain-envelope"</span>
 
 <span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Kick</span> (<span class="hljs-params">ac, state</span>) </span>{
-  state = <span class="hljs-built_in">Object</span>.assign({}, Kick.state, state)
-  <span class="hljs-keyword">const</span> kick = {
-    <span class="hljs-attr">oscillator</span>: VCO(ac, state.oscillator),
-    <span class="hljs-attr">amp</span>: VCA(ac, state.amp)
-  }
-  connect(kick.oscillator, kick.amp)</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-2">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-2">&#182;</a>
-              </div>
-              <p>API</p>
+  state = <span class="hljs-built_in">Object</span>.assign({}, Kick.defaults, state)
+  <span class="hljs-keyword">const</span> kick = instrument({
+    <span class="hljs-attr">oscillator</span>: [ Osc(ac), <span class="hljs-string">"envelope"</span> ],
+    <span class="hljs-attr">envelope</span>: [ GainEnvelope(ac), <span class="hljs-string">"amp"</span> ],
+    <span class="hljs-attr">amp</span>: [ Gain(ac), <span class="hljs-string">"output"</span> ]
+  }).update(state)
 
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>  kick.state = state
-  kick.connect = connectWith(kick.amp, kick)
-  kick.trigger = kick.amp.trigger
+  kick.trigger = <span class="hljs-function">(<span class="hljs-params">time</span>) =&gt;</span> {
+    kick.envelope.trigger(time)
+  }
 
   <span class="hljs-keyword">return</span> kick
 }
-Kick.state = {
+
+Kick.defaults = {
   <span class="hljs-attr">oscillator</span>: {
     <span class="hljs-attr">type</span>: <span class="hljs-string">"sine"</span>,
-    <span class="hljs-attr">frequency</span>: <span class="hljs-number">48</span>
+    <span class="hljs-attr">frequency</span>: <span class="hljs-number">48</span>,
+  },
+  <span class="hljs-attr">envelope</span>: {
+    <span class="hljs-attr">attack</span>: <span class="hljs-number">0.1</span>,
+    <span class="hljs-attr">decay</span>: <span class="hljs-number">0.2</span>
   },
   <span class="hljs-attr">amp</span>: {
     <span class="hljs-attr">gain</span>: <span class="hljs-number">1</span>,
-    <span class="hljs-attr">envelope</span>: {
-      <span class="hljs-attr">attack</span>: <span class="hljs-number">0.01</span>,
-      <span class="hljs-attr">hold</span>: <span class="hljs-number">0.1</span>,
-      <span class="hljs-attr">release</span>: <span class="hljs-number">0.1</span>
-    }
   }
 }
 

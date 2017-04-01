@@ -30,6 +30,11 @@
                 </a>
               
                 
+                <a class="source" href="cowbell.html">
+                  cowbell.js
+                </a>
+              
+                
                 <a class="source" href="kick.html">
                   kick.js
                 </a>
@@ -104,6 +109,11 @@
                   vco.js
                 </a>
               
+                
+                <a class="source" href="synth.html">
+                  synth.js
+                </a>
+              
             </div>
           </div>
         </li>
@@ -125,43 +135,18 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-1">&#182;</a>
               </div>
-              
+              <p>Voltage controlled amplified</p>
+
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> { connectWith } <span class="hljs-keyword">from</span> <span class="hljs-string">"../core"</span>
-<span class="hljs-keyword">import</span> Gain <span class="hljs-keyword">from</span> <span class="hljs-string">"./gain"</span>
-<span class="hljs-keyword">import</span> GainEnvelope <span class="hljs-keyword">from</span> <span class="hljs-string">"./gain-envelope"</span>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> Gain <span class="hljs-keyword">from</span> <span class="hljs-string">"./gain"</span>
 
 <span class="hljs-comment">/**
- * Voltage controlled amplified
+ * Create a VCA
  */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">VCA</span> (<span class="hljs-params">ac, state</span>) </span>{
-  state = <span class="hljs-built_in">Object</span>.assign({}, VCA.state, state)
-  <span class="hljs-keyword">const</span> vca = Gain(ac, state)
-  vca.envelope = GainEnvelope(ac, state.envelope)
-  vca.connect(vca.envelope)</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-2">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-2">&#182;</a>
-              </div>
-              <p>API</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>  vca.state = state
-  vca.connect = connectWith(vca.envelope, vca)
-  vca.trigger = vca.envelope.trigger
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">VCA</span> (<span class="hljs-params">ac, config</span>) </span>{
+  <span class="hljs-keyword">const</span> vca = Gain(ac, config)
   <span class="hljs-keyword">return</span> vca
-}
-VCA.state = {
-  <span class="hljs-attr">gain</span>: <span class="hljs-number">0.8</span>,
-  <span class="hljs-attr">envelope</span>: GainEnvelope.state
 }</pre></div></div>
             
         </li>

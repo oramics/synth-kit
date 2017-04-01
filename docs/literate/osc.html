@@ -2,7 +2,7 @@
 
 <html>
 <head>
-  <title>osc.js</title>
+  <title>Oscillator</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
   <link rel="stylesheet" media="all" href="docco.css" />
@@ -27,6 +27,11 @@
                 
                 <a class="source" href="index.html">
                   index.js
+                </a>
+              
+                
+                <a class="source" href="cowbell.html">
+                  cowbell.js
                 </a>
               
                 
@@ -104,18 +109,17 @@
                   vco.js
                 </a>
               
+                
+                <a class="source" href="synth.html">
+                  synth.js
+                </a>
+              
             </div>
           </div>
         </li>
       </ul>
     
     <ul class="sections">
-        
-          <li id="title">
-              <div class="annotation">
-                  <h1>osc.js</h1>
-              </div>
-          </li>
         
         
         
@@ -125,25 +129,22 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-1">&#182;</a>
               </div>
-              
+              <h1 id="oscillator">Oscillator</h1>
+
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> { update } <span class="hljs-keyword">from</span> <span class="hljs-string">"../core"</span>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> { createAudioNode } <span class="hljs-keyword">from</span> <span class="hljs-string">"../synth"</span>
 
 <span class="hljs-comment">/**
  * Create an Oscillator
  * A oscillator is always started
  */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Osc</span> (<span class="hljs-params">ac, state</span>) </span>{
-  <span class="hljs-keyword">const</span> osc = update(ac.createOscillator(), state, Osc.state)
-  <span class="hljs-keyword">if</span> (osc.state.start !== <span class="hljs-literal">false</span>) osc.start(osc.state.start || <span class="hljs-number">0</span>)
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Osc</span> (<span class="hljs-params">ac, state, start = true</span>) </span>{
+  <span class="hljs-keyword">const</span> osc = createAudioNode(ac, <span class="hljs-string">"Oscillator"</span>, Osc.params)
+  <span class="hljs-keyword">if</span> (start) osc.start(+start)
   <span class="hljs-keyword">return</span> osc
 }
-Osc.state = {
-  <span class="hljs-attr">type</span>: <span class="hljs-string">"sine"</span>,
-  <span class="hljs-attr">frequency</span>: <span class="hljs-number">440</span>,
-  <span class="hljs-attr">detune</span>: <span class="hljs-number">0</span>
-}</pre></div></div>
+Osc.params = [<span class="hljs-string">"type"</span>, <span class="hljs-string">"frequency"</span>, <span class="hljs-string">"detune"</span>]</pre></div></div>
             
         </li>
         

@@ -30,6 +30,11 @@
                 </a>
               
                 
+                <a class="source" href="cowbell.html">
+                  cowbell.js
+                </a>
+              
+                
                 <a class="source" href="kick.html">
                   kick.js
                 </a>
@@ -104,6 +109,11 @@
                   vco.js
                 </a>
               
+                
+                <a class="source" href="synth.html">
+                  synth.js
+                </a>
+              
             </div>
           </div>
         </li>
@@ -130,6 +140,7 @@
             
             <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> Gain <span class="hljs-keyword">from</span> <span class="hljs-string">"./gain"</span>
 
+<span class="hljs-keyword">const</span> SILENCE = { <span class="hljs-attr">gain</span>: <span class="hljs-number">0</span> }
 <span class="hljs-comment">/**
  * Create a Gain envelope. Any audio source can be connected to an
  * audio envelope.
@@ -139,32 +150,33 @@
  * adsr.trigger()
  */</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">GainEnvelope</span> (<span class="hljs-params">ac, state</span>) </span>{
-  <span class="hljs-keyword">const</span> env = Gain(ac)
-  env.state = <span class="hljs-built_in">Object</span>.assign({}, GainEnvelope.state, state)
+  <span class="hljs-keyword">const</span> env = Gain(ac, SILENCE)
+  state = <span class="hljs-built_in">Object</span>.assign({}, GainEnvelope.defaultState, state)
 
-  <span class="hljs-comment">/**
-   * Trigger the envelope. It triggers the attack phase of the envelope
-   * at a given time and the release phase if a duration is given.
-   * @param {Number} [when=now]
-   * @param {Number} [duration]
-   * @return {GainEnvelope} this
-   */</span>
+  env.update = <span class="hljs-function">(<span class="hljs-params">newState</span>) =&gt;</span> {
+    state = <span class="hljs-built_in">Object</span>.assign(state, newState)
+    <span class="hljs-keyword">return</span> env
+  }
+  env.inspect = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> state
+
   env.trigger = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">time, dur</span>) </span>{
     <span class="hljs-keyword">if</span> (!time) time = ac.currentTime
-    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"trigger env"</span>, time, dur, env.state)
-    <span class="hljs-keyword">const</span> release = triggerAdsr(time, env.gain, env.state)
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"trigger env"</span>, time, dur, state)
+    <span class="hljs-keyword">const</span> release = triggerAdsr(time, env.gain, state)
     <span class="hljs-keyword">if</span> (dur) release(time + dur)
     <span class="hljs-keyword">return</span> release
   }
   <span class="hljs-keyword">return</span> env
 }
-GainEnvelope.state = {
-  <span class="hljs-attr">attack</span>: <span class="hljs-number">0.01</span>,
-  <span class="hljs-attr">release</span>: <span class="hljs-number">0.2</span>
-}
 
-<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">triggerAdsr</span> (<span class="hljs-params">time, param, adsr</span>) </span>{
-  param.cancelScheduledValues(<span class="hljs-number">0</span>)</pre></div></div>
+GainEnvelope.params = [
+  <span class="hljs-string">"base"</span>,
+  <span class="hljs-string">"peak"</span>,
+  <span class="hljs-string">"attack"</span>,
+  <span class="hljs-string">"decay"</span>,
+  <span class="hljs-string">"sustain"</span>,
+  <span class="hljs-string">"release"</span>,
+]</pre></div></div>
             
         </li>
         
@@ -175,14 +187,19 @@ GainEnvelope.state = {
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-2">&#182;</a>
               </div>
-              <p>attack phase</p>
+              <p>default values</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">const</span> attack = adsr.attack || <span class="hljs-number">0.01</span>
-  param.setValueAtTime(<span class="hljs-number">0</span>, time)
-  time += attack
-  param.linearRampToValueAtTime(<span class="hljs-number">1</span>, time)</pre></div></div>
+            <div class="content"><div class='highlight'><pre>GainEnvelope.defaultState = {
+  <span class="hljs-attr">gain</span>: <span class="hljs-number">1</span>,
+  <span class="hljs-attr">attack</span>: <span class="hljs-number">0.01</span>,
+  <span class="hljs-attr">decay</span>: <span class="hljs-number">0.2</span>,
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">triggerAdsr</span> (<span class="hljs-params">time, param, adsr</span>) </span>{
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"trigger"</span>, time, adsr)
+  param.cancelScheduledValues(<span class="hljs-number">0</span>)</pre></div></div>
             
         </li>
         
@@ -193,20 +210,15 @@ GainEnvelope.state = {
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-3">&#182;</a>
               </div>
-              <p>decay-sustain phase</p>
+              <p>attack phase</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">const</span> sustain = adsr.sustain || <span class="hljs-number">1</span>
-  <span class="hljs-keyword">if</span> (sustain !== <span class="hljs-number">1</span>) {
-    time += (adsr.decay || <span class="hljs-number">0.01</span>)
-    param.exponentialRampToValueAtTime(sustain, time)
-  }
-
-  <span class="hljs-keyword">const</span> release = <span class="hljs-function"><span class="hljs-params">time</span> =&gt;</span> {
-    param.exponentialRampToValueAtTime(<span class="hljs-number">0.00001</span>, time - <span class="hljs-number">0.01</span>)
-    param.setValueAtTime(<span class="hljs-number">0</span>, time)
-  }</pre></div></div>
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">const</span> attack = adsr.attack || <span class="hljs-number">0.01</span>
+  <span class="hljs-keyword">const</span> peak = adsr.gain || <span class="hljs-number">1</span>
+  param.setValueAtTime(<span class="hljs-number">0</span>, time)
+  time += attack
+  param.linearRampToValueAtTime(peak, time)</pre></div></div>
             
         </li>
         
@@ -217,14 +229,56 @@ GainEnvelope.state = {
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-4">&#182;</a>
               </div>
-              <p>only trigger release if hold is defined</p>
+              <p>decay phase</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">if</span> (adsr.hold !== <span class="hljs-literal">undefined</span>) {
-    time += (adsr.hold || <span class="hljs-number">0</span>)
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">const</span> decay = adsr.decay || <span class="hljs-number">0.01</span>
+  <span class="hljs-keyword">const</span> sustain = adsr.sustain || <span class="hljs-number">0</span>
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"DECAY"</span>, decay, sustain)
+  time += decay
+  param.linearRampToValueAtTime(sustain, time)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>hold phase</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">const</span> hold = adsr.hold || <span class="hljs-number">0</span>
+  <span class="hljs-keyword">if</span> (hold) {
+    time += hold
     param.setValueAtTime(sustain, time)
-    release(time + (adsr.release || <span class="hljs-number">0.1</span>))
+  }
+
+  <span class="hljs-keyword">const</span> release = <span class="hljs-function"><span class="hljs-params">time</span> =&gt;</span> {
+    <span class="hljs-keyword">const</span> release = adsr.release || <span class="hljs-number">0</span>
+    time += release
+    param.exponentialRampToValueAtTime(<span class="hljs-number">0.00001</span>, time)
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>trigger release if hold is specified</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">if</span> (sustain &amp;&amp; hold) {
+    release(time)
   }
 
   <span class="hljs-keyword">return</span> release

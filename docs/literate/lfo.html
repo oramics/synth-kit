@@ -2,7 +2,7 @@
 
 <html>
 <head>
-  <title>lfo.js</title>
+  <title>Low Frequency Oscillator</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
   <link rel="stylesheet" media="all" href="docco.css" />
@@ -27,6 +27,11 @@
                 
                 <a class="source" href="index.html">
                   index.js
+                </a>
+              
+                
+                <a class="source" href="cowbell.html">
+                  cowbell.js
                 </a>
               
                 
@@ -104,18 +109,17 @@
                   vco.js
                 </a>
               
+                
+                <a class="source" href="synth.html">
+                  synth.js
+                </a>
+              
             </div>
           </div>
         </li>
       </ul>
     
     <ul class="sections">
-        
-          <li id="title">
-              <div class="annotation">
-                  <h1>lfo.js</h1>
-              </div>
-          </li>
         
         
         
@@ -125,29 +129,13 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-1">&#182;</a>
               </div>
-              
+              <h1 id="low-frequency-oscillator">Low Frequency Oscillator</h1>
+
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> { update, connectWith } <span class="hljs-keyword">from</span> <span class="hljs-string">"../core"</span>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> { update, setOutput } <span class="hljs-keyword">from</span> <span class="hljs-string">"../core"</span>
 <span class="hljs-keyword">import</span> Osc <span class="hljs-keyword">from</span> <span class="hljs-string">"./osc"</span>
-<span class="hljs-keyword">import</span> Gain <span class="hljs-keyword">from</span> <span class="hljs-string">"./gain"</span>
-
-<span class="hljs-comment">/**
-
- * Low Frequency Oscillator
- */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">LFO</span> (<span class="hljs-params">ac, state</span>) </span>{
-  <span class="hljs-keyword">const</span> lfo = Osc(ac)
-  lfo.amp = Gain(ac)
-  lfo.rate = lfo.frequency
-  lfo.amount = lfo.amp.gain
-  lfo.update = <span class="hljs-function">(<span class="hljs-params">state</span>) =&gt;</span> update(lfo, state)
-  lfo.connect(lfo.amp)
-  lfo.connect = connectWith(lfo.amp, lfo)
-  update(lfo, LFO.state)
-}
-LFO.state = {
-  <span class="hljs-attr">type</span>: <span class="hljs-string">"sine"</span>,</pre></div></div>
+<span class="hljs-keyword">import</span> Gain <span class="hljs-keyword">from</span> <span class="hljs-string">"./gain"</span></pre></div></div>
             
         </li>
         
@@ -158,11 +146,10 @@ LFO.state = {
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-2">&#182;</a>
               </div>
-              <p>the lfo frequency</p>
+              <p>A LFO is an oscillator connected to a gain to allow
+configurable output values between -n and n</p>
 
             </div>
-            
-            <div class="content"><div class='highlight'><pre>  rate: <span class="hljs-number">3</span>,</pre></div></div>
             
         </li>
         
@@ -173,12 +160,23 @@ LFO.state = {
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-3">&#182;</a>
               </div>
-              <p>the lfo intensity</p>
+              <p>It’s designed to modulate another property</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  amount: <span class="hljs-number">0.5</span>
-}</pre></div></div>
+            <div class="content"><div class='highlight'><pre>
+<span class="hljs-comment">/**
+ * Create an LFO
+ */</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">LFO</span> (<span class="hljs-params">ac, state</span>) </span>{
+  <span class="hljs-keyword">const</span> lfo = Osc(ac)
+  lfo.amp = Gain(ac)
+  lfo.gain = lfo.amp.gain
+  lfo.connect(lfo.amp)
+  setOutput(lfo, lfo.amp)
+  <span class="hljs-keyword">return</span> update(lfo, state)
+}
+LFO.params = [<span class="hljs-string">"type"</span>, <span class="hljs-string">"frequency"</span>, <span class="hljs-string">"gain"</span>]</pre></div></div>
             
         </li>
         

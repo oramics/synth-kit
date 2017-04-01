@@ -2,7 +2,7 @@
 
 <html>
 <head>
-  <title>vco.js</title>
+  <title>Voltage Controlled Oscillator</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
   <link rel="stylesheet" media="all" href="docco.css" />
@@ -27,6 +27,11 @@
                 
                 <a class="source" href="index.html">
                   index.js
+                </a>
+              
+                
+                <a class="source" href="cowbell.html">
+                  cowbell.js
                 </a>
               
                 
@@ -104,18 +109,17 @@
                   vco.js
                 </a>
               
+                
+                <a class="source" href="synth.html">
+                  synth.js
+                </a>
+              
             </div>
           </div>
         </li>
       </ul>
     
     <ul class="sections">
-        
-          <li id="title">
-              <div class="annotation">
-                  <h1>vco.js</h1>
-              </div>
-          </li>
         
         
         
@@ -125,40 +129,17 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-1">&#182;</a>
               </div>
-              
+              <h1 id="voltage-controlled-oscillator">Voltage Controlled Oscillator</h1>
+
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> { plug, connectWith } <span class="hljs-keyword">from</span> <span class="hljs-string">"../core"</span>
-<span class="hljs-keyword">import</span> Osc <span class="hljs-keyword">from</span> <span class="hljs-string">"./osc"</span>
-<span class="hljs-keyword">import</span> LFO <span class="hljs-keyword">from</span> <span class="hljs-string">"./lfo"</span>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> Osc <span class="hljs-keyword">from</span> <span class="hljs-string">"./osc"</span>
 
 <span class="hljs-comment">/**
- * Voltage Controlled Oscillator. An oscillator with the detune parameter
- * modulated by a low frequency oscillator
+ * Create a VCO
  */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">VCO</span> (<span class="hljs-params">ac, state</span>) </span>{
-  state = <span class="hljs-built_in">Object</span>.assign({}, VCO.state, state)
-  <span class="hljs-keyword">const</span> vco = Osc(ac, state)
-  vco.modulator = LFO(ac, state.modulator)
-  plug(vco, <span class="hljs-string">"detune"</span>, vco.modulator)
-
-  <span class="hljs-comment">/**
-   * Connect to a node
-   * @chainable
-   * @param {AudioNode} destination
-   * @return {VCO} this
-   */</span>
-  vco.connect = connectWith(vco, vco)
-  <span class="hljs-keyword">return</span> vco
-}
-VCO.state = {
-  <span class="hljs-attr">type</span>: <span class="hljs-string">"sawtooth"</span>,
-  <span class="hljs-attr">frequency</span>: <span class="hljs-number">440</span>,
-  <span class="hljs-attr">detune</span>: <span class="hljs-number">0</span>,
-  <span class="hljs-attr">modulator</span>: {
-    <span class="hljs-attr">rate</span>: <span class="hljs-number">5</span>,
-    <span class="hljs-attr">amount</span>: <span class="hljs-number">1</span>,
-  }
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">VCO</span> (<span class="hljs-params">ac, config</span>) </span>{
+  <span class="hljs-keyword">return</span> Osc(ac, config)
 }</pre></div></div>
             
         </li>

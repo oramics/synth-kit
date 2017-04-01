@@ -2,7 +2,7 @@
 
 <html>
 <head>
-  <title>gain.js</title>
+  <title>Gain</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
   <link rel="stylesheet" media="all" href="docco.css" />
@@ -27,6 +27,11 @@
                 
                 <a class="source" href="index.html">
                   index.js
+                </a>
+              
+                
+                <a class="source" href="cowbell.html">
+                  cowbell.js
                 </a>
               
                 
@@ -104,18 +109,17 @@
                   vco.js
                 </a>
               
+                
+                <a class="source" href="synth.html">
+                  synth.js
+                </a>
+              
             </div>
           </div>
         </li>
       </ul>
     
     <ul class="sections">
-        
-          <li id="title">
-              <div class="annotation">
-                  <h1>gain.js</h1>
-              </div>
-          </li>
         
         
         
@@ -125,24 +129,33 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-1">&#182;</a>
               </div>
-              
+              <h1 id="gain">Gain</h1>
+
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> { update } <span class="hljs-keyword">from</span> <span class="hljs-string">"../core"</span>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> { createAudioNode } <span class="hljs-keyword">from</span> <span class="hljs-string">"../synth"</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>Gain produces changes in volume</p>
 
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
 <span class="hljs-comment">/**
  * Create a Gain node.
- * Unlike the normal Gain node, the gain of this one is 0 by default
  */</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Gain</span> (<span class="hljs-params">ac, state</span>) </span>{
-  <span class="hljs-keyword">const</span> gain = update(ac.createGain(), state, Gain.state)
-  <span class="hljs-keyword">if</span> (gain.state.gain === <span class="hljs-number">0</span>) gain.gain.setValueAtTime(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>)
-  <span class="hljs-keyword">return</span> gain
+  <span class="hljs-keyword">return</span> createAudioNode(ac, <span class="hljs-string">"Gain"</span>, Gain.params).update(state)
 }
-
-Gain.state = {
-  <span class="hljs-attr">gain</span>: <span class="hljs-number">0</span>
-}</pre></div></div>
+Gain.params = [<span class="hljs-string">"gain"</span>]</pre></div></div>
             
         </li>
         

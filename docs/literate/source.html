@@ -2,7 +2,7 @@
 
 <html>
 <head>
-  <title>source.js</title>
+  <title>Source</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
   <link rel="stylesheet" media="all" href="docco.css" />
@@ -27,6 +27,11 @@
                 
                 <a class="source" href="index.html">
                   index.js
+                </a>
+              
+                
+                <a class="source" href="cowbell.html">
+                  cowbell.js
                 </a>
               
                 
@@ -104,18 +109,17 @@
                   vco.js
                 </a>
               
+                
+                <a class="source" href="synth.html">
+                  synth.js
+                </a>
+              
             </div>
           </div>
         </li>
       </ul>
     
     <ul class="sections">
-        
-          <li id="title">
-              <div class="annotation">
-                  <h1>source.js</h1>
-              </div>
-          </li>
         
         
         
@@ -125,23 +129,37 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-1">&#182;</a>
               </div>
-              
+              <h1 id="source">Source</h1>
+
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> { update } <span class="hljs-keyword">from</span> <span class="hljs-string">"../core"</span>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> { createAudioNode } <span class="hljs-keyword">from</span> <span class="hljs-string">"../synth"</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>Create a node that plays audio from a buffer</p>
 
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+<span class="hljs-comment">/**
+ * Create a (Buffer)Source node
+ */</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Source</span> (<span class="hljs-params">ac, buffer, state</span>) </span>{
-  <span class="hljs-keyword">const</span> source = update(ac.createBufferSource(), state, Source.state)
+  <span class="hljs-keyword">const</span> source = createAudioNode(ac, <span class="hljs-string">"BufferSource"</span>, Source.params)
+  source.update(state)
   source.buffer = buffer
   <span class="hljs-keyword">return</span> source
 }
-Source.state = {
-  <span class="hljs-attr">detune</span>: <span class="hljs-number">0</span>,
-  <span class="hljs-attr">loop</span>: <span class="hljs-literal">false</span>,
-  <span class="hljs-attr">loopStart</span>: <span class="hljs-literal">undefined</span>,
-  <span class="hljs-attr">loopEnd</span>: <span class="hljs-literal">undefined</span>,
-  <span class="hljs-attr">playbackRate</span>: <span class="hljs-number">1</span>
-}</pre></div></div>
+
+Source.params = [<span class="hljs-string">"detune"</span>, <span class="hljs-string">"loop"</span>, <span class="hljs-string">"loopStart"</span>, <span class="hljs-string">"loopEnd"</span>, <span class="hljs-string">"playbackRate"</span>]</pre></div></div>
             
         </li>
         

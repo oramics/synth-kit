@@ -30,6 +30,11 @@
                 </a>
               
                 
+                <a class="source" href="cowbell.html">
+                  cowbell.js
+                </a>
+              
+                
                 <a class="source" href="kick.html">
                   kick.js
                 </a>
@@ -104,6 +109,11 @@
                   vco.js
                 </a>
               
+                
+                <a class="source" href="synth.html">
+                  synth.js
+                </a>
+              
             </div>
           </div>
         </li>
@@ -123,10 +133,11 @@
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> { connectWith, connect } <span class="hljs-keyword">from</span> <span class="hljs-string">"../core"</span>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> { instrument } <span class="hljs-keyword">from</span> <span class="hljs-string">"../synth"</span>
 <span class="hljs-keyword">import</span> VCO <span class="hljs-keyword">from</span> <span class="hljs-string">"../kit/vco"</span>
-<span class="hljs-keyword">import</span> VCA <span class="hljs-keyword">from</span> <span class="hljs-string">"../kit/vca"</span>
-<span class="hljs-keyword">import</span> VCF <span class="hljs-keyword">from</span> <span class="hljs-string">"../kit/vcf"</span></pre></div></div>
+<span class="hljs-keyword">import</span> VCF <span class="hljs-keyword">from</span> <span class="hljs-string">"../kit/vcf"</span>
+<span class="hljs-keyword">import</span> GainEnvelope <span class="hljs-keyword">from</span> <span class="hljs-string">"../kit/gain-envelope"</span>
+<span class="hljs-keyword">import</span> VCA <span class="hljs-keyword">from</span> <span class="hljs-string">"../kit/vca"</span></pre></div></div>
             
         </li>
         
@@ -144,51 +155,22 @@
             <div class="content"><div class='highlight'><pre>
 <span class="hljs-comment">/**
  * Create a MonoSynth
- * @constructor
+ * @param {AudioContext} context
+ * @param {Object} [config]
  */</span>
 <span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">MonoSynth</span> (<span class="hljs-params">ac, state</span>) </span>{
-  <span class="hljs-keyword">if</span> (!state) state = MonoSynth.defaults
-  <span class="hljs-keyword">else</span> state = <span class="hljs-built_in">Object</span>.assign({}, MonoSynth.defaults, state)</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-3">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-3">&#182;</a>
-              </div>
-              <p>Create the synth</p>
+  state = <span class="hljs-built_in">Object</span>.assign({}, MonoSynth.defaults, state)
+  <span class="hljs-keyword">const</span> synth = instrument({
+    <span class="hljs-attr">oscillator</span>: [ VCO(ac), <span class="hljs-string">"filter"</span> ],
+    <span class="hljs-attr">filter</span>: [ VCF(ac), <span class="hljs-string">"envelope"</span> ],
+    <span class="hljs-attr">envelope</span>: [ GainEnvelope(ac), <span class="hljs-string">"amp"</span> ],
+    <span class="hljs-attr">amp</span>: [ VCA(ac), <span class="hljs-string">"output"</span> ]
+  }).update(state)
 
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">const</span> synth = {
-    state,
-    <span class="hljs-attr">oscillator</span>: VCO(ac, state.oscillator),
-    <span class="hljs-attr">filter</span>: VCF(ac, state.filter),
-    <span class="hljs-attr">amp</span>: VCA(ac, state, state.envelope),
-  }
-  connect(synth.oscillator, synth.filter, synth.amp)</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-4">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-4">&#182;</a>
-              </div>
-              <p>Synth API</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>  synth.connect = connectWith(synth.amp, synth)
   synth.trigger = <span class="hljs-function">(<span class="hljs-params">freq, time, dur</span>) =&gt;</span> {
     time = time || ac.currentTime
     <span class="hljs-keyword">if</span> (freq) synth.oscillator.frequency.setValueAtTime(freq, time)
-    synth.amp.trigger(time, dur)
+    synth.envelope.trigger(time, dur)
   }
   <span class="hljs-keyword">return</span> synth
 }
@@ -206,7 +188,9 @@ MonoSynth.defaults = {
     <span class="hljs-attr">sustain</span>: <span class="hljs-number">0.8</span>,
     <span class="hljs-attr">release</span>: <span class="hljs-number">0.3</span>,
   },
-  <span class="hljs-attr">gain</span>: <span class="hljs-number">0.5</span>
+  <span class="hljs-attr">amp</span>: {
+    <span class="hljs-attr">gain</span>: <span class="hljs-number">0.5</span>
+  }
 }
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> MonoSynth</pre></div></div>

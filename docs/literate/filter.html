@@ -30,6 +30,11 @@
                 </a>
               
                 
+                <a class="source" href="cowbell.html">
+                  cowbell.js
+                </a>
+              
+                
                 <a class="source" href="kick.html">
                   kick.js
                 </a>
@@ -104,6 +109,11 @@
                   vco.js
                 </a>
               
+                
+                <a class="source" href="synth.html">
+                  synth.js
+                </a>
+              
             </div>
           </div>
         </li>
@@ -128,20 +138,18 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> { update } <span class="hljs-keyword">from</span> <span class="hljs-string">"../core"</span>
+            <div class="content"><div class='highlight'><pre><span class="hljs-comment">/** @module kit */</span>
+<span class="hljs-keyword">import</span> { createAudioNode } <span class="hljs-keyword">from</span> <span class="hljs-string">"../synth"</span>
 
 <span class="hljs-comment">/**
  * Create a Filter
+ * @param {AudioContext} context
+ * @param {Object} [config]
  */</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Filter</span> (<span class="hljs-params">ac, state</span>) </span>{
-  <span class="hljs-keyword">return</span> update(ac.createBiquadFilter(), state, Filter.state)
+  <span class="hljs-keyword">return</span> createAudioNode(ac, <span class="hljs-string">"BiquadFilter"</span>, Filter.params).update(state)
 }
-Filter.state = {
-  <span class="hljs-attr">type</span>: <span class="hljs-string">"lowpass"</span>,
-  <span class="hljs-attr">frequency</span>: <span class="hljs-number">350</span>,
-  <span class="hljs-attr">detune</span>: <span class="hljs-number">0</span>,
-  <span class="hljs-attr">Q</span>: <span class="hljs-number">1</span>,
-}</pre></div></div>
+Filter.params = [<span class="hljs-string">"type"</span>, <span class="hljs-string">"frequency"</span>, <span class="hljs-string">"detune"</span>, <span class="hljs-string">"Q"</span>]</pre></div></div>
             
         </li>
         
