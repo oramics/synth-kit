@@ -20,18 +20,23 @@
             <div id="jump_page">
               
                 
-                <a class="source" href="core.html">
-                  core.js
-                </a>
-              
-                
                 <a class="source" href="index.html">
                   index.js
                 </a>
               
                 
+                <a class="source" href="conga.html">
+                  conga.js
+                </a>
+              
+                
                 <a class="source" href="cowbell.html">
                   cowbell.js
+                </a>
+              
+                
+                <a class="source" href="hat.html">
+                  hat.js
                 </a>
               
                 
@@ -45,8 +50,28 @@
                 </a>
               
                 
+                <a class="source" href="pluck.html">
+                  pluck.js
+                </a>
+              
+                
                 <a class="source" href="snare.html">
                   snare.js
+                </a>
+              
+                
+                <a class="source" href="tom.html">
+                  tom.js
+                </a>
+              
+                
+                <a class="source" href="delay.html">
+                  delay.js
+                </a>
+              
+                
+                <a class="source" href="feedback-comb-filter.html">
+                  feedback-comb-filter.js
                 </a>
               
                 
@@ -85,8 +110,18 @@
                 </a>
               
                 
+                <a class="source" href="pulse.html">
+                  pulse.js
+                </a>
+              
+                
                 <a class="source" href="sample.html">
                   sample.js
+                </a>
+              
+                
+                <a class="source" href="soft-clipper.html">
+                  soft-clipper.js
                 </a>
               
                 
@@ -107,6 +142,11 @@
                 
                 <a class="source" href="vco.html">
                   vco.js
+                </a>
+              
+                
+                <a class="source" href="wave-shaper.html">
+                  wave-shaper.js
                 </a>
               
                 
@@ -161,15 +201,19 @@
 <span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">MonoSynth</span> (<span class="hljs-params">ac, state</span>) </span>{
   state = <span class="hljs-built_in">Object</span>.assign({}, MonoSynth.defaults, state)
   <span class="hljs-keyword">const</span> synth = instrument({
-    <span class="hljs-attr">oscillator</span>: [ VCO(ac), <span class="hljs-string">"filter"</span> ],
-    <span class="hljs-attr">filter</span>: [ VCF(ac), <span class="hljs-string">"envelope"</span> ],
+    <span class="hljs-attr">oscillator</span>: [ VCO(ac), <span class="hljs-string">"vcf"</span> ],
+    <span class="hljs-attr">vcf</span>: [ VCF(ac), <span class="hljs-string">"envelope"</span> ],
     <span class="hljs-attr">envelope</span>: [ GainEnvelope(ac), <span class="hljs-string">"amp"</span> ],
     <span class="hljs-attr">amp</span>: [ VCA(ac), <span class="hljs-string">"output"</span> ]
   }).update(state)
 
   synth.trigger = <span class="hljs-function">(<span class="hljs-params">freq, time, dur</span>) =&gt;</span> {
     time = time || ac.currentTime
-    <span class="hljs-keyword">if</span> (freq) synth.oscillator.frequency.setValueAtTime(freq, time)
+    <span class="hljs-keyword">if</span> (freq) {
+      synth.oscillator.frequency.setValueAtTime(freq, time)
+      synth.vcf.frequency.setValueAtTime(freq / <span class="hljs-number">2</span>, time)
+    }
+    synth.vcf.trigger(time, dur)
     synth.envelope.trigger(time, dur)
   }
   <span class="hljs-keyword">return</span> synth
@@ -178,15 +222,18 @@ MonoSynth.defaults = {
   <span class="hljs-attr">oscillator</span>: {
     <span class="hljs-attr">type</span>: <span class="hljs-string">"sawtooth"</span>
   },
-  <span class="hljs-attr">filter</span>: {
+  <span class="hljs-attr">vcf</span>: {
     <span class="hljs-attr">type</span>: <span class="hljs-string">"lowpass"</span>,
-    <span class="hljs-attr">frequency</span>: <span class="hljs-number">4000</span>,
+    <span class="hljs-attr">Q</span>: <span class="hljs-number">2</span>,
+    <span class="hljs-attr">attack</span>: <span class="hljs-number">0.1</span>,
+    <span class="hljs-attr">octaves</span>: <span class="hljs-number">2</span>,
+    <span class="hljs-attr">decay</span>: <span class="hljs-number">1</span>,
   },
   <span class="hljs-attr">envelope</span>: {
-    <span class="hljs-attr">attack</span>: <span class="hljs-number">0.01</span>,
-    <span class="hljs-attr">decay</span>: <span class="hljs-number">0.1</span>,
+    <span class="hljs-attr">attack</span>: <span class="hljs-number">0.1</span>,
+    <span class="hljs-attr">decay</span>: <span class="hljs-number">0.5</span>,
     <span class="hljs-attr">sustain</span>: <span class="hljs-number">0.8</span>,
-    <span class="hljs-attr">release</span>: <span class="hljs-number">0.3</span>,
+    <span class="hljs-attr">release</span>: <span class="hljs-number">2</span>,
   },
   <span class="hljs-attr">amp</span>: {
     <span class="hljs-attr">gain</span>: <span class="hljs-number">0.5</span>

@@ -20,18 +20,23 @@
             <div id="jump_page">
               
                 
-                <a class="source" href="core.html">
-                  core.js
-                </a>
-              
-                
                 <a class="source" href="index.html">
                   index.js
                 </a>
               
                 
+                <a class="source" href="conga.html">
+                  conga.js
+                </a>
+              
+                
                 <a class="source" href="cowbell.html">
                   cowbell.js
+                </a>
+              
+                
+                <a class="source" href="hat.html">
+                  hat.js
                 </a>
               
                 
@@ -45,8 +50,28 @@
                 </a>
               
                 
+                <a class="source" href="pluck.html">
+                  pluck.js
+                </a>
+              
+                
                 <a class="source" href="snare.html">
                   snare.js
+                </a>
+              
+                
+                <a class="source" href="tom.html">
+                  tom.js
+                </a>
+              
+                
+                <a class="source" href="delay.html">
+                  delay.js
+                </a>
+              
+                
+                <a class="source" href="feedback-comb-filter.html">
+                  feedback-comb-filter.js
                 </a>
               
                 
@@ -85,8 +110,18 @@
                 </a>
               
                 
+                <a class="source" href="pulse.html">
+                  pulse.js
+                </a>
+              
+                
                 <a class="source" href="sample.html">
                   sample.js
+                </a>
+              
+                
+                <a class="source" href="soft-clipper.html">
+                  soft-clipper.js
                 </a>
               
                 
@@ -107,6 +142,11 @@
                 
                 <a class="source" href="vco.html">
                   vco.js
+                </a>
+              
+                
+                <a class="source" href="wave-shaper.html">
+                  wave-shaper.js
                 </a>
               
                 
@@ -147,11 +187,18 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-2">&#182;</a>
               </div>
-              <p>Functions</p>
+              <p>Kit</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> * <span class="hljs-keyword">from</span> <span class="hljs-string">"./core"</span></pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> Gain } <span class="hljs-keyword">from</span> <span class="hljs-string">"./kit/gain"</span>
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> GainEnvelope } <span class="hljs-keyword">from</span> <span class="hljs-string">"./kit/gain-envelope"</span>
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> Noise } <span class="hljs-keyword">from</span> <span class="hljs-string">"./kit/noise"</span>
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> Sample } <span class="hljs-keyword">from</span> <span class="hljs-string">"./kit/sample"</span>
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> Pulse } <span class="hljs-keyword">from</span> <span class="hljs-string">"./kit/pulse"</span>
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> VCA } <span class="hljs-keyword">from</span> <span class="hljs-string">"./kit/vca"</span>
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> VCO } <span class="hljs-keyword">from</span> <span class="hljs-string">"./kit/vco"</span>
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> VCF } <span class="hljs-keyword">from</span> <span class="hljs-string">"./kit/vcf"</span></pre></div></div>
             
         </li>
         
@@ -162,34 +209,18 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-3">&#182;</a>
               </div>
-              <p>Kit</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> Gain } <span class="hljs-keyword">from</span> <span class="hljs-string">"./kit/gain"</span>
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> GainEnvelope } <span class="hljs-keyword">from</span> <span class="hljs-string">"./kit/gain-envelope"</span>
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> Noise } <span class="hljs-keyword">from</span> <span class="hljs-string">"./kit/noise"</span>
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> VCA } <span class="hljs-keyword">from</span> <span class="hljs-string">"./kit/vca"</span>
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> VCO } <span class="hljs-keyword">from</span> <span class="hljs-string">"./kit/vco"</span>
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> VCF } <span class="hljs-keyword">from</span> <span class="hljs-string">"./kit/vcf"</span></pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-4">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-4">&#182;</a>
-              </div>
               <p>Instruments</p>
 
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> Kick } <span class="hljs-keyword">from</span> <span class="hljs-string">"./instruments/kick"</span>
 <span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> Snare } <span class="hljs-keyword">from</span> <span class="hljs-string">"./instruments/snare"</span>
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> Hat } <span class="hljs-keyword">from</span> <span class="hljs-string">"./instruments/hat"</span>
 <span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> Cowbell } <span class="hljs-keyword">from</span> <span class="hljs-string">"./instruments/cowbell"</span>
-<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> MonoSynth } <span class="hljs-keyword">from</span> <span class="hljs-string">"./instruments/monosynth"</span></pre></div></div>
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> Conga } <span class="hljs-keyword">from</span> <span class="hljs-string">"./instruments/conga"</span>
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> Tom } <span class="hljs-keyword">from</span> <span class="hljs-string">"./instruments/tom"</span>
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> MonoSynth } <span class="hljs-keyword">from</span> <span class="hljs-string">"./instruments/monosynth"</span>
+<span class="hljs-keyword">export</span> { <span class="hljs-keyword">default</span> <span class="hljs-keyword">as</span> Pluck } <span class="hljs-keyword">from</span> <span class="hljs-string">"./instruments/pluck"</span></pre></div></div>
             
         </li>
         

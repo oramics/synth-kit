@@ -2,7 +2,7 @@
 
 <html>
 <head>
-  <title>sample.js</title>
+  <title>Sample</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
   <link rel="stylesheet" media="all" href="docco.css" />
@@ -20,18 +20,23 @@
             <div id="jump_page">
               
                 
-                <a class="source" href="core.html">
-                  core.js
-                </a>
-              
-                
                 <a class="source" href="index.html">
                   index.js
                 </a>
               
                 
+                <a class="source" href="conga.html">
+                  conga.js
+                </a>
+              
+                
                 <a class="source" href="cowbell.html">
                   cowbell.js
+                </a>
+              
+                
+                <a class="source" href="hat.html">
+                  hat.js
                 </a>
               
                 
@@ -45,8 +50,28 @@
                 </a>
               
                 
+                <a class="source" href="pluck.html">
+                  pluck.js
+                </a>
+              
+                
                 <a class="source" href="snare.html">
                   snare.js
+                </a>
+              
+                
+                <a class="source" href="tom.html">
+                  tom.js
+                </a>
+              
+                
+                <a class="source" href="delay.html">
+                  delay.js
+                </a>
+              
+                
+                <a class="source" href="feedback-comb-filter.html">
+                  feedback-comb-filter.js
                 </a>
               
                 
@@ -85,8 +110,18 @@
                 </a>
               
                 
+                <a class="source" href="pulse.html">
+                  pulse.js
+                </a>
+              
+                
                 <a class="source" href="sample.html">
                   sample.js
+                </a>
+              
+                
+                <a class="source" href="soft-clipper.html">
+                  soft-clipper.js
                 </a>
               
                 
@@ -110,6 +145,11 @@
                 </a>
               
                 
+                <a class="source" href="wave-shaper.html">
+                  wave-shaper.js
+                </a>
+              
+                
                 <a class="source" href="synth.html">
                   synth.js
                 </a>
@@ -121,12 +161,6 @@
     
     <ul class="sections">
         
-          <li id="title">
-              <div class="annotation">
-                  <h1>sample.js</h1>
-              </div>
-          </li>
-        
         
         
         <li id="section-1">
@@ -135,26 +169,12 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-1">&#182;</a>
               </div>
-              
+              <h1 id="sample">Sample</h1>
+
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> { connectWith } <span class="hljs-keyword">from</span> <span class="hljs-string">"../core"</span>
-<span class="hljs-keyword">import</span> Gain <span class="hljs-keyword">from</span> <span class="hljs-string">"./gain"</span>
-<span class="hljs-keyword">import</span> Source <span class="hljs-keyword">from</span> <span class="hljs-string">"./source"</span>
-
-<span class="hljs-comment">/**
- * Sample player. It's like a BufferSource but can be triggered more than once.
- *
- * @param {AudioContext} context
- * @param {AudioBuffer} buffer
- * @param {Object} [state]
- * - gain: the gain of the sample
- *
- * @constructor
- */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Sample</span> (<span class="hljs-params">ac, buffer, state</span>) </span>{
-  <span class="hljs-keyword">if</span> (!buffer) <span class="hljs-keyword">throw</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">"Sample needs a buffer."</span>)
-  state = <span class="hljs-built_in">Object</span>.assign({}, Sample.state, state)</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> Gain <span class="hljs-keyword">from</span> <span class="hljs-string">"./gain"</span>
+<span class="hljs-keyword">import</span> Source <span class="hljs-keyword">from</span> <span class="hljs-string">"./source"</span></pre></div></div>
             
         </li>
         
@@ -165,44 +185,25 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-2">&#182;</a>
               </div>
-              <p>create component</p>
+              <p>A sample is a re-triggerable audio buffer source.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">const</span> sample = {
-    <span class="hljs-attr">amp</span>: Gain(ac, state)
-  }</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-3">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-3">&#182;</a>
-              </div>
-              <p>API</p>
+            <div class="content"><div class='highlight'><pre>
+<span class="hljs-comment">/**
+ * Create a Sample
+ *
+ * @param {AudioContext} context
+ * @param {AudioBuffer} buffer
+ * @param {Object} [state]
+ */</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Sample</span> (<span class="hljs-params">ac, buffer, config</span>) </span>{
+  <span class="hljs-keyword">const</span> sample = Gain(ac)
 
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>  <span class="hljs-comment">/**
-   * Connect to a node
-   * @chainable
-   * @param {AudioNode} dest
-   * @return {Sample} this
-   */</span>
-  sample.connect = connectWith(sample.amp, sample)
-
-  <span class="hljs-comment">/**
-   * trigger attack/release
-   * @param {Integer} [when=now]
-   * @param {Duration} [dur]
-   */</span>
   sample.trigger = <span class="hljs-function">(<span class="hljs-params">time, dur</span>) =&gt;</span> {
     <span class="hljs-keyword">if</span> (!time) time = ac.currentTime
-    <span class="hljs-keyword">const</span> source = Source(ac, buffer, state)
-    source.connect(sample.amp)
+    <span class="hljs-keyword">const</span> source = Source(ac, buffer, config)
+    source.connect(sample)
     source.onended = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
       <span class="hljs-keyword">if</span> (sample.onended) sample.onended()
       source.disconnect()

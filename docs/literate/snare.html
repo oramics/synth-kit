@@ -20,18 +20,23 @@
             <div id="jump_page">
               
                 
-                <a class="source" href="core.html">
-                  core.js
-                </a>
-              
-                
                 <a class="source" href="index.html">
                   index.js
                 </a>
               
                 
+                <a class="source" href="conga.html">
+                  conga.js
+                </a>
+              
+                
                 <a class="source" href="cowbell.html">
                   cowbell.js
+                </a>
+              
+                
+                <a class="source" href="hat.html">
+                  hat.js
                 </a>
               
                 
@@ -45,8 +50,28 @@
                 </a>
               
                 
+                <a class="source" href="pluck.html">
+                  pluck.js
+                </a>
+              
+                
                 <a class="source" href="snare.html">
                   snare.js
+                </a>
+              
+                
+                <a class="source" href="tom.html">
+                  tom.js
+                </a>
+              
+                
+                <a class="source" href="delay.html">
+                  delay.js
+                </a>
+              
+                
+                <a class="source" href="feedback-comb-filter.html">
+                  feedback-comb-filter.js
                 </a>
               
                 
@@ -85,8 +110,18 @@
                 </a>
               
                 
+                <a class="source" href="pulse.html">
+                  pulse.js
+                </a>
+              
+                
                 <a class="source" href="sample.html">
                   sample.js
+                </a>
+              
+                
+                <a class="source" href="soft-clipper.html">
+                  soft-clipper.js
                 </a>
               
                 
@@ -107,6 +142,11 @@
                 
                 <a class="source" href="vco.html">
                   vco.js
+                </a>
+              
+                
+                <a class="source" href="wave-shaper.html">
+                  wave-shaper.js
                 </a>
               
                 
@@ -139,6 +179,7 @@
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> { instrument } <span class="hljs-keyword">from</span> <span class="hljs-string">"../synth"</span>
+<span class="hljs-keyword">import</span> Osc <span class="hljs-keyword">from</span> <span class="hljs-string">"../kit/osc"</span>
 <span class="hljs-keyword">import</span> Noise <span class="hljs-keyword">from</span> <span class="hljs-string">"../kit/noise"</span>
 <span class="hljs-keyword">import</span> Gain <span class="hljs-keyword">from</span> <span class="hljs-string">"../kit/gain"</span>
 <span class="hljs-keyword">import</span> GainEnvelope <span class="hljs-keyword">from</span> <span class="hljs-string">"../kit/gain-envelope"</span>
@@ -146,27 +187,46 @@
 <span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Snare</span> (<span class="hljs-params">ac, state</span>) </span>{
   state = <span class="hljs-built_in">Object</span>.assign({}, Snare.defaults, state)
   <span class="hljs-keyword">const</span> snare = instrument({
-    <span class="hljs-attr">noise</span>: [ Noise(ac), <span class="hljs-string">"envelope"</span> ],
-    <span class="hljs-attr">envelope</span>: [ GainEnvelope(ac), <span class="hljs-string">"amp"</span> ],
+    <span class="hljs-attr">osc1</span>: [ Osc(ac), <span class="hljs-string">"oscEnv"</span> ],
+    <span class="hljs-attr">osc2</span>: [ Osc(ac), <span class="hljs-string">"oscEnv"</span> ],
+    <span class="hljs-attr">oscEnv</span>: [ GainEnvelope(ac), <span class="hljs-string">"amp"</span> ],
+    <span class="hljs-attr">noise</span>: [ Noise(ac), <span class="hljs-string">"noiseEnv"</span> ],
+    <span class="hljs-attr">noiseEnv</span>: [ GainEnvelope(ac), <span class="hljs-string">"amp"</span> ],
     <span class="hljs-attr">amp</span>: [ Gain(ac), <span class="hljs-string">"output"</span> ]
   }).update(state)
 
-  snare.trigger = snare.envelope.trigger
+  snare.trigger = <span class="hljs-function">(<span class="hljs-params">time</span>) =&gt;</span> {
+    snare.oscEnv.trigger(time)
+    snare.noiseEnv.trigger(time)
+  }
 
   <span class="hljs-keyword">return</span> snare
 }
 
 Snare.defaults = {
-  <span class="hljs-attr">noise</span>: {
-    <span class="hljs-attr">type</span>: <span class="hljs-string">"white"</span>
+  <span class="hljs-attr">osc1</span>: {
+    <span class="hljs-attr">type</span>: <span class="hljs-string">"sine"</span>,
+    <span class="hljs-attr">frequency</span>: <span class="hljs-number">238</span>,
   },
-  <span class="hljs-attr">envelope</span>: {
+  <span class="hljs-attr">osc2</span>: {
+    <span class="hljs-attr">type</span>: <span class="hljs-string">"sine"</span>,
+    <span class="hljs-attr">frequency</span>: <span class="hljs-number">476</span>,
+  },
+  <span class="hljs-attr">oscEnv</span>: {
+    <span class="hljs-attr">gain</span>: <span class="hljs-number">0.5</span>,
     <span class="hljs-attr">attack</span>: <span class="hljs-number">0.01</span>,
-    <span class="hljs-attr">release</span>: <span class="hljs-number">0.1</span>
+    <span class="hljs-attr">release</span>: <span class="hljs-number">0.4</span>,
+  },
+  <span class="hljs-attr">noise</span>: {
+    <span class="hljs-attr">type</span>: <span class="hljs-string">"white"</span>,
+  },
+  <span class="hljs-attr">noiseEnv</span>: {
+    <span class="hljs-attr">attack</span>: <span class="hljs-number">0.01</span>,
+    <span class="hljs-attr">decay</span>: <span class="hljs-number">0.1</span>,
   },
   <span class="hljs-attr">amp</span>: {
-    <span class="hljs-attr">gain</span>: <span class="hljs-number">0.1</span>,
-  }
+    <span class="hljs-attr">gain</span>: <span class="hljs-number">0.5</span>,
+  },
 }
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> Snare</pre></div></div>

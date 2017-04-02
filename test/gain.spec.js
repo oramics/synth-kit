@@ -6,9 +6,9 @@ const output = (node) => node.toJSON()
 const inputs = (node) => node.toJSON().inputs
 
 describe("synth-kit -- Gain", () => {
-  test("state", () => {
+  test("inspect", () => {
     const ac = new AudioContext()
     const gain = Gain(ac)
-    expect(gain.state).toEqual({ gain: 0 })
+    expect(gain.inspect()).toEqual({ gain: 1 })
   })
 })

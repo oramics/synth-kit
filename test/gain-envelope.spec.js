@@ -6,11 +6,11 @@ const output = (node) => node.toJSON()
 const inputs = (node) => node.toJSON().inputs
 
 describe("GainEnvelope", () => {
-  test("state", () => {
+  test("inspect", () => {
     const ac = new AudioContext()
     const env = GainEnvelope(ac)
-    expect(env.state).toEqual({
-      attack: 0.01, release: 0.2
+    expect(env.inspect()).toEqual({
+      attack: 0.01, decay: 0.2, peak: 1
     })
     expect(env.gain.value).toBe(0)
   })

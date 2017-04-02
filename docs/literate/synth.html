@@ -20,18 +20,23 @@
             <div id="jump_page">
               
                 
-                <a class="source" href="core.html">
-                  core.js
-                </a>
-              
-                
                 <a class="source" href="index.html">
                   index.js
                 </a>
               
                 
+                <a class="source" href="conga.html">
+                  conga.js
+                </a>
+              
+                
                 <a class="source" href="cowbell.html">
                   cowbell.js
+                </a>
+              
+                
+                <a class="source" href="hat.html">
+                  hat.js
                 </a>
               
                 
@@ -45,8 +50,28 @@
                 </a>
               
                 
+                <a class="source" href="pluck.html">
+                  pluck.js
+                </a>
+              
+                
                 <a class="source" href="snare.html">
                   snare.js
+                </a>
+              
+                
+                <a class="source" href="tom.html">
+                  tom.js
+                </a>
+              
+                
+                <a class="source" href="delay.html">
+                  delay.js
+                </a>
+              
+                
+                <a class="source" href="feedback-comb-filter.html">
+                  feedback-comb-filter.js
                 </a>
               
                 
@@ -85,8 +110,18 @@
                 </a>
               
                 
+                <a class="source" href="pulse.html">
+                  pulse.js
+                </a>
+              
+                
                 <a class="source" href="sample.html">
                   sample.js
+                </a>
+              
+                
+                <a class="source" href="soft-clipper.html">
+                  soft-clipper.js
                 </a>
               
                 
@@ -107,6 +142,11 @@
                 
                 <a class="source" href="vco.html">
                   vco.js
+                </a>
+              
+                
+                <a class="source" href="wave-shaper.html">
+                  wave-shaper.js
                 </a>
               
                 
@@ -140,7 +180,6 @@
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-keyword">const</span> isFn = <span class="hljs-function">(<span class="hljs-params">o</span>) =&gt;</span> <span class="hljs-keyword">typeof</span> o === <span class="hljs-string">"function"</span>
-<span class="hljs-keyword">const</span> isObj = <span class="hljs-function">(<span class="hljs-params">o</span>) =&gt;</span> <span class="hljs-keyword">typeof</span> o === <span class="hljs-string">"object"</span>
 <span class="hljs-keyword">const</span> { exp, E } = <span class="hljs-built_in">Math</span>
 
 <span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ampToGain</span> (<span class="hljs-params">amp</span>) </span>{
@@ -153,13 +192,12 @@
   names.forEach(<span class="hljs-function"><span class="hljs-params">key</span> =&gt;</span> {
     <span class="hljs-keyword">const</span> [node, to] = config[key]
     inst[key] = node
-    <span class="hljs-keyword">if</span> (to === <span class="hljs-string">"output"</span>) setOutput(inst, node)
+    <span class="hljs-keyword">if</span> (to === <span class="hljs-string">"output"</span>) connectWith(inst, node)
     <span class="hljs-keyword">else</span> connect(node, config[to][<span class="hljs-number">0</span>])
   })
   inst.update = <span class="hljs-function">(<span class="hljs-params">state</span>) =&gt;</span> {
     <span class="hljs-keyword">if</span> (state) {
       names.forEach(<span class="hljs-function"><span class="hljs-params">key</span> =&gt;</span> {
-        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"UPDATE"</span>, key, state[key])
         inst[key].update(state[key])
       })
     }
@@ -214,7 +252,7 @@
 <span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">plug</span> (<span class="hljs-params">node, name, value</span>) </span>{
   <span class="hljs-keyword">const</span> target = node[name]
   <span class="hljs-keyword">if</span> (isFn(value)) value = value()
-  <span class="hljs-keyword">if</span> (target === <span class="hljs-literal">undefined</span> || value === <span class="hljs-literal">undefined</span> || value === <span class="hljs-literal">null</span>) {</pre></div></div>
+  <span class="hljs-keyword">if</span> (value === <span class="hljs-literal">undefined</span> || target === <span class="hljs-literal">undefined</span>) {</pre></div></div>
             
         </li>
         
@@ -269,15 +307,30 @@
   }
 }
 
-<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">update</span> (<span class="hljs-params">inst, newState, initialState</span>) </span>{
-  <span class="hljs-keyword">if</span> (initialState) inst.state = <span class="hljs-built_in">Object</span>.assign({}, initialState)
-  <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!inst.state) inst.state = {}
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">connect</span> (<span class="hljs-params">node, dest</span>) </span>{
+  <span class="hljs-keyword">if</span> (dest) node.connect(dest)
+}
 
-  <span class="hljs-keyword">if</span> (newState) {
-    updateState(inst, inst.state, newState)
+<span class="hljs-comment">/**
+ * Set the output of a node (by creating a new connect function)
+ */</span>
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">connectWith</span> (<span class="hljs-params">inst, node</span>) </span>{
+  inst.connect = <span class="hljs-function">(<span class="hljs-params">dest</span>) =&gt;</span> {
+    <span class="hljs-keyword">if</span> (dest === <span class="hljs-literal">true</span>) dest = node.context.destination
+    node.connect(dest)
+    <span class="hljs-keyword">return</span> inst
   }
-  <span class="hljs-keyword">return</span> inst
-}</pre></div></div>
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">withDefaults</span> (<span class="hljs-params">config, defaults</span>) </span>{
+  <span class="hljs-keyword">return</span> config ? <span class="hljs-built_in">Object</span>.assign({}, defaults, config) : defaults
+}
+
+<span class="hljs-comment">/**
+ * Trigger an ADSR envelope over a param
+ */</span>
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">triggerAdsr</span> (<span class="hljs-params">time, param, adsr</span>) </span>{
+  param.cancelScheduledValues(<span class="hljs-number">0</span>)</pre></div></div>
             
         </li>
         
@@ -288,37 +341,82 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-6">&#182;</a>
               </div>
-              <p>diffing algorithm</p>
+              <p>attack phase</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">updateState</span> (<span class="hljs-params">inst, state, newState</span>) </span>{
-  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"updateState"</span>, state, newState)
-  <span class="hljs-built_in">Object</span>.keys(newState).forEach(<span class="hljs-function"><span class="hljs-params">key</span> =&gt;</span> {
-    <span class="hljs-keyword">const</span> prevValue = state[key]
-    <span class="hljs-keyword">const</span> newValue = newState[key]
-    <span class="hljs-keyword">if</span> (isObj(prevValue) &amp;&amp; isObj(newValue)) {
-      updateState(inst, prevValue, newValue)
-    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (prevValue !== newValue) {
-      plug(inst, key, newValue)
-      state[key] = newValue
-    }
-  })
-}
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">const</span> attack = adsr.attack || <span class="hljs-number">0.01</span>
+  <span class="hljs-keyword">const</span> peak = adsr.peak || <span class="hljs-number">1</span>
+  param.setValueAtTime(<span class="hljs-number">0</span>, time)
+  time += attack
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"attack"</span>, attack, peak, time)
+  param.linearRampToValueAtTime(peak, time)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>decay phase</p>
 
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">connect</span> (<span class="hljs-params">node, dest</span>) </span>{
-  <span class="hljs-keyword">if</span> (dest) node.connect(dest)
-}
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">const</span> decay = adsr.decay || <span class="hljs-number">0.01</span>
+  <span class="hljs-keyword">const</span> sustain = adsr.sustain || <span class="hljs-number">0</span>
+  time += decay
+  param.linearRampToValueAtTime(sustain, time)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>hold phase</p>
 
-<span class="hljs-comment">/**
- * Set the output of a node (by creating a new connect function)
- */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">setOutput</span> (<span class="hljs-params">inst, node</span>) </span>{
-  inst.connect = <span class="hljs-function">(<span class="hljs-params">dest</span>) =&gt;</span> {
-    <span class="hljs-keyword">if</span> (dest === <span class="hljs-literal">true</span>) dest = node.context.destination
-    node.connect(dest)
-    <span class="hljs-keyword">return</span> inst
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">const</span> hold = adsr.hold || <span class="hljs-number">0</span>
+  <span class="hljs-keyword">if</span> (hold) {
+    time += hold
+    param.setValueAtTime(sustain, time)
   }
+
+  <span class="hljs-keyword">const</span> release = <span class="hljs-function"><span class="hljs-params">time</span> =&gt;</span> {
+    <span class="hljs-keyword">if</span> (sustain) {
+      param.setValueAtTime(time, sustain)
+      <span class="hljs-keyword">const</span> release = adsr.release || <span class="hljs-number">0</span>
+      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Trigger release"</span>, release, time)
+      time += release
+      param.exponentialRampToValueAtTime(<span class="hljs-number">0.00001</span>, time)
+    }
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>trigger release if hold is specified</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">if</span> (hold) {
+    release(time)
+  }
+
+  <span class="hljs-keyword">return</span> release
 }</pre></div></div>
             
         </li>

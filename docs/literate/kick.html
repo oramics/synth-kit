@@ -20,18 +20,23 @@
             <div id="jump_page">
               
                 
-                <a class="source" href="core.html">
-                  core.js
-                </a>
-              
-                
                 <a class="source" href="index.html">
                   index.js
                 </a>
               
                 
+                <a class="source" href="conga.html">
+                  conga.js
+                </a>
+              
+                
                 <a class="source" href="cowbell.html">
                   cowbell.js
+                </a>
+              
+                
+                <a class="source" href="hat.html">
+                  hat.js
                 </a>
               
                 
@@ -45,8 +50,28 @@
                 </a>
               
                 
+                <a class="source" href="pluck.html">
+                  pluck.js
+                </a>
+              
+                
                 <a class="source" href="snare.html">
                   snare.js
+                </a>
+              
+                
+                <a class="source" href="tom.html">
+                  tom.js
+                </a>
+              
+                
+                <a class="source" href="delay.html">
+                  delay.js
+                </a>
+              
+                
+                <a class="source" href="feedback-comb-filter.html">
+                  feedback-comb-filter.js
                 </a>
               
                 
@@ -85,8 +110,18 @@
                 </a>
               
                 
+                <a class="source" href="pulse.html">
+                  pulse.js
+                </a>
+              
+                
                 <a class="source" href="sample.html">
                   sample.js
+                </a>
+              
+                
+                <a class="source" href="soft-clipper.html">
+                  soft-clipper.js
                 </a>
               
                 
@@ -107,6 +142,11 @@
                 
                 <a class="source" href="vco.html">
                   vco.js
+                </a>
+              
+                
+                <a class="source" href="wave-shaper.html">
+                  wave-shaper.js
                 </a>
               
                 
@@ -141,17 +181,24 @@
             <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> { instrument } <span class="hljs-keyword">from</span> <span class="hljs-string">"../synth"</span>
 <span class="hljs-keyword">import</span> Osc <span class="hljs-keyword">from</span> <span class="hljs-string">"../kit/osc"</span>
 <span class="hljs-keyword">import</span> Gain <span class="hljs-keyword">from</span> <span class="hljs-string">"../kit/gain"</span>
+<span class="hljs-keyword">import</span> Pulse <span class="hljs-keyword">from</span> <span class="hljs-string">"../kit/pulse"</span>
+<span class="hljs-keyword">import</span> SoftClipper <span class="hljs-keyword">from</span> <span class="hljs-string">"../kit/soft-clipper"</span>
 <span class="hljs-keyword">import</span> GainEnvelope <span class="hljs-keyword">from</span> <span class="hljs-string">"../kit/gain-envelope"</span>
+<span class="hljs-keyword">import</span> VCF <span class="hljs-keyword">from</span> <span class="hljs-string">"../kit/vcf"</span>
 
 <span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Kick</span> (<span class="hljs-params">ac, state</span>) </span>{
   state = <span class="hljs-built_in">Object</span>.assign({}, Kick.defaults, state)
   <span class="hljs-keyword">const</span> kick = instrument({
     <span class="hljs-attr">oscillator</span>: [ Osc(ac), <span class="hljs-string">"envelope"</span> ],
-    <span class="hljs-attr">envelope</span>: [ GainEnvelope(ac), <span class="hljs-string">"amp"</span> ],
-    <span class="hljs-attr">amp</span>: [ Gain(ac), <span class="hljs-string">"output"</span> ]
+    <span class="hljs-attr">click</span>: [ Pulse(ac), <span class="hljs-string">"envelope"</span> ],
+    <span class="hljs-attr">envelope</span>: [ GainEnvelope(ac), <span class="hljs-string">"vcf"</span> ],
+    <span class="hljs-attr">vcf</span>: [ VCF(ac), <span class="hljs-string">"clipper"</span> ],
+    <span class="hljs-attr">clipper</span>: [ SoftClipper(ac), <span class="hljs-string">"amp"</span> ],
+    <span class="hljs-attr">amp</span>: [ Gain(ac), <span class="hljs-string">"output"</span> ],
   }).update(state)
 
   kick.trigger = <span class="hljs-function">(<span class="hljs-params">time</span>) =&gt;</span> {
+    kick.click.trigger(time)
     kick.envelope.trigger(time)
   }
 
@@ -165,7 +212,17 @@ Kick.defaults = {
   },
   <span class="hljs-attr">envelope</span>: {
     <span class="hljs-attr">attack</span>: <span class="hljs-number">0.1</span>,
-    <span class="hljs-attr">decay</span>: <span class="hljs-number">0.2</span>
+    <span class="hljs-attr">decay</span>: <span class="hljs-number">0.2</span>,
+  },
+  <span class="hljs-attr">vcf</span>: {
+    <span class="hljs-attr">type</span>: <span class="hljs-string">"lowpass"</span>,
+    <span class="hljs-attr">frequency</span>: <span class="hljs-number">48</span>,
+    <span class="hljs-attr">envelope</span>: {
+      <span class="hljs-attr">base</span>: <span class="hljs-number">48</span>,
+      <span class="hljs-attr">peak</span>: <span class="hljs-number">100</span>,
+      <span class="hljs-attr">attack</span>: <span class="hljs-number">0.001</span>,
+      <span class="hljs-attr">decay</span>: <span class="hljs-number">0.60</span>,
+    }
   },
   <span class="hljs-attr">amp</span>: {
     <span class="hljs-attr">gain</span>: <span class="hljs-number">1</span>,

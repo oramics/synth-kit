@@ -53,11 +53,31 @@ kick.trigger()
 
 ## Usage
 
+`synth-kit` is designed to be very easy to use: install the library, create an instrument and trigger it.
+
 #### Install
 
 **Node**
 
 With npm: `npm i --save synth-kit` or with yarn: `yarn add --save synth-kit`
+
+ES6:
+
+```js
+import { Clave } from "synth-kit"
+const ac = new AudioContext()
+const clave = Clave(ac).connect(true)
+clave.trigger()
+```
+
+ES5:
+
+```js
+const SynthKit = require('synth-kit')
+const ac = new AudioContext()
+const clave = new SynthKit.Clave(ac).connect(true)
+clave.trigger()
+```
 
 **Browser**
 
@@ -65,6 +85,7 @@ With npm: `npm i --save synth-kit` or with yarn: `yarn add --save synth-kit`
 ```html
 <script src="https://oramics.github.io/synth-kit/dist/synth-kit.js"></script>
 <script>
+  // SynthKit is exported as global
   const ac = new AudioContext()
   const kick = SynthKit.Kick(ac).connect(true)
   kick.trigger()
