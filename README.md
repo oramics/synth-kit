@@ -7,7 +7,7 @@
 
 > Synthesizers construction kit for Web Audio API
 
-**Work in progress**
+**Work in progress. Experimental API**
 
 `synth-kit` is a small (8Kb minified, 3Kb minified and gzipped) collection of ready-to-use Web Audio instruments:
 
@@ -55,7 +55,7 @@ kick.trigger()
 
 `synth-kit` is designed to be very easy to use: install the library, create an instrument and trigger it.
 
-#### Install
+### Installation
 
 **Node**
 
@@ -92,7 +92,7 @@ clave.trigger()
 </script>
 ```
 
-#### Create instruments
+### Create instruments
 
 Call the function with an audio context. The `connect` function is chainable and accepts `true` to connect to the AudioContext's destination:
 
@@ -105,7 +105,7 @@ mono.trigger(440, ac.currentTime, 0.5)
 mono.trigger(62, ac.currentTime + 1, 0.5)
 ```
 
-#### Trigger
+### Trigger
 
 Trigger the attack/release envelope of an instrument with the `trigger` function:
 
@@ -173,7 +173,7 @@ const freqs = [400, 500, 600, 700]
 freqs.forEach((note, i) => synth.trigger(note, ac.currentTime + i))
 ```
 
-#### Update parameters
+### Update parameters
 
 All instruments have an `update` function:
 
