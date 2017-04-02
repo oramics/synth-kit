@@ -14,7 +14,7 @@
   "scripts": {
     "format": "prettier-standard-formatter lib/* test/*",
     "test": "eslint lib && jest --coverage",
-    "prepublish": "npm run test && npm run dist && npm run docs",
+    "prepublish": "npm run test && npm run build",
     "build": "rollup -cm -n SynthKit -f umd -i lib/index.js -o dist/synth-kit.js && cp dist/* docs/dist/",
     "watch": "rollup --watch -cm -n SynthKit -f umd -i lib/index.js -o dist/synth-kit.js",
     "release": "npm test && npm run build && npm run docco && git commit -am $npm_package_version && git tag $npm_package_version && git push && git push --tags && npm publish",

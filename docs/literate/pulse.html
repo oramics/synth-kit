@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>Pulse</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page_wrapper">
+            <div id="jump_page">
+              
+                
+                <a class="source" href="index.html">
+                  index.js
+                </a>
+              
+                
+                <a class="source" href="conga.html">
+                  conga.js
+                </a>
+              
+                
+                <a class="source" href="cowbell.html">
+                  cowbell.js
+                </a>
+              
+                
+                <a class="source" href="hat.html">
+                  hat.js
+                </a>
+              
+                
+                <a class="source" href="kick.html">
+                  kick.js
+                </a>
+              
+                
+                <a class="source" href="monosynth.html">
+                  monosynth.js
+                </a>
+              
+                
+                <a class="source" href="pluck.html">
+                  pluck.js
+                </a>
+              
+                
+                <a class="source" href="snare.html">
+                  snare.js
+                </a>
+              
+                
+                <a class="source" href="tom.html">
+                  tom.js
+                </a>
+              
+                
+                <a class="source" href="delay.html">
+                  delay.js
+                </a>
+              
+                
+                <a class="source" href="feedback-comb-filter.html">
+                  feedback-comb-filter.js
+                </a>
+              
+                
+                <a class="source" href="filter.html">
+                  filter.js
+                </a>
+              
+                
+                <a class="source" href="gain-envelope.html">
+                  gain-envelope.js
+                </a>
+              
+                
+                <a class="source" href="gain.html">
+                  gain.js
+                </a>
+              
+                
+                <a class="source" href="lfo.html">
+                  lfo.js
+                </a>
+              
+                
+                <a class="source" href="mono-buffer.html">
+                  mono-buffer.js
+                </a>
+              
+                
+                <a class="source" href="noise.html">
+                  noise.js
+                </a>
+              
+                
+                <a class="source" href="osc.html">
+                  osc.js
+                </a>
+              
+                
+                <a class="source" href="pulse.html">
+                  pulse.js
+                </a>
+              
+                
+                <a class="source" href="sample.html">
+                  sample.js
+                </a>
+              
+                
+                <a class="source" href="soft-clipper.html">
+                  soft-clipper.js
+                </a>
+              
+                
+                <a class="source" href="source.html">
+                  source.js
+                </a>
+              
+                
+                <a class="source" href="vca.html">
+                  vca.js
+                </a>
+              
+                
+                <a class="source" href="vcf.html">
+                  vcf.js
+                </a>
+              
+                
+                <a class="source" href="vco.html">
+                  vco.js
+                </a>
+              
+                
+                <a class="source" href="wave-shaper.html">
+                  wave-shaper.js
+                </a>
+              
+                
+                <a class="source" href="synth.html">
+                  synth.js
+                </a>
+              
+            </div>
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              <h1 id="pulse">Pulse</h1>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> MonoBuffer <span class="hljs-keyword">from</span> <span class="hljs-string">"./mono-buffer"</span>
+<span class="hljs-keyword">import</span> Sample <span class="hljs-keyword">from</span> <span class="hljs-string">"./sample"</span>
+
+<span class="hljs-comment">/**
+ * Create a Pulse audio node
+ *
+ * @param {AudioContext} ac
+ * @param {Object} [config]
+ * - type: the pulse type. Can be "white" (by default)
+ * - duration: the duration in seconds
+ * @return {AudioNode} the pulse node
+ */</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Pulse</span> (<span class="hljs-params">ac, config</span>) </span>{
+  config = <span class="hljs-built_in">Object</span>.assign({}, Pulse.defaults, config)
+  <span class="hljs-keyword">const</span> samples = config.duration * ac.sampleRate
+  <span class="hljs-keyword">const</span> buffer = MonoBuffer(ac, samples, () =&gt; <span class="hljs-built_in">Math</span>.random() * <span class="hljs-number">2</span> - <span class="hljs-number">1</span>)
+  <span class="hljs-keyword">const</span> pulse = Sample(ac, buffer)
+  <span class="hljs-keyword">return</span> pulse
+}
+Pulse.defaults = {
+  <span class="hljs-attr">duration</span>: <span class="hljs-number">0.001</span>
+}</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>
