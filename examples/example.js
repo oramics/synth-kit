@@ -7,7 +7,7 @@ const hyperx = require("hyperx")
 const html = hyperx(h)
 
 const init = () => ({
-  types: ["MonoSynth", "Kick", "Snare", "Hat", "Cowbell", "Conga"],
+  types: ["MonoSynth", "Kick", "Snare", "Hat", "Cowbell", "Conga", "Tom"],
   current: null
 })
 

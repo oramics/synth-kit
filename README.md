@@ -30,6 +30,7 @@ kick.trigger()
 - [Hat](https://oramics.github.io/synth-kit/literate/hat)
 - [Cowbell](https://oramics.github.io/synth-kit/literate/cowbell)
 - [Conga](https://oramics.github.io/synth-kit/literate/cowbell)
+- [Tom](https://oramics.github.io/synth-kit/literate/tom)
 
 #### Melodic instruments
 
@@ -37,11 +38,11 @@ kick.trigger()
 
 #### Effects
 
-#### Kit
+#### Components
 
-- [VCO](https://oramics.github.io/synth-kit/literate/vco)
-- [VCF](https://oramics.github.io/synth-kit/literate/vcf)
-- [VCA](https://oramics.github.io/synth-kit/literate/vca)
+- [Sample](https://oramics.github.io/synth-kit/literate/sample)
+- [Noise](https://oramics.github.io/synth-kit/literate/noise)
+- [LFO](https://oramics.github.io/synth-kit/literate/lfo)
 
 ## Usage
 
@@ -84,12 +85,28 @@ const mono = MonoSynth(ac).connect(true)
 mono.trigger(440, ac.currentTime, 0.5)
 ```
 
+**Re-triggerable**
+
 You can trigger an instrument any number of times:
 
 ```js
 mono.trigger(440, ac.currentTime, 0.5)
 mono.trigger(880, ac.currentTime + 1, 0.5)
 ```
+
+You can use `Sample` to get a re-triggerable buffer source:
+
+```js
+import { Sample } from 'synth-kit'
+
+fetch("snare.wav").then(decodeAudioData).then(buffer => {
+  sample = Sample(ac, buffer)
+  sample.trigger()
+  sample.trigger(ac.currentTime + 1)
+})
+```
+
+**Attack/release**
 
 Using a melodic instrument, you can trigger the attack and release phases at different moments:
 

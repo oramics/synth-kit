@@ -171,7 +171,6 @@ function instrument(config) {
   inst.update = function (state) {
     if (state) {
       names.forEach(function (key) {
-        console.log("UPDATE", key, state[key]);
         inst[key].update(state[key]);
       });
     }
@@ -282,7 +281,6 @@ function GainEnvelope(ac, state) {
 
   env.trigger = function (time, dur) {
     if (!time) time = ac.currentTime;
-    console.log("trigger env", time, dur, state);
     var release = triggerAdsr(time, env.gain, state);
     if (dur) release(time + dur);
     return release;
@@ -300,7 +298,6 @@ GainEnvelope.defaultState = {
 };
 
 function triggerAdsr(time, param, adsr) {
-  console.log("trigger", time, adsr);
   param.cancelScheduledValues(0);
 
   // attack phase
@@ -313,7 +310,6 @@ function triggerAdsr(time, param, adsr) {
   // decay phase
   var decay = adsr.decay || 0.01;
   var sustain = adsr.sustain || 0;
-  console.log("DECAY", decay, sustain);
   time += decay;
   param.linearRampToValueAtTime(sustain, time);
 
@@ -378,6 +374,41 @@ function Noise(ac, config) {
 Noise.defaults = {
   duration: 1,
   loop: true
+};
+
+// # Sample
+function Sample(ac, buffer, config) {
+  var sample = Gain(ac);
+
+  sample.trigger = function (time, dur) {
+    if (!time) time = ac.currentTime;
+    var source = Source(ac, buffer, config);
+    source.connect(sample);
+    source.onended = function () {
+      if (sample.onended) sample.onended();
+      source.disconnect();
+    };
+    source.start(time);
+  };
+  return sample;
+}
+
+Sample.state = {
+  gain: 0.8
+};
+
+// # Pulse
+function Pulse(ac, config) {
+  config = Object.assign({}, Pulse.defaults, config);
+  var samples = config.duration * ac.sampleRate;
+  var buffer = MonoBuffer(ac, samples, function () {
+    return Math.random() * 2 - 1;
+  });
+  var pulse = Sample(ac, buffer);
+  return pulse;
+}
+Pulse.defaults = {
+  duration: 0.001
 };
 
 // Voltage controlled amplified
@@ -445,23 +476,42 @@ Kick.defaults = {
 function Snare(ac, state) {
   state = Object.assign({}, Snare.defaults, state);
   var snare = instrument({
-    noise: [Noise(ac), "envelope"],
-    envelope: [GainEnvelope(ac), "amp"],
+    osc1: [Osc(ac), "oscEnv"],
+    osc2: [Osc(ac), "oscEnv"],
+    oscEnv: [GainEnvelope(ac), "amp"],
+    noise: [Noise(ac), "noiseEnv"],
+    noiseEnv: [GainEnvelope(ac), "amp"],
     amp: [Gain(ac), "output"]
   }).update(state);
 
-  snare.trigger = snare.envelope.trigger;
+  snare.trigger = function (time) {
+    snare.oscEnv.trigger(time);
+    snare.noiseEnv.trigger(time);
+  };
 
   return snare;
 }
 
 Snare.defaults = {
+  osc1: {
+    type: "sine",
+    frequency: 238
+  },
+  osc2: {
+    type: "sine",
+    frequency: 476
+  },
+  oscEnv: {
+    gain: 0.5,
+    attack: 0.01,
+    release: 0.4
+  },
   noise: {
     type: "white"
   },
-  envelope: {
+  noiseEnv: {
     attack: 0.01,
-    release: 0.1
+    decay: 0.1
   },
   amp: {
     gain: 0.1
@@ -532,6 +582,15 @@ Hat.defaults = {
 // to emphasise attack effect"
 
 // #### The instrument
+/**
+ * Create a Cowbell
+ * @param {AudioContext} context
+ * @param {Object} config
+ * @return {AudioNode} the instrument
+ * @example
+ * const cowbell = Cowbell(ac)
+ * cowbell.trigger(ac.currentTime + 1)
+ */
 function Cowbell(ac, state) {
   if (state) state = Object.assign({}, Cowbell.defaultState, state);else state = Cowbell.defaultState;
 
@@ -578,7 +637,7 @@ Cowbell.defaultState = {
     Q: 3.5
   },
   amp: {
-    gain: 1
+    gain: 0.2
   }
 };
 
@@ -588,6 +647,7 @@ function Conga(ac, config) {
   var conga = instrument({
     oscillator: [Osc(ac), "envelope"],
     envelope: [GainEnvelope(ac), "amp"],
+    pulse: [Pulse(ac), "amp"],
     amp: [Gain(ac), "output"]
   }).update(state);
 
@@ -599,11 +659,45 @@ Conga.defaults = {
   oscillator: {
     frequency: 310
   },
+  pulse: {
+    gain: 0.8
+  },
   envelope: {
     decay: 0.31
   },
   amp: {
     gain: 0.4
+  }
+};
+
+// # Tom
+function Tom(ac, config) {
+  var state = withDefaults(config, Tom.defaults);
+  var tom = instrument({
+    oscillator: [Osc(ac), "envelope"],
+    envelope: [GainEnvelope(ac), "amp"],
+    pulse: [Pulse(ac), "amp"],
+    amp: [Gain(ac), "output"]
+  }).update(state);
+
+  tom.trigger = function (time) {
+    tom.pulse.trigger(time);
+    tom.envelope.trigger(time);
+  };
+  return tom;
+}
+Tom.defaults = {
+  oscillator: {
+    frequency: 165
+  },
+  pulse: {
+    gain: 0.1
+  },
+  envelope: {
+    decay: 0.31
+  },
+  amp: {
+    gain: 1
   }
 };
 
@@ -648,6 +742,8 @@ MonoSynth.defaults = {
 exports.Gain = Gain;
 exports.GainEnvelope = GainEnvelope;
 exports.Noise = Noise;
+exports.Sample = Sample;
+exports.Pulse = Pulse;
 exports.VCA = VCA;
 exports.VCO = VCO;
 exports.VCF = VCF;
@@ -656,6 +752,7 @@ exports.Snare = Snare;
 exports.Hat = Hat;
 exports.Cowbell = Cowbell;
 exports.Conga = Conga;
+exports.Tom = Tom;
 exports.MonoSynth = MonoSynth;
 exports.ampToGain = ampToGain;
 exports.plug = plug;
