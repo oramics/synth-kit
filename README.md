@@ -9,7 +9,7 @@
 
 **Work in progress**
 
-A collection of ready-to-use Web Audio instruments:
+`synth-kit` is a small (8Kb minified, 3Kb minified and gzipped) collection of ready-to-use Web Audio instruments:
 
 ```js
 import { Kick } from 'synth-kit'
@@ -20,6 +20,13 @@ const kick = Kick(ac).connect(true)
 // trigger the kick
 kick.trigger()
 ```
+
+**Features**
+
+- Sound reasonably good
+- No setup: nice defaults, no config
+- Easy and simple API
+- Extensible and flexible
 
 ## SynthKit
 
@@ -34,7 +41,7 @@ kick.trigger()
 
 #### Melodic instruments
 
-- [MonoSynth](https://oramics.github.io/synth-kit/literate/monosynth)
+- [MonoSynth](https://oramics.github.io/synth-kit/literate/monosynth): One oscillator subtractive synth
 
 #### Effects
 
@@ -46,9 +53,27 @@ kick.trigger()
 
 ## Usage
 
+#### Install
+
+**Node**
+
+With npm: `npm i --save synth-kit` or with yarn: `yarn add --save synth-kit`
+
+**Browser**
+
+
+```html
+<script src="https://oramics.github.io/synth-kit/dist/synth-kit.js"></script>
+<script>
+  const ac = new AudioContext()
+  const kick = SynthKit.Kick(ac).connect(true)
+  kick.trigger()
+</script>
+```
+
 #### Create instruments
 
-Just call the function with an audio context. The `connect` function is chainable and accepts `true` to connect to the AudioContext's destination:
+Call the function with an audio context. The `connect` function is chainable and accepts `true` to connect to the AudioContext's destination:
 
 ```js
 import { MonoSynth } from 'synth-kit'

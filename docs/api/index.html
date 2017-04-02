@@ -23,7 +23,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="module.html#.exports">exports</a></li></ul><h3>Global</h3><ul><li><a href="global.html#connectWith">connectWith</a></li><li><a href="global.html#Filter">Filter</a></li><li><a href="global.html#MonoSynth">MonoSynth</a></li><li><a href="global.html#plug">plug</a></li><li><a href="global.html#update">update</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-kit.html">kit</a></li></ul><h3>Global</h3><ul><li><a href="global.html#connectWith">connectWith</a></li><li><a href="global.html#MonoSynth">MonoSynth</a></li><li><a href="global.html#plug">plug</a></li><li><a href="global.html#setOutput">setOutput</a></li><li><a href="global.html#update">update</a></li></ul>
 </nav>
 
 <div id="main">
@@ -54,6 +54,7 @@
 <blockquote>
 <p>Synthesizers construction kit for Web Audio API</p>
 </blockquote>
+<p><strong>Work in progress</strong></p>
 <p>A collection of ready-to-use Web Audio instruments:</p>
 <pre class="prettyprint source lang-js"><code>import { Kick } from 'synth-kit'
 const ac = new AudioContext()
@@ -61,21 +62,92 @@ const ac = new AudioContext()
 // create a Kick instrument and connect it to the audio context destination
 const kick = Kick(ac).connect(true)
 // trigger the kick
-kick.trigger()</code></pre><p>Simple API:</p>
-<pre class="prettyprint source lang-js"><code>import { MonoSynth, after } from 'synth-kit'
+kick.trigger()</code></pre><h2>SynthKit</h2><h4>Percussion instruments</h4><ul>
+<li><a href="https://oramics.github.io/synth-kit/literate/kick">Kick</a></li>
+<li><a href="https://oramics.github.io/synth-kit/literate/snare">Snare</a></li>
+<li><a href="https://oramics.github.io/synth-kit/literate/hat">Hat</a></li>
+<li><a href="https://oramics.github.io/synth-kit/literate/cowbell">Cowbell</a></li>
+<li><a href="https://oramics.github.io/synth-kit/literate/cowbell">Conga</a></li>
+<li><a href="https://oramics.github.io/synth-kit/literate/tom">Tom</a></li>
+</ul>
+<h4>Melodic instruments</h4><ul>
+<li><a href="https://oramics.github.io/synth-kit/literate/monosynth">MonoSynth</a></li>
+</ul>
+<h4>Effects</h4><h4>Components</h4><ul>
+<li><a href="https://oramics.github.io/synth-kit/literate/sample">Sample</a></li>
+<li><a href="https://oramics.github.io/synth-kit/literate/noise">Noise</a></li>
+<li><a href="https://oramics.github.io/synth-kit/literate/lfo">LFO</a></li>
+</ul>
+<h2>Usage</h2><h4>Create instruments</h4><p>Just call the function with an audio context. The <code>connect</code> function is chainable and accepts <code>true</code> to connect to the AudioContext's destination:</p>
+<pre class="prettyprint source lang-js"><code>import { MonoSynth } from 'synth-kit'
 
-const mono = MonoSynth(ac, {
-  oscillator: {
-    type: 'square'
+const mono = MonoSynth(ac).connect(true)
+// trigger signature for melodic instruments: (midi, time, duration)
+mono.trigger(440, ac.currentTime, 0.5)
+mono.trigger(62, ac.currentTime + 1, 0.5)</code></pre><h4>Trigger</h4><p>Trigger the attack/release envelope of an instrument with the <code>trigger</code> function:</p>
+<pre class="prettyprint source lang-js"><code>import { Snare } from 'synth-kit'
+
+const snare = Snare(ac).connect(true)
+snare.trigger()</code></pre><p>Perussion instruments accept <code>time</code> as <code>trigger</code> arguments:</p>
+<pre class="prettyprint source lang-js"><code>snare.trigger(ac.currentTime + 1)</code></pre><p>Melodic instruments accept <code>frequency, time, duration</code> as <code>trigger</code> arguments:</p>
+<pre class="prettyprint source lang-js"><code>import { MonoSynth } from 'synth-kit'
+
+const mono = MonoSynth(ac).connect(true)
+mono.trigger(440, ac.currentTime, 0.5)</code></pre><p><strong>Re-triggerable</strong></p>
+<p>You can trigger an instrument any number of times:</p>
+<pre class="prettyprint source lang-js"><code>mono.trigger(440, ac.currentTime, 0.5)
+mono.trigger(880, ac.currentTime + 1, 0.5)</code></pre><p>You can use <code>Sample</code> to get a re-triggerable buffer source:</p>
+<pre class="prettyprint source lang-js"><code>import { Sample } from 'synth-kit'
+
+fetch(&quot;snare.wav&quot;).then(decodeAudioData).then(buffer => {
+  sample = Sample(ac, buffer)
+  sample.trigger()
+  sample.trigger(ac.currentTime + 1)
+})</code></pre><p><strong>Attack/release</strong></p>
+<p>Using a melodic instrument, you can trigger the attack and release phases at different moments:</p>
+<pre class="prettyprint source lang-js"><code>const triggerRelease = mono.trigger(440, ac.currentTime)
+triggerRelease(ac.currentTime + 1)</code></pre><h4>Polyphony</h4><p>All instruments are monophonic by default. You can create a polyphonic instrument with <code>polyphonc</code> function:</p>
+<pre class="prettyprint source lang-js"><code>import { DuoSynth, polyphonic } from 'synth-kit'
+
+const synth = polyphonic(ac, 16, DuoSynth)
+const freqs = [400, 500, 600, 700]
+freqs.forEach((note, i) => synth.trigger(note, ac.currentTime + i))</code></pre><h4>Update parameters</h4><p>All instruments have an <code>update</code> function:</p>
+<pre class="prettyprint source lang-js"><code>const duo = DuoSynth(ac)
+duo.update({
+  filter: {
+    frequency: 800
+  },
+  amp: {
+    gain: 0.5
+  }
+})
+duo.trigger(440)</code></pre><p>And an <code>inspect</code> function:</p>
+<pre class="prettyprint source lang-js"><code>console.log(duo.inspect())
+// console.log output:
+{
+  osc1: {
+    frequency: 440,
+    ...
+  },
+  osc2: {
+    frequency: 880,
+    ...
   },
   filter: {
-    type: 'lowpass',
-    frequency: 400
+    ...
+  },
+  amp: {
+    gain: 0.6
   }
-}).connect(true)
-
-mono.trigger('C4')
-mono.filter.frequency.value = 500</code></pre><p><strong>Work in progress</strong></p>
+}</code></pre><p>For fine-grained control, use the audio nodes directly:</p>
+<pre class="prettyprint source lang-js"><code>const duo = DuoSynth(ac)
+duo.filter.frequency.linearRampToValueAtTime(600, ac.currentTime + 1)</code></pre><h2>References</h2><ul>
+<li>Of course, the synth secrets tutorial was the beginning of all: https://github.com/micjamking/synth-secrets (that's a easy to read version). Thanks Gordon Reid (here it is an <a href="http://www.mediafire.com/file/7w2dcsqmkbeduea/Synth+Secrets+Complete.pdf">awesome PDF version</a>)</li>
+<li>Vincent made some nice 808 drum synsthesis: https://github.com/vincentriemer/io-808</li>
+<li>Percussion synthesis tutorial: http://www.cim.mcgill.ca/~clark/nordmodularbook/nm_percussion.html</li>
+<li>Sound Design in Web Audio its an awesome two part blog post: http://nickwritesablog.com/sound-design-in-web-audio-neurofunk-bass-part-1/ and http://nickwritesablog.com/sound-design-in-web-audio-neurofunk-bass-part-2/</li>
+<li>There are a lot of resources about synthesis, here is a nice one: https://www.gearslutz.com/board/electronic-music-instruments-electronic-music-production/460283-how-do-you-synthesize-808-ish-drums.html</li>
+</ul>
 <h2>License</h2><p>MIT License</p></article>
     </section>
 
@@ -89,7 +161,7 @@ mono.filter.frequency.value = 500</code></pre><p><strong>Work in progress</stron
 <br class="clear">
 
 <footer>
-    Documentation generated at Sat Apr 01 2017 10:17:55 GMT+0200 (CEST)
+    Documentation generated at Sun Apr 02 2017 03:12:09 GMT+0200 (CEST)
 </footer>
 
 <script>prettyPrint();</script>

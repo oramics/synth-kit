@@ -7,7 +7,7 @@ const hyperx = require("hyperx")
 const html = hyperx(h)
 
 const init = () => ({
-  types: ["MonoSynth", "Kick", "Snare", "Hat", "Cowbell", "Conga", "Tom"],
+  types: ["MonoSynth", "Pluck", "Kick", "Snare", "Hat", "Cowbell", "Conga", "Tom"],
   current: null
 })
 
@@ -44,7 +44,7 @@ const actions = {
   trigger (model) {
     const inst = model.instrument
     if (inst.trigger.length === 3) {
-      const note = pick([440, 880, 2000])
+      const note = pick([220, 330, 440, 550, 880])
       console.log("SYNTH", note)
       inst.trigger(note, 0, 0.5)
     } else {

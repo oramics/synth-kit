@@ -48,7 +48,6 @@
         </td>
         <td class="code highlight">
           <pre class="javascript"><span class="hljs-keyword">const</span> isFn = <span class="hljs-function">(<span class="hljs-params">o</span>) =&gt;</span> <span class="hljs-keyword">typeof</span> o === <span class="hljs-string">"function"</span>
-<span class="hljs-keyword">const</span> isObj = <span class="hljs-function">(<span class="hljs-params">o</span>) =&gt;</span> <span class="hljs-keyword">typeof</span> o === <span class="hljs-string">"object"</span>
 <span class="hljs-keyword">const</span> { exp, E } = <span class="hljs-built_in">Math</span>
 
 <span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ampToGain</span> (<span class="hljs-params">amp</span>) </span>{
@@ -67,7 +66,6 @@
   inst.update = <span class="hljs-function">(<span class="hljs-params">state</span>) =&gt;</span> {
     <span class="hljs-keyword">if</span> (state) {
       names.forEach(<span class="hljs-function"><span class="hljs-params">key</span> =&gt;</span> {
-        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"UPDATE"</span>, key, state[key])
         inst[key].update(state[key])
       })
     }
@@ -138,7 +136,7 @@ the value is a node, it will connect them</p>
           <pre class="javascript"><span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">plug</span> (<span class="hljs-params">node, name, value</span>) </span>{
   <span class="hljs-keyword">const</span> target = node[name]
   <span class="hljs-keyword">if</span> (isFn(value)) value = value()
-  <span class="hljs-keyword">if</span> (target === <span class="hljs-literal">undefined</span> || value === <span class="hljs-literal">undefined</span> || value === <span class="hljs-literal">null</span>) {
+  <span class="hljs-keyword">if</span> (value === <span class="hljs-literal">undefined</span> || target === <span class="hljs-literal">undefined</span>) {
 </pre>
         </td>
       </tr>
@@ -190,43 +188,6 @@ the value is a node, it will connect them</p>
   }
 }
 
-<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">update</span> (<span class="hljs-params">inst, newState, initialState</span>) </span>{
-  <span class="hljs-keyword">if</span> (initialState) inst.state = <span class="hljs-built_in">Object</span>.assign({}, initialState)
-  <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (!inst.state) inst.state = {}
-
-  <span class="hljs-keyword">if</span> (newState) {
-    updateState(inst, inst.state, newState)
-  }
-  <span class="hljs-keyword">return</span> inst
-}
-
-</pre>
-        </td>
-      </tr>
-    
-      <tr>
-        <td class="docs">
-          <div class="pilwrap">
-  <a class="pilcrow" href="#section-7" id="section-7"></a>
-</div>
-<p>diffing algorithm</p>
-
-        </td>
-        <td class="code highlight">
-          <pre class="javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">updateState</span> (<span class="hljs-params">inst, state, newState</span>) </span>{
-  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"updateState"</span>, state, newState)
-  <span class="hljs-built_in">Object</span>.keys(newState).forEach(<span class="hljs-function"><span class="hljs-params">key</span> =&gt;</span> {
-    <span class="hljs-keyword">const</span> prevValue = state[key]
-    <span class="hljs-keyword">const</span> newValue = newState[key]
-    <span class="hljs-keyword">if</span> (isObj(prevValue) &amp;&amp; isObj(newValue)) {
-      updateState(inst, prevValue, newValue)
-    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (prevValue !== newValue) {
-      plug(inst, key, newValue)
-      state[key] = newValue
-    }
-  })
-}
-
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">connect</span> (<span class="hljs-params">node, dest</span>) </span>{
   <span class="hljs-keyword">if</span> (dest) node.connect(dest)
 }
@@ -238,7 +199,7 @@ the value is a node, it will connect them</p>
       <tr>
         <td class="docs">
           <div class="pilwrap">
-  <a class="pilcrow" href="#section-8" id="section-8"></a>
+  <a class="pilcrow" href="#section-7" id="section-7"></a>
 </div>
 <div class="dox">
 <div class="summary">
@@ -256,6 +217,10 @@ the value is a node, it will connect them</p>
     node.connect(dest)
     <span class="hljs-keyword">return</span> inst
   }
+}
+
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">withDefaults</span> (<span class="hljs-params">config, defaults</span>) </span>{
+  <span class="hljs-keyword">return</span> config ? <span class="hljs-built_in">Object</span>.assign({}, defaults, config) : defaults
 }
 
 </pre>
