@@ -218,7 +218,7 @@ function inspect(node, name) {
 function plug$1(node, name, value) {
   var target = node[name];
   if (isFn$1(value)) value = value();
-  if (target === undefined || value === undefined || value === null) {
+  if (value === undefined || target === undefined) {
     // ignore
   } else if (target.value !== undefined) {
     // it's a parameter
@@ -234,9 +234,6 @@ function plug$1(node, name, value) {
   }
 }
 
-
-
-// diffing algorithm
 function connect$1(node, dest) {
   if (dest) node.connect(dest);
 }
@@ -250,6 +247,10 @@ function setOutput(inst, node) {
     node.connect(dest);
     return inst;
   };
+}
+
+function withDefaults(config, defaults$$1) {
+  return config ? Object.assign({}, defaults$$1, config) : defaults$$1;
 }
 
 // # Gain
@@ -467,6 +468,32 @@ Snare.defaults = {
   }
 };
 
+function Hat(ac, state) {
+  state = Object.assign({}, Hat.defaults, state);
+  var snare = instrument({
+    noise: [Noise(ac), "envelope"],
+    envelope: [GainEnvelope(ac), "amp"],
+    amp: [Gain(ac), "output"]
+  }).update(state);
+
+  snare.trigger = snare.envelope.trigger;
+
+  return snare;
+}
+
+Hat.defaults = {
+  noise: {
+    type: "white"
+  },
+  envelope: {
+    attack: 0.01,
+    release: 0.1
+  },
+  amp: {
+    gain: 0.1
+  }
+};
+
 // # Cowbell
 
 // The Cowbell is based on the 808 design:
@@ -555,6 +582,31 @@ Cowbell.defaultState = {
   }
 };
 
+// # Conga
+function Conga(ac, config) {
+  var state = withDefaults(config, Conga.defaults);
+  var conga = instrument({
+    oscillator: [Osc(ac), "envelope"],
+    envelope: [GainEnvelope(ac), "amp"],
+    amp: [Gain(ac), "output"]
+  }).update(state);
+
+  conga.trigger = conga.envelope.trigger;
+
+  return conga;
+}
+Conga.defaults = {
+  oscillator: {
+    frequency: 310
+  },
+  envelope: {
+    decay: 0.31
+  },
+  amp: {
+    gain: 0.4
+  }
+};
+
 // # MonoSynth
 function MonoSynth(ac, state) {
   state = Object.assign({}, MonoSynth.defaults, state);
@@ -601,7 +653,9 @@ exports.VCO = VCO;
 exports.VCF = VCF;
 exports.Kick = Kick;
 exports.Snare = Snare;
+exports.Hat = Hat;
 exports.Cowbell = Cowbell;
+exports.Conga = Conga;
 exports.MonoSynth = MonoSynth;
 exports.ampToGain = ampToGain;
 exports.plug = plug;
