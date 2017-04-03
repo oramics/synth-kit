@@ -13,7 +13,7 @@ export default {
     resolve({
       jsnext: true
     }),
-    uglify(),
+    // uglify(),
     filesize(),
   ]
 }
