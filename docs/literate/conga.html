@@ -35,13 +35,18 @@
                 </a>
               
                 
-                <a class="source" href="hat.html">
-                  hat.js
+                <a class="source" href="hihat.html">
+                  hihat.js
                 </a>
               
                 
                 <a class="source" href="kick.html">
                   kick.js
+                </a>
+              
+                
+                <a class="source" href="mini.html">
+                  mini.js
                 </a>
               
                 
@@ -62,6 +67,11 @@
                 
                 <a class="source" href="tom.html">
                   tom.js
+                </a>
+              
+                
+                <a class="source" href="tonewheel.html">
+                  tonewheel.js
                 </a>
               
                 
@@ -102,6 +112,11 @@
                 
                 <a class="source" href="noise.html">
                   noise.js
+                </a>
+              
+                
+                <a class="source" href="osc-bank.html">
+                  osc-bank.js
                 </a>
               
                 
@@ -181,11 +196,11 @@
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Conga</span> (<span class="hljs-params">ac, config</span>) </span>{
   <span class="hljs-keyword">const</span> state = withDefaults(config, Conga.defaults)
-  <span class="hljs-keyword">const</span> conga = instrument({
-    <span class="hljs-attr">oscillator</span>: [ Osc(ac), <span class="hljs-string">"envelope"</span> ],
-    <span class="hljs-attr">envelope</span>: [ GainEnvelope(ac), <span class="hljs-string">"amp"</span> ],
-    <span class="hljs-attr">pulse</span>: [ Pulse(ac), <span class="hljs-string">"amp"</span> ],
-    <span class="hljs-attr">amp</span>: [ Gain(ac), <span class="hljs-string">"output"</span> ],
+  <span class="hljs-keyword">const</span> conga = instrument(ac, {
+    <span class="hljs-attr">oscillator</span>: [ Osc, <span class="hljs-string">"envelope"</span> ],
+    <span class="hljs-attr">envelope</span>: [ GainEnvelope, <span class="hljs-string">"amp"</span> ],
+    <span class="hljs-attr">pulse</span>: [ Pulse, <span class="hljs-string">"amp"</span> ],
+    <span class="hljs-attr">amp</span>: [ Gain, <span class="hljs-string">"output"</span> ],
   }).update(state)
 
   conga.trigger = conga.envelope.trigger

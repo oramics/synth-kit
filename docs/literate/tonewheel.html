@@ -2,7 +2,7 @@
 
 <html>
 <head>
-  <title>Cowbell</title>
+  <title>tonewheel.js</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
   <link rel="stylesheet" media="all" href="docco.css" />
@@ -176,6 +176,12 @@
     
     <ul class="sections">
         
+          <li id="title">
+              <div class="annotation">
+                  <h1>tonewheel.js</h1>
+              </div>
+          </li>
+        
         
         
         <li id="section-1">
@@ -184,9 +190,15 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-1">&#182;</a>
               </div>
-              <h1 id="cowbell">Cowbell</h1>
+              <p>Tonewheel <em>aka clonewheel</em> synth</p>
 
             </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> { instrument } <span class="hljs-keyword">from</span> <span class="hljs-string">"../synth"</span>
+<span class="hljs-keyword">import</span> Gain <span class="hljs-keyword">from</span> <span class="hljs-string">"../kit/gain"</span>
+<span class="hljs-keyword">import</span> Pulse <span class="hljs-keyword">from</span> <span class="hljs-string">"../kit/pulse"</span>
+<span class="hljs-keyword">import</span> GainEnvelope <span class="hljs-keyword">from</span> <span class="hljs-string">"../kit/gain-envelope"</span>
+<span class="hljs-keyword">import</span> OscBank <span class="hljs-keyword">from</span> <span class="hljs-string">"../kit/osc-bank"</span></pre></div></div>
             
         </li>
         
@@ -197,7 +209,9 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-2">&#182;</a>
               </div>
-              <p>The Cowbell is based on the 808 design:</p>
+              <p>This <strong>will be</strong> an simple model of a Hammond B3 organ. Reproducing the sound
+of that instrument is a complex task, I”ll only recreate a very simplified
+model. Any sonic resemblance with the original is just coincidence.</p>
 
             </div>
             
@@ -210,15 +224,7 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-3">&#182;</a>
               </div>
-              <blockquote>
-<p>“the block diagram for the cowbell sound generator in the TR808 is a
-relatively simple circuit, and uses just two of the six pulse-wave
-oscillators that provide the basis of the machine’s cymbal and hi-hat sounds.
-The outputs from these pass through a pair of VCAs controlled by a contour
-generator, and through a band-pass filter that removes the upper and lower
-partials. Finally, the result is then amplified before reaching the outside
-world.”</p>
-</blockquote>
+              <p><strong>References</strong></p>
 
             </div>
             
@@ -231,7 +237,10 @@ world.”</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-4">&#182;</a>
               </div>
-              <p>Source of all quotes: <a href="https://github.com/micjamking/synth-secrets/blob/master/part-41.md">https://github.com/micjamking/synth-secrets/blob/master/part-41.md</a></p>
+              <p><a href="https://teichman.org/blog/2011/05/roto.html">https://teichman.org/blog/2011/05/roto.html</a>
+<a href="http://electricdruid.net/technical-aspects-of-the-hammond-organ/">http://electricdruid.net/technical-aspects-of-the-hammond-organ/</a>
+<a href="http://www.dairiki.org/HammondWiki/OriginalHammondLeslieFaq">http://www.dairiki.org/HammondWiki/OriginalHammondLeslieFaq</a>
+<a href="http://www.stefanv.com/electronics/hammond_drawbar_science.html">http://www.stefanv.com/electronics/hammond_drawbar_science.html</a></p>
 
             </div>
             
@@ -244,9 +253,11 @@ world.”</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-5">&#182;</a>
               </div>
-              <h4 id="oscillators">Oscillators</h4>
+              <p><a href="http://electricdruid.net/technical-aspects-of-the-hammond-organ/">http://electricdruid.net/technical-aspects-of-the-hammond-organ/</a></p>
 
             </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">const</span> RATIOS = [<span class="hljs-number">0.5</span>, <span class="hljs-number">1.498823530</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">2.997647060</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5.040941178</span>, <span class="hljs-number">5.995294120</span>, <span class="hljs-number">8</span>]</pre></div></div>
             
         </li>
         
@@ -257,12 +268,7 @@ world.”</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-6">&#182;</a>
               </div>
-              <blockquote>
-<p>“We should be able to recreate this sound on any synth with two oscillators
-and a band-pass (…) the sound comprises a pair of tones with fundamental
-pitches of approximately 587Hz and 845Hz. With a frequency ratio of 1:1.44,
-these are suitably clangy, and serve Roland’s purpose well.”</p>
-</blockquote>
+              <h2 id="drawbars">Drawbars</h2>
 
             </div>
             
@@ -275,10 +281,11 @@ these are suitably clangy, and serve Roland’s purpose well.”</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-7">&#182;</a>
               </div>
-              <blockquote>
-<p>Firstly, we select two oscillators, and set them with triangle-wave outputs
-at frequencies of 587Hz and 845Hz</p>
-</blockquote>
+              <p>The sound on a tonewheel Hammond organ is varied through the manipulation of
+drawbars. A drawbar is a metal slider that controls the volume of a
+particular sound component, in a similar way to a fader on an audio mixing
+board. As a drawbar is incrementally pulled out, it increases the volume of
+its sound. When pushed all the way in, the volume is decreased to zero</p>
 
             </div>
             
@@ -291,9 +298,22 @@ at frequencies of 587Hz and 845Hz</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-8">&#182;</a>
               </div>
-              <h4 id="filter">Filter</h4>
+              <h2 id="presets">Presets</h2>
+<p><a href="http://www.dairiki.org/HammondWiki/PopularDrawbarRegistrations">http://www.dairiki.org/HammondWiki/PopularDrawbarRegistrations</a></p>
 
             </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">const</span> PRESETS = {
+  <span class="hljs-attr">gospel</span>: toState(<span class="hljs-string">"88 8000 008"</span>),
+  <span class="hljs-attr">blues</span>: toState(<span class="hljs-string">"88 8800 000"</span>),
+  <span class="hljs-attr">bluesB</span>: toState(<span class="hljs-string">"88 5324 588"</span>),
+  <span class="hljs-attr">booker</span>: toState(<span class="hljs-string">"88 8630 000"</span>),
+  <span class="hljs-attr">onions</span>: toState(<span class="hljs-string">"80 8800 008"</span>),
+  <span class="hljs-attr">smith</span>: toState(<span class="hljs-string">"88 8000 000"</span>),
+  <span class="hljs-attr">mcgriff</span>: toState(<span class="hljs-string">"86 8600 006"</span>),
+  <span class="hljs-attr">errol</span>: toState(<span class="hljs-string">"80 0008 888"</span>),
+  <span class="hljs-attr">genesis</span>: toState(<span class="hljs-string">"33 6866 330"</span>),
+}</pre></div></div>
             
         </li>
         
@@ -304,15 +324,19 @@ at frequencies of 587Hz and 845Hz</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-9">&#182;</a>
               </div>
-              <blockquote>
-<p>“then added a band-pass filter, finding that a centre frequency of 2.64kHz
-worked well. The 12dB-per-octave option sounded a bit flabby, while the
-24dB-per-octave cutoff shaped the sound too severely, , so I chose the
-12dB-per-octave option and added a little resonance to accentuate the
-partials close to the centre frequency”</p>
-</blockquote>
+              <p>Given a preset, return a state fragment</p>
 
             </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">toState</span> (<span class="hljs-params">preset</span>) </span>{
+  <span class="hljs-keyword">if</span> (preset) {
+    <span class="hljs-keyword">const</span> norm = (preset.replace(<span class="hljs-regexp">/[^012345678]/g</span>, <span class="hljs-string">""</span>) + <span class="hljs-string">"000000000"</span>).slice(<span class="hljs-number">0</span>, <span class="hljs-number">9</span>)
+    <span class="hljs-keyword">const</span> gains = norm.split(<span class="hljs-string">""</span>).map(<span class="hljs-function">(<span class="hljs-params">n</span>) =&gt;</span> <span class="hljs-built_in">Math</span>.abs(+n / <span class="hljs-number">8</span>))
+    <span class="hljs-keyword">return</span> {
+      <span class="hljs-attr">bank</span>: { gains }
+    }
+  }
+}</pre></div></div>
             
         </li>
         
@@ -323,9 +347,13 @@ partials close to the centre frequency”</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-10">&#182;</a>
               </div>
-              <h4 id="envelope">Envelope</h4>
+              <h2 id="instrument">Instrument</h2>
 
             </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Tonewheel</span> (<span class="hljs-params">ac, preset</span>) </span>{
+  preset = preset ? toState(preset) : PRESETS[<span class="hljs-string">"smith"</span>]
+  <span class="hljs-keyword">const</span> state = <span class="hljs-built_in">Object</span>.assign({}, Tonewheel.defaults, preset)</pre></div></div>
             
         </li>
         
@@ -336,12 +364,21 @@ partials close to the centre frequency”</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-11">&#182;</a>
               </div>
-              <blockquote>
-<p>“forms an envelope having abrupt level decay at the initial trailing edge
-to emphasise attack effect”</p>
-</blockquote>
+              <p>Tonewheel instrument output</p>
 
             </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">const</span> tw = instrument(ac, {
+    <span class="hljs-attr">bank</span>: [OscBank(ac, RATIOS), <span class="hljs-string">"envelope"</span>],
+    <span class="hljs-attr">envelope</span>: [GainEnvelope, <span class="hljs-string">"amp"</span>],
+    <span class="hljs-attr">click</span>: [Pulse, <span class="hljs-string">"output"</span>],
+    <span class="hljs-attr">amp</span>: [Gain, <span class="hljs-string">"output"</span>],
+  }).update(state)
+
+  tw.setPreset = <span class="hljs-function">(<span class="hljs-params">preset, time</span>) =&gt;</span> {
+    <span class="hljs-keyword">const</span> newState = PRESETS[preset] || toState(preset)
+    tw.update(newState)
+  }</pre></div></div>
             
         </li>
         
@@ -352,86 +389,25 @@ to emphasise attack effect”</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-12">&#182;</a>
               </div>
-              <h4 id="the-instrument">The instrument</h4>
+              <p>API</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> { instrument } <span class="hljs-keyword">from</span> <span class="hljs-string">"../synth"</span>
-<span class="hljs-keyword">import</span> Gain <span class="hljs-keyword">from</span> <span class="hljs-string">"../kit/gain"</span>
-<span class="hljs-keyword">import</span> Osc <span class="hljs-keyword">from</span> <span class="hljs-string">"../kit/osc"</span>
-<span class="hljs-keyword">import</span> GainEnvelope <span class="hljs-keyword">from</span> <span class="hljs-string">"../kit/gain-envelope"</span>
-<span class="hljs-keyword">import</span> Filter <span class="hljs-keyword">from</span> <span class="hljs-string">"../kit/filter"</span>
-
-<span class="hljs-comment">/**
- * Create a Cowbell
- * @param {AudioContext} context
- * @param {Object} config
- * @return {AudioNode} the instrument
- * @example
- * const cowbell = Cowbell(ac)
- * cowbell.trigger(ac.currentTime + 1)
- */</span>
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Cowbell</span> (<span class="hljs-params">ac, state</span>) </span>{
-  <span class="hljs-keyword">if</span> (state) state = <span class="hljs-built_in">Object</span>.assign({}, Cowbell.defaultState, state)
-  <span class="hljs-keyword">else</span> state = Cowbell.defaultState
-
-  <span class="hljs-keyword">const</span> cowbell = instrument(ac, {
-    <span class="hljs-attr">osc1</span>: [ Osc, <span class="hljs-string">"env1"</span> ],
-    <span class="hljs-attr">env1</span>: [ GainEnvelope, <span class="hljs-string">"filter"</span> ],
-    <span class="hljs-attr">osc2</span>: [ Osc, <span class="hljs-string">"env2"</span> ],
-    <span class="hljs-attr">env2</span>: [ GainEnvelope, <span class="hljs-string">"filter"</span> ],
-    <span class="hljs-attr">filter</span>: [ Filter, <span class="hljs-string">"amp"</span> ],
-    <span class="hljs-attr">amp</span>: [ Gain, <span class="hljs-string">"output"</span> ]
-  }).update(state)
-
-  cowbell.trigger = <span class="hljs-function">(<span class="hljs-params">time</span>) =&gt;</span> {
-    cowbell.env1.trigger(time)
-    cowbell.env2.trigger(time)
+            <div class="content"><div class='highlight'><pre>  tw.trigger = <span class="hljs-function">(<span class="hljs-params">freq, time, dur</span>) =&gt;</span> {
+    tw.bank.update(freq, time)
+    tw.envelope.trigger(time, dur)
+    <span class="hljs-keyword">return</span> tw
   }
-  <span class="hljs-keyword">return</span> cowbell
-}</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-13">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-13">&#182;</a>
-              </div>
-              <p>The Cowbell default parameters</p>
 
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>Cowbell.defaultState = {
-  <span class="hljs-attr">osc1</span>: {
-    <span class="hljs-attr">type</span>: <span class="hljs-string">"triangle"</span>,
-    <span class="hljs-attr">frequency</span>: <span class="hljs-number">587</span>
-  },
-  <span class="hljs-attr">env1</span>: {
-    <span class="hljs-attr">gain</span>: <span class="hljs-number">0.6</span>,
-    <span class="hljs-attr">attack</span>: <span class="hljs-number">0.01</span>,
-    <span class="hljs-attr">decay</span>: <span class="hljs-number">0.05</span>,
-    <span class="hljs-attr">sustain</span>: <span class="hljs-number">0</span>,
-  },
-  <span class="hljs-attr">osc2</span>: {
-    <span class="hljs-attr">type</span>: <span class="hljs-string">"triangle"</span>,
-    <span class="hljs-attr">frequency</span>: <span class="hljs-number">845</span>,
-  },
-  <span class="hljs-attr">env2</span>: {
-    <span class="hljs-attr">gain</span>: <span class="hljs-number">0.8</span>,
-    <span class="hljs-attr">attack</span>: <span class="hljs-number">0.1</span>,
-    <span class="hljs-attr">decay</span>: <span class="hljs-number">0.1</span>,
-  },
-  <span class="hljs-attr">filter</span>: {
-    <span class="hljs-attr">type</span>: <span class="hljs-string">"bandpass"</span>,
-    <span class="hljs-attr">frequency</span>: <span class="hljs-number">2640</span>,
-    <span class="hljs-attr">Q</span>: <span class="hljs-number">3.5</span>,
+  <span class="hljs-keyword">return</span> tw
+}
+Tonewheel.defaults = {
+  <span class="hljs-attr">bank</span>: {
+    <span class="hljs-attr">types</span>: [<span class="hljs-string">"sine"</span>],
   },
   <span class="hljs-attr">amp</span>: {
-    <span class="hljs-attr">gain</span>: <span class="hljs-number">0.2</span>
-  },
+    <span class="hljs-attr">gain</span>: <span class="hljs-number">0.8</span>,
+  }
 }</pre></div></div>
             
         </li>

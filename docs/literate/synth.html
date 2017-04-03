@@ -35,13 +35,18 @@
                 </a>
               
                 
-                <a class="source" href="hat.html">
-                  hat.js
+                <a class="source" href="hihat.html">
+                  hihat.js
                 </a>
               
                 
                 <a class="source" href="kick.html">
                   kick.js
+                </a>
+              
+                
+                <a class="source" href="mini.html">
+                  mini.js
                 </a>
               
                 
@@ -62,6 +67,11 @@
                 
                 <a class="source" href="tom.html">
                   tom.js
+                </a>
+              
+                
+                <a class="source" href="tonewheel.html">
+                  tonewheel.js
                 </a>
               
                 
@@ -102,6 +112,11 @@
                 
                 <a class="source" href="noise.html">
                   noise.js
+                </a>
+              
+                
+                <a class="source" href="osc-bank.html">
+                  osc-bank.js
                 </a>
               
                 
@@ -186,24 +201,86 @@
   <span class="hljs-keyword">return</span> (exp(amp) - <span class="hljs-number">1</span>) / (E - <span class="hljs-number">1</span>)
 }
 
-<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">instrument</span> (<span class="hljs-params">config</span>) </span>{
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">instrument</span> (<span class="hljs-params">ac, config</span>) </span>{
   <span class="hljs-keyword">const</span> inst = {}
-  <span class="hljs-keyword">const</span> names = <span class="hljs-built_in">Object</span>.keys(config)
-  names.forEach(<span class="hljs-function"><span class="hljs-params">key</span> =&gt;</span> {
-    <span class="hljs-keyword">const</span> [node, to] = config[key]
-    inst[key] = node
+  <span class="hljs-keyword">const</span> names = <span class="hljs-built_in">Object</span>.keys(config)</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>create nodes</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  names.forEach(<span class="hljs-function"><span class="hljs-params">key</span> =&gt;</span> {
+    <span class="hljs-keyword">const</span> Node = config[key][<span class="hljs-number">0</span>]
+    inst[key] = <span class="hljs-keyword">typeof</span> Node === <span class="hljs-string">"function"</span> ? Node(ac) : Node
+  })</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>connect nodes</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  names.forEach(<span class="hljs-function"><span class="hljs-params">key</span> =&gt;</span> {
+    <span class="hljs-keyword">const</span> to = config[key][<span class="hljs-number">1</span>]
+    <span class="hljs-keyword">const</span> node = inst[key]
     <span class="hljs-keyword">if</span> (to === <span class="hljs-string">"output"</span>) connectWith(inst, node)
-    <span class="hljs-keyword">else</span> connect(node, config[to][<span class="hljs-number">0</span>])
-  })
-  inst.update = <span class="hljs-function">(<span class="hljs-params">state</span>) =&gt;</span> {
+    <span class="hljs-keyword">else</span> connect(node, inst[to])
+  })</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>API
+update: change the state of the instrument</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  inst.update = <span class="hljs-function">(<span class="hljs-params">state, time</span>) =&gt;</span> {
+    time = time || ac.currentTime
     <span class="hljs-keyword">if</span> (state) {
       names.forEach(<span class="hljs-function"><span class="hljs-params">key</span> =&gt;</span> {
-        inst[key].update(state[key])
+        inst[key].update(state[key], time)
       })
     }
     <span class="hljs-keyword">return</span> inst
-  }
-  inst.inspect = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> names.reduce(<span class="hljs-function">(<span class="hljs-params">state, name</span>) =&gt;</span> {
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>inspect: get the current state of the instrument</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  inst.inspect = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> names.reduce(<span class="hljs-function">(<span class="hljs-params">state, name</span>) =&gt;</span> {
     state[name] = inst[name].inspect()
     <span class="hljs-keyword">return</span> state
   }, {})
@@ -230,11 +307,11 @@
         </li>
         
         
-        <li id="section-2">
+        <li id="section-6">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-2">&#182;</a>
+                <a class="pilcrow" href="#section-6">&#182;</a>
               </div>
               <p>Get the value of a node parameter</p>
 
@@ -257,11 +334,11 @@
         </li>
         
         
-        <li id="section-3">
+        <li id="section-7">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-3">&#182;</a>
+                <a class="pilcrow" href="#section-7">&#182;</a>
               </div>
               <p>ignore</p>
 
@@ -272,11 +349,11 @@
         </li>
         
         
-        <li id="section-4">
+        <li id="section-8">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-4">&#182;</a>
+                <a class="pilcrow" href="#section-8">&#182;</a>
               </div>
               <p>it’s a parameter</p>
 
@@ -293,11 +370,11 @@
         </li>
         
         
-        <li id="section-5">
+        <li id="section-9">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-5">&#182;</a>
+                <a class="pilcrow" href="#section-9">&#182;</a>
               </div>
               <p>replace the old value with a new one</p>
 
@@ -335,11 +412,11 @@
         </li>
         
         
-        <li id="section-6">
+        <li id="section-10">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-6">&#182;</a>
+                <a class="pilcrow" href="#section-10">&#182;</a>
               </div>
               <p>attack phase</p>
 
@@ -355,11 +432,11 @@
         </li>
         
         
-        <li id="section-7">
+        <li id="section-11">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-7">&#182;</a>
+                <a class="pilcrow" href="#section-11">&#182;</a>
               </div>
               <p>decay phase</p>
 
@@ -373,11 +450,11 @@
         </li>
         
         
-        <li id="section-8">
+        <li id="section-12">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-8">&#182;</a>
+                <a class="pilcrow" href="#section-12">&#182;</a>
               </div>
               <p>hold phase</p>
 
@@ -402,11 +479,11 @@
         </li>
         
         
-        <li id="section-9">
+        <li id="section-13">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-9">&#182;</a>
+                <a class="pilcrow" href="#section-13">&#182;</a>
               </div>
               <p>trigger release if hold is specified</p>
 
