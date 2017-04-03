@@ -458,37 +458,178 @@ Snare.defaults = {
   }
 };
 
-function Hat(ac, state) {
-  state = Object.assign({}, Hat.defaults, state);
-  var snare = instrument(ac, {
-    noise: [Noise, "envelope"],
-    envelope: [GainEnvelope, "amp"],
-    amp: [Gain, "output"]
-  }).update(state);
+// # Oscillator Bank
+var conn = function conn(src, dest) {
+  src.connect(dest);
+  return src;
+};
 
-  snare.trigger = snare.envelope.trigger;
+/**
+ * Create a OscBank
+ */
+function OscBank(ac, ratios, config) {
+  if (!ratios) throw Error("OscBank requires an array 'ratios' in constructor");
 
-  return snare;
+  // Setup internal state
+  var state = Object.assign({}, OscBank.defaults, config);
+  initState(state, ratios);
+
+  // Create the audio nodes
+  var output = Gain(ac);
+  var amps = ratios.map(function (_) {
+    var amp = conn(Gain(ac), output);
+    return amp;
+  });
+  var oscs = amps.map(function (gain, i) {
+    var osc = conn(Osc(ac), gain);
+    osc.type = state.types[i];
+    return osc;
+  });
+  var bank = { output: output, amps: amps, oscs: oscs };
+
+  // API
+  bank.connect = function (dest) {
+    return conn(output, dest);
+  };
+  bank.update = function (config, time) {
+    if (typeof config === "number" || typeof config === "string") {
+      state.frequency = +config;
+      updateFrequencies(bank, state, time);
+    } else if (config) {
+      time = time || ac.currentTime;
+      if (config.gains) {
+        updateArray(state.gains, config.gains);
+        updateGains(bank, state, time);
+      }
+      if (config.frequency !== undefined) {
+        state.frequency = config.frequency;
+        updateFrequencies(bank, state, time);
+      }
+    }
+    return bank;
+  };
+  bank.inspect = function () {
+    return state;
+  };
+  return bank.update(state);
+}
+OscBank.defaults = {
+  frequency: 440,
+  gains: [0],
+  types: ["sine"],
+  compensate: true
+};
+
+function initState(state, ratios) {
+  var gains = state.gains;
+  var types = state.types;
+  state.gains = ratios.map(function (_, i) {
+    return gains[i % gains.length];
+  });
+  state.types = ratios.map(function (_, i) {
+    return types[i % types.length];
+  });
+  state.ratios = ratios;
 }
 
-Hat.defaults = {
-  noise: {
-    type: "white"
-  },
-  envelope: {
-    attack: 0.01,
-    release: 0.1
-  },
-  amp: {
-    gain: 0.1
+function updateFrequencies(_ref, _ref2, time) {
+  var oscs = _ref.oscs;
+  var ratios = _ref2.ratios,
+      frequency = _ref2.frequency;
+
+  console.log("UPDATE FREQS", ratios, frequency);
+  oscs.forEach(function (osc, i) {
+    osc.frequency.setValueAtTime(ratios[i] * frequency, time);
+  });
+}
+
+function updateGains(_ref3, _ref4, time) {
+  var amps = _ref3.amps;
+  var gains = _ref4.gains;
+
+  amps.forEach(function (amp, i) {
+    if (gains[i] !== undefined) amp.gain.setValueAtTime(gains[i], time);
+  });
+}
+
+function updateArray(prev, next) {
+  if (next) {
+    var len = prev.length;
+    for (var i = 0; i < len; i++) {
+      if (next[i] !== undefined) prev[i] = next[i];
+    }
   }
-};
+}
 
 /** @module kit */
 function Filter(ac, state) {
   return createAudioNode(ac, "BiquadFilter", Filter.params).update(state);
 }
 Filter.params = ["type", "frequency", "detune", "Q"];
+
+// # HiHat
+// A HiHat modeled after the 808 design
+
+// **References**
+// - Synth secrets: https://github.com/micjamking/synth-secrets/blob/master/part-40.md
+
+var BASE_FQ = 400;
+var RATIOS = [263, 400, 421, 474, 587, 845].map(function (f) {
+  return f / BASE_FQ;
+});
+
+/**
+ * Create a HiHat
+ */
+function HiHat(ac, state) {
+  state = Object.assign({}, HiHat.defaults, state);
+
+  // ## Architecture
+  var hihat = instrument(ac, {
+    // six square-wave oscillators
+    bank: [OscBank(ac, RATIOS, state.bank), "midFilter"],
+    // band pass filter
+    midFilter: [Filter, "envelope"],
+    // AD envelope
+    envelope: [GainEnvelope, "hiFilter"],
+    // hipass filter
+    hiFilter: [Filter, "amp"],
+    // amplifier
+    amp: [Gain, "output"]
+  }).update(state);
+
+  // # API
+  // trigger
+  hihat.trigger = hihat.envelope.trigger;
+
+  console.log(hihat);
+
+  return hihat;
+}
+
+HiHat.defaults = {
+  bank: {
+    frequency: BASE_FQ,
+    types: ["square"],
+    gains: [0.5],
+    compensate: false
+  },
+  midFilter: {
+    type: "bandpass",
+    frequency: 10000
+  },
+  envelope: {
+    attack: 0.01,
+    decay: 0.1
+  },
+  hiFilter: {
+    type: "highpass",
+    frequency: 8000
+  },
+  amp: {
+    gain: 0.8
+  }
+};
 
 // # Cowbell
 
@@ -730,121 +871,8 @@ Pluck.defaults = {
   }
 };
 
-// # Oscillator Bank
-var conn = function conn(src, dest) {
-  src.connect(dest);
-  return src;
-};
-
-/**
- * Create a OscBank
- */
-function OscBank(ac, ratios, config) {
-  if (!ratios) throw Error("OscBank requires an array 'ratios' in constructor");
-
-  // Setup internal state
-  var state = Object.assign({}, OscBank.defaults, config);
-  initState(state, ratios);
-
-  // Create the audio nodes
-  var output = Gain(ac);
-  var amps = ratios.map(function (_) {
-    var amp = conn(Gain(ac), output);
-    return amp;
-  });
-  var oscs = amps.map(function (gain, i) {
-    var osc = conn(Osc(ac), gain);
-    osc.type = state.types[i];
-    return osc;
-  });
-  var bank = { output: output, amps: amps, oscs: oscs };
-
-  // API
-  bank.connect = function (dest) {
-    return conn(output, dest);
-  };
-  bank.update = function (config, time) {
-    if (typeof config === "number" || typeof config === "string") {
-      state.frequency = +config;
-      updateFrequencies(bank, state, time);
-    } else if (config) {
-      time = time || ac.currentTime;
-      if (config.gains) {
-        updateArray(state.gains, config.gains);
-        updateGains(bank, state, time);
-      }
-      if (config.frequency !== undefined) {
-        state.frequency = config.frequency;
-        updateFrequencies(bank, state, time);
-      }
-    }
-  };
-  bank.inspect = function () {
-    return state;
-  };
-  return bank;
-}
-OscBank.defaults = {
-  frequency: 440,
-  gains: [0],
-  types: ["sine"],
-  compensate: true
-};
-
-function initState(state, ratios) {
-  var gains = state.gains;
-  var types = state.types;
-  state.gains = ratios.map(function (_, i) {
-    return gains[i % gains.length];
-  });
-  state.types = ratios.map(function (_, i) {
-    return types[i % types.length];
-  });
-  state.ratios = ratios;
-}
-
-function updateFrequencies(_ref, _ref2, time) {
-  var oscs = _ref.oscs;
-  var ratios = _ref2.ratios,
-      frequency = _ref2.frequency;
-
-  oscs.forEach(function (osc, i) {
-    osc.frequency.setValueAtTime(ratios[i] * frequency, time);
-  });
-}
-
-function updateGains(_ref3, _ref4, time) {
-  var amps = _ref3.amps;
-  var gains = _ref4.gains;
-
-  amps.forEach(function (amp, i) {
-    if (gains[i] !== undefined) amp.gain.setValueAtTime(gains[i], time);
-  });
-}
-
-function updateArray(prev, next) {
-  if (next) {
-    var len = prev.length;
-    for (var i = 0; i < len; i++) {
-      if (next[i] !== undefined) prev[i] = next[i];
-    }
-  }
-}
-
 // Tonewheel _aka clonewheel_ synth
-// This **will be** an simple model of a Hammond B3 organ. Reproducing the sound
-// of that instrument is a complex task, I"ll only recreate a very simplified
-// model. Any sonic resemblance with the original is just coincidence.
-
-// **References**
-
-// https://teichman.org/blog/2011/05/roto.html
-// http://electricdruid.net/technical-aspects-of-the-hammond-organ/
-// http://www.dairiki.org/HammondWiki/OriginalHammondLeslieFaq
-// http://www.stefanv.com/electronics/hammond_drawbar_science.html
-
-// http://electricdruid.net/technical-aspects-of-the-hammond-organ/
-var RATIOS = [0.5, 1.498823530, 1, 2, 2.997647060, 4, 5.040941178, 5.995294120, 8];
+var RATIOS$1 = [0.5, 1.498823530, 1, 2, 2.997647060, 4, 5.040941178, 5.995294120, 8];
 
 // ## Drawbars
 
@@ -857,32 +885,46 @@ var RATIOS = [0.5, 1.498823530, 1, 2, 2.997647060, 4, 5.040941178, 5.995294120, 
 // ## Presets
 // http://www.dairiki.org/HammondWiki/PopularDrawbarRegistrations
 var PRESETS = {
-  gospel: preset("88 8000 008"),
-  blues: preset("88 8800 000"),
-  bluesB: preset("88 5324 588"),
-  booker: preset("88 8630 000"),
-  onions: preset("80 8800 008"),
-  smith: preset("88 8000 000"),
-  mcgriff: preset("86 8600 006"),
-  errol: preset("80 0008 888"),
-  genesis: preset("33 6866 330")
+  gospel: toState("88 8000 008"),
+  blues: toState("88 8800 000"),
+  bluesB: toState("88 5324 588"),
+  booker: toState("88 8630 000"),
+  onions: toState("80 8800 008"),
+  smith: toState("88 8000 000"),
+  mcgriff: toState("86 8600 006"),
+  errol: toState("80 0008 888"),
+  genesis: toState("33 6866 330")
 };
 
-function preset(str) {
-  return (str.replace(/[^12345678]/g, "") + "000000000").slice(0, 9).split("").map(function (n) {
-    return Math.abs(+n / 8);
-  });
+// Given a preset, return a state fragment
+function toState(preset) {
+  if (preset) {
+    var norm = (preset.replace(/[^012345678]/g, "") + "000000000").slice(0, 9);
+    var gains = norm.split("").map(function (n) {
+      return Math.abs(+n / 8);
+    });
+    return {
+      bank: { gains: gains }
+    };
+  }
 }
 
 // ## Instrument
-function Tonewheel(ac, config) {
-  config = Object.assign({}, Tonewheel.defaults, config);
+function Tonewheel(ac, preset) {
+  preset = preset ? toState(preset) : PRESETS["smith"];
+  var state = Object.assign({}, Tonewheel.defaults, preset);
   // Tonewheel instrument output
   var tw = instrument(ac, {
-    bank: [OscBank(ac, RATIOS), "envelope"],
+    bank: [OscBank(ac, RATIOS$1), "envelope"],
     envelope: [GainEnvelope, "amp"],
+    click: [Pulse, "output"],
     amp: [Gain, "output"]
-  }).update(config);
+  }).update(state);
+
+  tw.setPreset = function (preset, time) {
+    var newState = PRESETS[preset] || toState(preset);
+    tw.update(newState);
+  };
 
   // API
   tw.trigger = function (freq, time, dur) {
@@ -895,7 +937,6 @@ function Tonewheel(ac, config) {
 }
 Tonewheel.defaults = {
   bank: {
-    gains: PRESETS["genesis"],
     types: ["sine"]
   },
   amp: {
@@ -915,7 +956,7 @@ exports.VCO = VCO;
 exports.VCF = VCF;
 exports.Kick = Kick;
 exports.Snare = Snare;
-exports.Hat = Hat;
+exports.HiHat = HiHat;
 exports.Cowbell = Cowbell;
 exports.Conga = Conga;
 exports.Tom = Tom;
