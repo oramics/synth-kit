@@ -7,11 +7,15 @@
   "keywords": [],
   "author": "danigb",
   "license": "MIT",
-  "devDependencies": {
-    "hyperapp": "^0.7.1",
-    "hyperx": "^2.3.0"
-  },
   "dependencies": {
-    "pick-random": "^2.0.0"
+    "hyperapp": "^0.7.1",
+    "hyperx": "^2.3.0",
+    "inline-style-prefixer": "^3.0.2",
+    "lz-string": "^1.4.4",
+    "pick-random": "^2.0.0",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "startaudiocontext": "^1.2.0",
+    "tone": "^0.10.0"
   }
 }

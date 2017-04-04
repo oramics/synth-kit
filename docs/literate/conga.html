@@ -194,6 +194,9 @@
 <span class="hljs-keyword">import</span> Gain <span class="hljs-keyword">from</span> <span class="hljs-string">"../kit/gain"</span>
 <span class="hljs-keyword">import</span> GainEnvelope <span class="hljs-keyword">from</span> <span class="hljs-string">"../kit/gain-envelope"</span>
 
+<span class="hljs-comment">/**
+ * Create a Conga
+ */</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Conga</span> (<span class="hljs-params">ac, config</span>) </span>{
   <span class="hljs-keyword">const</span> state = withDefaults(config, Conga.defaults)
   <span class="hljs-keyword">const</span> conga = instrument(ac, {

@@ -191,6 +191,7 @@
             <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> { instrument } <span class="hljs-keyword">from</span> <span class="hljs-string">"../synth"</span>
 <span class="hljs-keyword">import</span> Osc <span class="hljs-keyword">from</span> <span class="hljs-string">"../kit/osc"</span>
 <span class="hljs-keyword">import</span> Noise <span class="hljs-keyword">from</span> <span class="hljs-string">"../kit/noise"</span>
+<span class="hljs-keyword">import</span> Filter <span class="hljs-keyword">from</span> <span class="hljs-string">"../kit/filter"</span>
 <span class="hljs-keyword">import</span> Gain <span class="hljs-keyword">from</span> <span class="hljs-string">"../kit/gain"</span>
 <span class="hljs-keyword">import</span> GainEnvelope <span class="hljs-keyword">from</span> <span class="hljs-string">"../kit/gain-envelope"</span></pre></div></div>
             
@@ -203,11 +204,14 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-2">&#182;</a>
               </div>
-              <p>A Snare modeled after the 808 design</p>
+              <p>A snare modeled after the 808 design</p>
 
             </div>
             
             <div class="content"><div class='highlight'><pre>
+<span class="hljs-comment">/**
+ * Create the Snare
+ */</span>
 <span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Snare</span> (<span class="hljs-params">ac, state</span>) </span>{
   state = <span class="hljs-built_in">Object</span>.assign({}, Snare.defaults, state)</pre></div></div>
             
@@ -221,7 +225,7 @@
                 <a class="pilcrow" href="#section-3">&#182;</a>
               </div>
               <h1 id="architecture">Architecture</h1>
-<p><a href="http://media.soundonsound.com/sos/apr02/images/synth9_10.gif">http://media.soundonsound.com/sos/apr02/images/synth9_10.gif</a></p>
+<p><img alt="808 snare" src="http://media.soundonsound.com/sos/apr02/images/synth9_10.gif" style="width: 100%;" /></p>
 
             </div>
             
@@ -240,8 +244,8 @@
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    osc1: [ Osc, <span class="hljs-string">"oscEnv"</span> ],
-    <span class="hljs-attr">osc2</span>: [ Osc, <span class="hljs-string">"oscEnv"</span> ],</pre></div></div>
+            <div class="content"><div class='highlight'><pre>    osc1: [Osc, <span class="hljs-string">"oscEnv"</span>],
+    <span class="hljs-attr">osc2</span>: [Osc, <span class="hljs-string">"oscEnv"</span>],</pre></div></div>
             
         </li>
         
@@ -256,7 +260,7 @@
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    oscEnv: [ GainEnvelope, <span class="hljs-string">"amp"</span> ],</pre></div></div>
+            <div class="content"><div class='highlight'><pre>    oscEnv: [GainEnvelope, <span class="hljs-string">"amp"</span>],</pre></div></div>
             
         </li>
         
@@ -271,7 +275,7 @@
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    noise: [ Noise, <span class="hljs-string">"noiseEnv"</span> ],</pre></div></div>
+            <div class="content"><div class='highlight'><pre>    noise: [Noise, <span class="hljs-string">"noiseFilter"</span>],</pre></div></div>
             
         </li>
         
@@ -282,11 +286,11 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-7">&#182;</a>
               </div>
-              <p>The AD envelope for the noise</p>
+              <p>The noise filter</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    noiseEnv: [ GainEnvelope, <span class="hljs-string">"amp"</span> ],</pre></div></div>
+            <div class="content"><div class='highlight'><pre>    noiseFilter: [Filter, <span class="hljs-string">"noiseEnv"</span>],</pre></div></div>
             
         </li>
         
@@ -297,11 +301,26 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-8">&#182;</a>
               </div>
+              <p>The AD envelope for the noise</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    noiseEnv: [GainEnvelope, <span class="hljs-string">"amp"</span>],</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
               <p>Output</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    amp: [ Gain, <span class="hljs-string">"output"</span> ]
+            <div class="content"><div class='highlight'><pre>    amp: [Gain, <span class="hljs-string">"output"</span>],
   }).update(state)
 
   snare.trigger = <span class="hljs-function">(<span class="hljs-params">time</span>) =&gt;</span> {
@@ -328,6 +347,10 @@ Snare.defaults = {
   },
   <span class="hljs-attr">noise</span>: {
     <span class="hljs-attr">type</span>: <span class="hljs-string">"white"</span>,
+  },
+  <span class="hljs-attr">noiseFilter</span>: {
+    <span class="hljs-attr">type</span>: <span class="hljs-string">"highpass"</span>,
+    <span class="hljs-attr">frequency</span>: <span class="hljs-number">4000</span>,
   },
   <span class="hljs-attr">noiseEnv</span>: {
     <span class="hljs-attr">attack</span>: <span class="hljs-number">0.01</span>,

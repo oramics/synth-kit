@@ -1,0 +1,2245 @@
+@import url(https://fonts.googleapis.com/css?family=Josefin+Sans:400);
+.codepen .ScaleToggler {
+  margin-top: 1px;
+}
+.codepen .ScaleToggler .Toggle .labels div:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  margin-left: -3px;
+  height: 1px;
+  width: 4px;
+  background: #ccc;
+}
+.codepen .Scale {
+  position: relative;
+}
+.codepen .Scale:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  height: 1px;
+  width: 7px;
+  margin-right: -4px;
+  background: #ccc;
+}
+.codepen .Scale:after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  height: 1px;
+  width: 8px;
+  background: #ccc;
+  margin-right: 3px;
+  -webkit-transform-origin: 100% 50%;
+          transform-origin: 100% 50%;
+}
+.codepen .Scale:nth-child(1):after {
+  -webkit-transform: rotate(-65deg);
+          transform: rotate(-65deg);
+  width: 15px;
+}
+.codepen .Scale:nth-child(2):after {
+  -webkit-transform: rotate(-35deg);
+          transform: rotate(-35deg);
+  width: 9px;
+}
+.codepen .Scale:nth-child(3):after {
+  -webkit-transform: rotate(25deg);
+          transform: rotate(25deg);
+  width: 8px;
+}
+.codepen .Scale:nth-child(4):after {
+  -webkit-transform: rotate(59deg);
+          transform: rotate(59deg);
+  width: 13px;
+}
+.codepen .Scale .ScaleMeasure {
+  position: relative;
+  border-radius: 2px;
+  height: 12px;
+  line-height: 10px;
+  color: #111;
+}
+.codepen .Scale .ScaleMeasure:before {
+  content: '';
+  background: #ccc;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 6px;
+  right: 6px;
+  border-radius: 2px;
+  border-top-right-radius: inherit;
+  border-bottom-right-radius: inherit;
+}
+.codepen .Scale:nth-child(1) .ScaleMeasure:last-child:after, .codepen .Scale:nth-child(2) .ScaleMeasure:last-child:after {
+  content: '';
+  background: #252527;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 2;
+  width: 6px;
+}
+.codepen .Scale .note {
+  position: relative;
+  z-index: 1;
+}
+.codepen .Button {
+  background: #fff;
+  color: #111;
+  border-radius: 2px;
+  background-image: -webkit-linear-gradient(bottom, rgba(255, 255, 255, 0.1) 2%, rgba(0, 0, 0, 0.1) 20%, rgba(255, 255, 255, 0.2) 70%);
+  background-image: linear-gradient(to top, rgba(255, 255, 255, 0.1) 2%, rgba(0, 0, 0, 0.1) 20%, rgba(255, 255, 255, 0.2) 70%);
+  box-shadow: 0 4px 0 0 #999999, 0 3px 0 3px #111, 0 5px 0 3px #111, 0 0 0 2px #fff inset, 0 -2px 0 3px #999999 inset;
+}
+.codepen .Button * {
+  pointer-events: none;
+}
+.codepen .Button > div {
+  margin-top: -6px;
+}
+.codepen .Button:active {
+  -webkit-transform: translateY(4px);
+          transform: translateY(4px);
+  background-image: -webkit-linear-gradient(bottom, rgba(0, 0, 0, 0.05) 5%, rgba(255, 255, 255, 0.05) 20%, rgba(0, 0, 0, 0.05) 80%);
+  background-image: linear-gradient(to top, rgba(0, 0, 0, 0.05) 5%, rgba(255, 255, 255, 0.05) 20%, rgba(0, 0, 0, 0.05) 80%);
+  box-shadow: 0 1px 0 0 #999999, 0 0 0 3px #111, 0 1px 0 3px #111, 0 0 0 2px #fff inset, 0 -2px 0 3px #999999 inset;
+}
+.codepen .Button.onOffButton {
+  position: absolute;
+  top: 28px;
+  left: 72px;
+  height: 16px !important;
+  width: 25px !important;
+  min-width: 20px !important;
+  background-color: #111;
+  background-image: -webkit-linear-gradient(bottom, rgba(255, 255, 255, 0.05) 2%, rgba(0, 0, 0, 0.1) 20%, rgba(255, 255, 255, 0.05) 70%);
+  background-image: linear-gradient(to top, rgba(255, 255, 255, 0.05) 2%, rgba(0, 0, 0, 0.1) 20%, rgba(255, 255, 255, 0.05) 70%);
+  box-shadow: 0 3px 0 0 #121212, 0 2px 0 2px #111, 0 3px 0 2px #111;
+}
+.codepen .Button.onOffButton:active {
+  -webkit-transform: translateY(3px);
+          transform: translateY(3px);
+  background-image: -webkit-linear-gradient(bottom, rgba(0, 0, 0, 0.05) 5%, rgba(255, 255, 255, 0.05) 20%, rgba(0, 0, 0, 0.05) 80%);
+  background-image: linear-gradient(to top, rgba(0, 0, 0, 0.05) 5%, rgba(255, 255, 255, 0.05) 20%, rgba(0, 0, 0, 0.05) 80%);
+  box-shadow: 0 1px 0 0 #121212, 0 0 0 2px #111, 0 -1px 0 1px #111;
+}
+.codepen .Instrument {
+  box-shadow: 1px 0 0 #ccc;
+}
+.codepen .Instrument:last-child {
+  box-shadow: none;
+}
+.codepen .Instrument .InstrumentName {
+  background: #fff;
+  color: #111;
+  margin: 2px 2px 2px 3px;
+  padding: 4px 3px;
+  text-align: center;
+  line-height: 1;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+.codepen .Step {
+  background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.1) 2px, rgba(0, 0, 0, 0.3) 12px, rgba(0, 0, 0, 0.1) 15px, rgba(255, 255, 255, 0.2) 15px, rgba(0, 0, 0, 0.1) 20px, rgba(255, 255, 255, 0.2) calc(100% - 5px), rgba(255, 255, 255, 0.1) calc(100% - 5px), rgba(0, 0, 0, 0.2) calc(100% - 4px), rgba(0, 0, 0, 0.3));
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 2px, rgba(0, 0, 0, 0.3) 12px, rgba(0, 0, 0, 0.1) 15px, rgba(255, 255, 255, 0.2) 15px, rgba(0, 0, 0, 0.1) 20px, rgba(255, 255, 255, 0.2) calc(100% - 5px), rgba(255, 255, 255, 0.1) calc(100% - 5px), rgba(0, 0, 0, 0.2) calc(100% - 4px), rgba(0, 0, 0, 0.3));
+  border-radius: 2px;
+  box-shadow: 0 1px 0 3px #111;
+  cursor: pointer;
+}
+.codepen .Step:active {
+  background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.4) 2px, rgba(0, 0, 0, 0.2) 2px, rgba(0, 0, 0, 0.3) 14px, rgba(0, 0, 0, 0.1) 17px, rgba(255, 255, 255, 0.2) 17px, rgba(0, 0, 0, 0.1) 28px, rgba(255, 255, 255, 0.2) calc(100% - 2px), rgba(255, 255, 255, 0.1) calc(100% - 2px), rgba(0, 0, 0, 0.2) calc(100% - 1px), rgba(0, 0, 0, 0.3));
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.4) 2px, rgba(0, 0, 0, 0.2) 2px, rgba(0, 0, 0, 0.3) 14px, rgba(0, 0, 0, 0.1) 17px, rgba(255, 255, 255, 0.2) 17px, rgba(0, 0, 0, 0.1) 28px, rgba(255, 255, 255, 0.2) calc(100% - 2px), rgba(255, 255, 255, 0.1) calc(100% - 2px), rgba(0, 0, 0, 0.2) calc(100% - 1px), rgba(0, 0, 0, 0.3));
+}
+.codepen .Step:active .StepLight {
+  margin-top: 2px;
+}
+.codepen .Step:active.selected .glow {
+  box-shadow: 0 0 3px 2px orange;
+}
+.codepen .Step.selected .glow {
+  box-shadow: 0 0 2px 1px red, 0 0 3px 2px orange, 0 0 4px 1px rgba(0, 0, 0, 0.8);
+}
+.codepen .Step.active .glow {
+  box-shadow: 0 0 3px 2px orange, 0 0 3px 3px red, 0 0 2px 2px rgba(0, 0, 0, 0.7);
+}
+.codepen .Step .StepLight {
+  box-shadow: 0 1px 0 1px #111;
+}
+.codepen .Step .count {
+  color: #fff;
+}
+.codepen .Step .rhythm {
+  color: #111;
+  background: #ccc;
+}
+.codepen .Step:last-child .rhythm:before {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  right: 0;
+  height: 6px;
+  width: 6px;
+  border-radius: 100%;
+  box-shadow: 2px 2px 0 #ccc;
+}
+.codepen .Step:first-child .rhythm:before {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  height: 6px;
+  width: 6px;
+  border-radius: 100%;
+  box-shadow: -2px 2px 0 #ccc;
+}
+.codepen .Step._colored.red {
+  color: #AE63E4;
+}
+.codepen .Step._colored.orange {
+  color: #0ebeff;
+}
+.codepen .Step._colored.yellow {
+  color: #47CF73;
+}
+.codepen .Step._colored.white {
+  color: #fff;
+}
+.codepen .Poti .PotiIndicator:before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 2px;
+  background: #ccc;
+  margin-bottom: -1px;
+  border-radius: 100%;
+}
+.codepen .Poti .PotiIndicator._numbered:before {
+  content: normal;
+}
+.codepen .Poti.measures > label {
+  margin-top: -1em;
+  padding-bottom: 2em;
+}
+.codepen .Poti.measures > label div:last-child {
+  font-size: 1.3em;
+}
+.codepen .Poti.measures .PotiIndicator:nth-child(1) .label {
+  padding-right: 3em;
+}
+.codepen .Poti.pattern-write {
+  vertical-align: top;
+}
+.codepen .Poti.pattern-write > label {
+  padding-bottom: 1.2em;
+}
+.codepen .Poti.pattern-write > label > div:first-child {
+  color: #fff;
+  box-shadow: 0 0 0 1px;
+  padding: 1px;
+  line-height: 1;
+  position: relative;
+}
+.codepen .Poti.pattern-write > label > div:first-child:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  height: 20em;
+  width: 4em;
+  border: 1px solid;
+  border-right: 0;
+  border-bottom: 0;
+}
+.codepen .Poti.pattern-write .PotiIndicator:nth-child(1) .label {
+  white-space: nowrap;
+  margin-left: 4.3em;
+  margin-top: -5em;
+  box-shadow: 0 0 0 1px;
+  padding: 1px;
+  line-height: 1;
+  color: #fff;
+}
+.codepen .Poti.pattern-write .PotiIndicator:nth-child(1) .label:before {
+  content: '';
+  position: absolute;
+  bottom: 50%;
+  right: 100%;
+  height: 8em;
+  width: 2em;
+  border: 1px solid;
+  border-right: 0;
+}
+.codepen .Poti.pattern-write .PotiIndicator:nth-child(2) .label {
+  margin-left: 1em;
+  margin-top: 1em;
+  color: #fff;
+  text-transform: initial !important;
+}
+.codepen .Poti.pattern-write .PotiIndicator:nth-child(2) .label:before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  width: 1px;
+  height: 2.5em;
+  background: currentColor;
+}
+.codepen .Poti.pattern-write .PotiIndicator:nth-child(2) .label:after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  width: 2.8em;
+  height: 1px;
+  margin-bottom: 2.5em;
+  background: currentColor;
+}
+.codepen .Poti.pattern-write .PotiIndicator:nth-child(3) .label {
+  margin-left: 1em;
+  margin-top: 1em;
+  color: #fff;
+  text-transform: initial !important;
+}
+.codepen .Poti.pattern-write .PotiIndicator:nth-child(3) .label:before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  width: 1px;
+  height: .5em;
+  background: currentColor;
+}
+.codepen .Poti.pattern-write .PotiIndicator:nth-child(3) .label:after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  width: 1px;
+  height: 0.5em;
+  margin-bottom: 0.5em;
+  margin-left: -1em;
+  background: currentColor;
+}
+.codepen .Poti.pattern-write .PotiIndicator:nth-child(4) .label {
+  margin-left: -3em;
+  margin-top: 1.5em;
+  box-shadow: 0 0 0 1px;
+  padding: 1px;
+  line-height: 1;
+}
+.codepen .Poti.pattern-write .PotiIndicator:nth-child(4) .label:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  height: 0.7em;
+  width: 2.6em;
+  border: 1px solid;
+  border-right: 0;
+  border-bottom: 0;
+}
+.codepen .Poti.pattern-write .PotiIndicator:nth-child(5) .label {
+  margin-left: -1em;
+  margin-top: 0.5em;
+  color: #0ebeff;
+}
+.codepen .Poti.pattern-write .PotiIndicator:nth-child(5) .label:after {
+  content: '';
+  position: absolute;
+  left: 100%;
+  bottom: 50%;
+  width: 4em;
+  height: 1px;
+  background: currentColor;
+}
+.codepen .Poti.pattern-write .PotiIndicator:nth-child(6) .label {
+  margin-top: 1.5em;
+  margin-left: -0.5em;
+  color: #0ebeff;
+}
+.codepen .Poti.pattern-write .PotiIndicator:nth-child(6) .label:before {
+  content: '';
+  position: absolute;
+  right: 50%;
+  top: 100%;
+  width: 6em;
+  height: 11.6em;
+  border-right: 1px solid;
+  border-bottom: 1px solid;
+}
+.codepen .Poti.pattern-write .PotiIndicator:nth-child(6) .label:after {
+  content: '';
+  position: absolute;
+  left: 100%;
+  bottom: 50%;
+  width: 2.2em;
+  height: 1px;
+  background: currentColor;
+}
+.codepen .Poti.instrument-select {
+  margin: 0 0 20px;
+}
+.codepen .Poti.instrument-select > label div:first-child {
+  color: #fff;
+  position: relative;
+}
+.codepen .Poti.instrument-select > label div:first-child:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  width: 10em;
+  height: 1px;
+  background: currentColor;
+}
+.codepen .Poti.instrument-select > label div:last-child {
+  color: #0ebeff;
+  box-shadow: 0 0 0 1px #0ebeff;
+  padding: 2px 10px;
+  line-height: 1;
+  margin: 2px auto;
+  position: relative;
+}
+.codepen .Poti.instrument-select > label div:last-child:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  height: 5.5em;
+  width: 3em;
+  border: 1px solid;
+  border-right: 0;
+  border-bottom: 0;
+}
+.codepen .Poti.instrument-select .PotiIndicator {
+  color: #111;
+}
+.codepen .Poti.instrument-select .PotiIndicator:before {
+  background: #0ebeff;
+}
+.codepen .Poti.instrument-select .PotiIndicator > .label {
+  background: #fff;
+  border-radius: 2px;
+  padding: 1px;
+  line-height: 1;
+  font-weight: bold;
+}
+.codepen .Poti.instrument-select .PotiIndicator > .number {
+  color: #0ebeff;
+  font-weight: bold;
+}
+.codepen .Poti._ring {
+  margin-top: 40px;
+}
+.codepen .Poti._ring .\@decorator:before {
+  content: '';
+  height: 50%;
+  width: 50%;
+  padding: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  border-radius: 100%;
+  box-shadow: 0 0 0 12px #ccc;
+  pointer-events: none;
+}
+.codepen .Poti._ring .PotiIndicator > .label {
+  color: #111;
+  font-weight: bolder;
+  margin-top: 4px;
+}
+.codepen .Poti .PotiKnob {
+  z-index: 2;
+  box-shadow: 0 0 2px 1px rgba(255, 255, 255, 0.1) inset, 0 0 0 2px #111 inset;
+  margin-top: -5px;
+}
+.codepen .Poti .PotiKnob:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  height: 100%;
+  width: 110%;
+  padding: 4px 0;
+  border-radius: 100%;
+  box-shadow: 0 2px 0 1px #111, 0 2px 0 6px #1E1E1E, 0 2px 0 7px #111;
+  background-color: #1E1E1E;
+  background-image: -webkit-linear-gradient(bottom, rgba(0, 0, 0, 0.5) 0, transparent 10px), -webkit-linear-gradient(left, transparent 20%, rgba(255, 255, 255, 0.2) 40%, transparent 70%);
+  background-image: linear-gradient(to top, rgba(0, 0, 0, 0.5) 0, transparent 10px), linear-gradient(to right, transparent 20%, rgba(255, 255, 255, 0.2) 40%, transparent 70%);
+}
+.codepen .Poti .PotiKnob:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  border-radius: 100%;
+  background-color: #1E1E1E;
+  background-image: -webkit-radial-gradient(closest-corner, rgba(17, 17, 17, 0.2) 10%, rgba(17, 17, 17, 0.1) 60%, rgba(255, 255, 255, 0.1) 80%);
+  background-image: radial-gradient(closest-corner, rgba(17, 17, 17, 0.2) 10%, rgba(17, 17, 17, 0.1) 60%, rgba(255, 255, 255, 0.1) 80%);
+  box-shadow: inherit;
+}
+.codepen .Poti .PotiMarker {
+  z-index: 2;
+  color: #AE63E4;
+  font-size: 6px;
+  will-change: transform;
+}
+.codepen .Poti._colored .PotiIndicator:before {
+  background: #ccc;
+  height: 10px;
+  margin-bottom: 7px;
+  border-radius: 0;
+}
+.codepen .Poti._colored .PotiKnob {
+  z-index: 2;
+  box-shadow: 0 0 0 2px #1E1E1E inset;
+  margin-top: -5px;
+}
+.codepen .Poti._colored .PotiKnob:before {
+  height: 120%;
+  width: 110%;
+  padding: 1px;
+  box-shadow: 0 1px 0 1px #111;
+  top: 0;
+}
+.codepen .Poti._colored .PotiKnob:after {
+  background-color: inherit;
+}
+.codepen .Poti._colored .PotiMarker {
+  z-index: 2;
+  color: #111;
+  font-size: 6px;
+}
+.codepen .Poti._colored.orange .PotiKnob {
+  color: #0ebeff;
+}
+.codepen .Poti._colored.white .PotiKnob {
+  color: #fff;
+}
+.codepen.Eight_0_Eight {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  position: relative;
+  margin: auto;
+  padding: 10px 30px;
+  background-color: #28282B;
+  background-image: -webkit-linear-gradient(left bottom, rgba(255, 255, 255, 0.05) 1px, rgba(255, 255, 255, 0) 100px), -webkit-linear-gradient(left top, rgba(255, 255, 255, 0.2) 1px, rgba(255, 255, 255, 0) 300px), -webkit-linear-gradient(right bottom, rgba(0, 0, 0, 0.5) 1px, transparent 100px), -webkit-linear-gradient(top, rgba(0, 0, 0, 0.5) 1px, rgba(255, 255, 255, 0.2) 4px, rgba(0, 0, 0, 0.1) 8px, rgba(0, 0, 0, 0.3) 30%, rgba(0, 0, 0, 0.1) 50%, rgba(0, 0, 0, 0.1) calc(100% - 15px), rgba(255, 255, 255, 0.2) calc(100% - 3px), rgba(0, 0, 0, 0.3) calc(100% - 1px));
+  background-image: linear-gradient(to right top, rgba(255, 255, 255, 0.05) 1px, rgba(255, 255, 255, 0) 100px), linear-gradient(to right bottom, rgba(255, 255, 255, 0.2) 1px, rgba(255, 255, 255, 0) 300px), linear-gradient(to left top, rgba(0, 0, 0, 0.5) 1px, transparent 100px), linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 1px, rgba(255, 255, 255, 0.2) 4px, rgba(0, 0, 0, 0.1) 8px, rgba(0, 0, 0, 0.3) 30%, rgba(0, 0, 0, 0.1) 50%, rgba(0, 0, 0, 0.1) calc(100% - 15px), rgba(255, 255, 255, 0.2) calc(100% - 3px), rgba(0, 0, 0, 0.3) calc(100% - 1px));
+  box-shadow: 0 20px 0 #181819, 0 30px 0 #141414, 0 -10px 0 #1E1E1E;
+  color: #ccc;
+}
+.codepen.Eight_0_Eight:before, .codepen.Eight_0_Eight:after {
+  content: '';
+  position: absolute;
+  z-index: 2;
+  top: -5px;
+  bottom: 5px;
+  width: 35px;
+  background-color: #111;
+  background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.5) 1px, rgba(255, 255, 255, 0.2) 4px, rgba(0, 0, 0, 0.1) 8px, rgba(0, 0, 0, 0.3) 30%, rgba(0, 0, 0, 0.1) 50%, rgba(0, 0, 0, 0.1) calc(100% - 15px), rgba(255, 255, 255, 0.2) calc(100% - 4px), rgba(0, 0, 0, 0.3) calc(100% - 1px));
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 1px, rgba(255, 255, 255, 0.2) 4px, rgba(0, 0, 0, 0.1) 8px, rgba(0, 0, 0, 0.3) 30%, rgba(0, 0, 0, 0.1) 50%, rgba(0, 0, 0, 0.1) calc(100% - 15px), rgba(255, 255, 255, 0.2) calc(100% - 4px), rgba(0, 0, 0, 0.3) calc(100% - 1px));
+  box-shadow: 0 30px 0 #151515, 0 40px 0 #111, 0 -10px 0 #111;
+}
+.codepen.Eight_0_Eight:before {
+  left: -30px;
+  border-radius: 3px 2px 2px 3px;
+}
+.codepen.Eight_0_Eight:after {
+  right: -30px;
+  border-radius: 2px 3px 3px 2px;
+}
+.codepen .title-area .primary {
+  color: #0ebeff;
+  text-shadow: -2px -2px 0 #28282B, -2px -1px 0 #28282B, -2px 0px 0 #28282B, -2px 1px 0 #28282B, -2px 2px 0 #28282B, -1px -2px 0 #28282B, -1px -1px 0 #28282B, -1px 0px 0 #28282B, -1px 1px 0 #28282B, -1px 2px 0 #28282B, 0px -2px 0 #28282B, 0px -1px 0 #28282B, 0px 0px 0 #28282B, 0px 1px 0 #28282B, 0px 2px 0 #28282B, 1px -2px 0 #28282B, 1px -1px 0 #28282B, 1px 0px 0 #28282B, 1px 1px 0 #28282B, 1px 2px 0 #28282B, 2px -2px 0 #28282B, 2px -1px 0 #28282B, 2px 0px 0 #28282B, 2px 1px 0 #28282B, 2px 2px 0 #28282B;
+}
+.codepen .title-area .underline {
+  color: #0ebeff;
+}
+.codepen .title-area .secondary {
+  color: #ccc;
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 100%;
+          flex: 0 0 100%;
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  font-size: 0.5em;
+}
+.codepen .top {
+  border-top: 5px solid #ccc;
+  border-bottom: 5px solid #ccc;
+  padding: 5px 0;
+  margin: 10px;
+}
+.codepen .top > .left,
+.codepen .top > .right {
+  box-shadow: 2px 0 0 #ccc;
+  margin-right: 5px;
+}
+.codepen .bottom {
+  padding: 5px 0;
+  margin: 10px;
+}
+.codepen .LoadingBuffers {
+  position: absolute;
+  z-index: 999;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 2em;
+  max-width: 400px;
+  background: #fff;
+  color: #111;
+  box-shadow: 0 2px 4px 3px rgba(0, 0, 0, 0.4);
+  border-radius: 2px;
+  font-family: 'Josefin Sans';
+}
+.codepen .LoadingBuffers > div:last-child {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  padding-left: 20px;
+}
+.codepen .Loader {
+  height: 50px;
+  width: 50px;
+  position: relative;
+}
+.codepen .Loader div {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 10px;
+  width: 10px;
+  margin: -5px;
+  border-radius: 100%;
+  -webkit-animation: Loader 2s ease-out infinite;
+          animation: Loader 2s ease-out infinite;
+}
+.codepen .Loader div:nth-child(1) {
+  background: #AE63E4;
+}
+.codepen .Loader div:nth-child(2) {
+  background: #0ebeff;
+  -webkit-animation-delay: -0.5s;
+          animation-delay: -0.5s;
+}
+.codepen .Loader div:nth-child(3) {
+  background: #1E1E1E;
+  -webkit-animation-delay: -1s;
+          animation-delay: -1s;
+}
+@-webkit-keyframes Loader {
+  0% {
+    -webkit-transform: rotate(0deg) translateY(20px);
+            transform: rotate(0deg) translateY(20px);
+  }
+  30% {
+    -webkit-transform: rotate(180deg) translateY(10px);
+            transform: rotate(180deg) translateY(10px);
+  }
+  50% {
+    -webkit-transform: rotate(300deg) translateY(25px);
+            transform: rotate(300deg) translateY(25px);
+  }
+  100% {
+    -webkit-transform: rotate(360deg) translateY(20px);
+            transform: rotate(360deg) translateY(20px);
+  }
+}
+@keyframes Loader {
+  0% {
+    -webkit-transform: rotate(0deg) translateY(20px);
+            transform: rotate(0deg) translateY(20px);
+  }
+  30% {
+    -webkit-transform: rotate(180deg) translateY(10px);
+            transform: rotate(180deg) translateY(10px);
+  }
+  50% {
+    -webkit-transform: rotate(300deg) translateY(25px);
+            transform: rotate(300deg) translateY(25px);
+  }
+  100% {
+    -webkit-transform: rotate(360deg) translateY(20px);
+            transform: rotate(360deg) translateY(20px);
+  }
+}
+.codepen .Logo {
+  color: #0ebeff;
+}
+.codepen .Toggle {
+  background-color: #1d1d1d;
+  background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0.2) 5%, rgba(0, 0, 0, 0.1) 30%, rgba(0, 0, 0, 0.2) 90%);
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0.2) 5%, rgba(0, 0, 0, 0.1) 30%, rgba(0, 0, 0, 0.2) 90%);
+  box-shadow: 0 0 0 2px #111, 0 1px 3px 3px rgba(255, 255, 255, 0.05), 0 2px 8px 1px rgba(255, 255, 255, 0.05);
+}
+.codepen .Toggle .ToggleSwitch {
+  color: #1E1E1E;
+  background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.1) 1px, rgba(255, 255, 255, 0.1) 1px);
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 1px, rgba(255, 255, 255, 0.1) 1px);
+  background-size: 100% 2px;
+  box-shadow: 0 0 1px 1px #111;
+  will-change: transform;
+}
+.codepen .Toggle._horizontal .ToggleSwitch {
+  background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0.1) 1px, rgba(255, 255, 255, 0.1) 1px);
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0.1) 1px, rgba(255, 255, 255, 0.1) 1px);
+  background-size: 2px 100%;
+}
+.codepen .Toggle._horizontal .stem {
+  border-radius: 0 10px 10px 0;
+  background-image: -webkit-linear-gradient(right, rgba(255, 255, 255, 0) 10%, rgba(255, 255, 255, 0.5)), -webkit-linear-gradient(top, rgba(0, 0, 0, 0.5) 10%, rgba(255, 255, 255, 0.1) 20%, rgba(0, 0, 0, 0.05), 70%, rgba(0, 0, 0, 0.6));
+  background-image: linear-gradient(to left, rgba(255, 255, 255, 0) 10%, rgba(255, 255, 255, 0.5)), linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 10%, rgba(255, 255, 255, 0.1) 20%, rgba(0, 0, 0, 0.05), 70%, rgba(0, 0, 0, 0.6));
+}
+.codepen .Toggle._horizontal .cap {
+  background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0.1) 1px, rgba(255, 255, 255, 0.1) 1px);
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0.1) 1px, rgba(255, 255, 255, 0.1) 1px);
+  background-size: 2px 100%;
+}
+.codepen .Toggle .stem {
+  background: #b3b3b3;
+  visibility: visible;
+  border-radius: 0 0 10px 10px;
+  background-image: -webkit-linear-gradient(bottom, rgba(255, 255, 255, 0) 10%, rgba(255, 255, 255, 0.5)), -webkit-linear-gradient(left, rgba(0, 0, 0, 0.5) 10%, rgba(255, 255, 255, 0.1) 20%, rgba(0, 0, 0, 0.05), 70%, rgba(0, 0, 0, 0.6));
+  background-image: linear-gradient(to top, rgba(255, 255, 255, 0) 10%, rgba(255, 255, 255, 0.5)), linear-gradient(to right, rgba(0, 0, 0, 0.5) 10%, rgba(255, 255, 255, 0.1) 20%, rgba(0, 0, 0, 0.05), 70%, rgba(0, 0, 0, 0.6));
+}
+.codepen .Toggle._stem {
+  border-radius: 10px;
+}
+.codepen .Toggle._stem .ToggleSwitch {
+  visibility: hidden;
+}
+.codepen .Toggle._stem:before {
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  content: '';
+  height: 10px;
+  width: 10px;
+  background: #b3b3b3;
+  -webkit-transition: -webkit-transform 0.2s;
+  transition: -webkit-transform 0.2s;
+  transition: transform 0.2s;
+  transition: transform 0.2s, -webkit-transform 0.2s;
+  visibility: visible;
+  border-radius: 10px;
+  background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0.5) 10%, rgba(255, 255, 255, 0.1) 20%, rgba(0, 0, 0, 0.05), 70%, rgba(0, 0, 0, 0.6));
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0.5) 10%, rgba(255, 255, 255, 0.1) 20%, rgba(0, 0, 0, 0.05), 70%, rgba(0, 0, 0, 0.6));
+}
+.codepen .Toggle._stem._horizontal:before {
+  background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.5) 10%, rgba(255, 255, 255, 0.1) 20%, rgba(0, 0, 0, 0.05), 70%, rgba(0, 0, 0, 0.6));
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 10%, rgba(255, 255, 255, 0.1) 20%, rgba(0, 0, 0, 0.05), 70%, rgba(0, 0, 0, 0.6));
+}
+.codepen .Toggle .cap {
+  background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.1) 1px, rgba(255, 255, 255, 0.1) 1px);
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 1px, rgba(255, 255, 255, 0.1) 1px);
+  background-size: 100% 2px;
+  border-radius: 100%;
+  background-color: white;
+  visibility: visible;
+  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.2) inset;
+}
+.codepen .tap-area {
+  background: #ccc;
+  color: #111;
+  margin-bottom: 6px;
+  margin-left: 6px;
+  border-radius: 2px 2px 2px 0;
+}
+.codepen .main-control {
+  background: #ccc;
+  color: #111;
+  margin-bottom: 6px;
+  margin-right: 54px;
+  border-radius: 2px 2px 0 2px;
+}
+.codepen .tempoBoxBorder {
+  pointer-events: none;
+  position: absolute;
+  top: 30px;
+  left: 10px;
+  height: 2px;
+  width: 110px;
+  background: #ccc;
+}
+.codepen .tempoBoxBorder:before, .codepen .tempoBoxBorder:after {
+  content: '';
+  position: absolute;
+  background: inherit;
+}
+.codepen .tempoBoxBorder:before {
+  bottom: 0;
+  right: 0;
+  width: 2px;
+  height: 40px;
+}
+.codepen .tempoBoxBorder:after {
+  bottom: 38px;
+  left: 100%;
+  height: 2px;
+  width: 110px;
+}
+.codepen .Screws {
+  pointer-events: none;
+  visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+.codepen .Screws .Screw {
+  visibility: visible;
+  position: absolute;
+  top: 12px;
+  left: 10px;
+  height: 12px;
+  width: 12px;
+  border-radius: 100%;
+  box-shadow: 0 1px 0 1px #121101, 0 2px 1px 1px rgba(0, 0, 0, 0.5), -3px 5px 0 -1px rgba(0, 0, 0, 0.4) inset, 2px 4px 0 -1px rgba(255, 255, 255, 0.2) inset, -2px 0 0 0 rgba(0, 0, 0, 0.5) inset;
+  background-color: #1E1E1E;
+  background-image: -webkit-radial-gradient(rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.3)), -webkit-linear-gradient(bottom, rgba(0, 0, 0, 0.4), rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.1));
+  background-image: radial-gradient(rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.3)), linear-gradient(to top, rgba(0, 0, 0, 0.4), rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.1));
+}
+.codepen .Screws .Screw:before, .codepen .Screws .Screw:after {
+  content: '';
+  height: 2px;
+  width: 6px;
+  margin: -1px -3px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: black;
+  box-shadow: 1px 1px 1px rgba(255, 255, 255, 0.2) inset;
+  border-radius: 100%;
+}
+.codepen .Screws .Screw:after {
+  -webkit-transform: rotate(90deg);
+          transform: rotate(90deg);
+}
+.codepen .Screws .Screw:nth-child(1) {
+  -webkit-transform: translate(0, -5px);
+          transform: translate(0, -5px);
+}
+.codepen .Screws .Screw:nth-child(2) {
+  -webkit-transform: translate(200px, 0);
+          transform: translate(200px, 0);
+}
+.codepen .Screws .Screw:nth-child(3) {
+  -webkit-transform: translate(900px, 0);
+          transform: translate(900px, 0);
+}
+.codepen .Screws .Screw:nth-child(4) {
+  -webkit-transform: translate(1010px, -5px);
+          transform: translate(1010px, -5px);
+}
+.codepen .Screws .Screw:nth-child(5) {
+  -webkit-transform: translate(70px, 5px);
+          transform: translate(70px, 5px);
+}
+.codepen .Screws .Screw:nth-child(6) {
+  -webkit-transform: translate(70px, 40px);
+          transform: translate(70px, 40px);
+}
+.codepen .Screws .Screw:nth-child(7) {
+  -webkit-transform: translate(0, 200px);
+          transform: translate(0, 200px);
+}
+.codepen .Screws .Screw:nth-child(8) {
+  -webkit-transform: translate(1010px, 200px);
+          transform: translate(1010px, 200px);
+}
+.codepen .Screws .Screw:nth-child(9) {
+  -webkit-transform: translate(1010px, 340px);
+          transform: translate(1010px, 340px);
+}
+.codepen .Screws .Screw:nth-child(10) {
+  -webkit-transform: translate(850px, 340px);
+          transform: translate(850px, 340px);
+}
+.codepen .Screws .Screw:nth-child(11) {
+  -webkit-transform: translate(500px, 340px);
+          transform: translate(500px, 340px);
+}
+.codepen .Screws .Screw:nth-child(12) {
+  -webkit-transform: translate(200px, 286px);
+          transform: translate(200px, 286px);
+}
+.codepen .Screws .Screw:nth-child(13) {
+  top: auto;
+  bottom: 15px;
+  -webkit-transform: translate(100px, 0);
+          transform: translate(100px, 0);
+}
+.codepen .Screws .Screw:nth-child(14) {
+  top: auto;
+  bottom: 15px;
+  -webkit-transform: translate(900px, 0);
+          transform: translate(900px, 0);
+}
+.codepen .Screws .Screw:nth-child(15) {
+  -webkit-transform: translate(500px, 0);
+          transform: translate(500px, 0);
+}
+.codepen .Screws .Screw:nth-child(16) {
+  top: auto;
+  bottom: 15px;
+  -webkit-transform: translate(500px, 0);
+          transform: translate(500px, 0);
+}
+.codepen .Arrow {
+  position: relative;
+  padding: 2px 8px;
+  background: #28282B;
+  color: #ccc;
+  font-family: sans-serif;
+  text-transform: uppercase;
+  line-height: 1;
+  font-size: 8px;
+  white-space: nowrap;
+  margin-top: 20px;
+  z-index: 2;
+}
+.codepen .Arrow.grey {
+  background: #ccc;
+  color: #28282B;
+  margin: 0 4px 0 10px;
+}
+.codepen .Arrow.grey.right:after {
+  border-left-color: #ccc;
+}
+.codepen .Arrow.grey.left:after {
+  border-right-color: #ccc;
+}
+.codepen .Arrow.basic-rhythm {
+  left: 80px;
+}
+.codepen .Arrow:before, .codepen .Arrow:after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
+.codepen .Arrow:before {
+  height: 4px;
+  width: 6px;
+  background: inherit;
+}
+.codepen .Arrow:after {
+  border: 6px solid transparent;
+}
+.codepen .Arrow.right:before {
+  left: 100%;
+}
+.codepen .Arrow.right:after {
+  border-left-color: #28282B;
+  border-right: 0;
+  left: calc(100% + 5px);
+}
+.codepen .Arrow.left:before {
+  right: 100%;
+}
+.codepen .Arrow.left:after {
+  border-right-color: #28282B;
+  border-left: 0;
+  right: calc(100% + 5px);
+}
+.codepen .onOfflabels {
+  position: absolute;
+  top: 10px;
+  left: 75px;
+  width: 60px;
+  height: 40px;
+  font-size: 6px;
+  line-height: 1;
+  font-family: sans-serif;
+  text-transform: uppercase;
+}
+.codepen .onOfflabels div {
+  position: absolute;
+  width: 20px;
+}
+.codepen .onOfflabels div:nth-child(1) {
+  top: 0;
+  left: 0;
+}
+.codepen .onOfflabels div:nth-child(2) {
+  top: 50%;
+  right: 0;
+}
+.codepen .onOfflabels div:nth-child(2):before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 100%;
+  height: 1px;
+  width: 10px;
+  background: currentColor;
+}
+.codepen .onOfflabels div:nth-child(2):after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 100%;
+  height: 3px;
+  width: 6px;
+  margin-right: 2px;
+  background: currentColor;
+  border-radius: 1px 1px 0 0;
+}
+.codepen .onOfflabels div:nth-child(3) {
+  bottom: 0;
+  right: 0;
+}
+.codepen .onOfflabels div:nth-child(3):before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 100%;
+  height: 1px;
+  width: 10px;
+  background: currentColor;
+}
+.codepen .onOfflabels div:nth-child(3):after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 100%;
+  height: 5px;
+  width: 6px;
+  margin-right: 2px;
+  background: currentColor;
+  border-radius: 1px 1px 0 0;
+}
+.codepen .FAKECLEAR {
+  position: absolute;
+  height: 30px;
+  width: 80px;
+  top: 189px;
+  left: 60px;
+  font-size: 6px;
+  line-height: 1;
+  font-family: sans-serif;
+  text-transform: uppercase;
+}
+.codepen .FAKECLEAR > div {
+  position: absolute;
+  text-align: center;
+  padding: 2px 4px;
+  max-width: 30px;
+}
+.codepen .FAKECLEAR > div:nth-child(1) {
+  bottom: 50%;
+  left: 0;
+  color: #fff;
+}
+.codepen .FAKECLEAR > div:nth-child(2) {
+  top: 50%;
+  left: 0;
+  color: #fff;
+}
+.codepen .FAKECLEAR > div:nth-child(3) {
+  bottom: 50%;
+  right: 0;
+  color: #0ebeff;
+}
+.codepen .FAKECLEAR .FAKECLEARBUTTON {
+  top: 50%;
+  left: 50%;
+  height: 12px;
+  width: 12px;
+  padding: 0;
+  border-radius: 100%;
+  background: #AE63E4;
+  box-shadow: 0 3px 0 1px #683b89, 0 5px 0 2px #ccc;
+  z-index: 2;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+.codepen .FAKECLEAR .FAKECLEARBUTTON:before {
+  content: '';
+  height: 2em;
+  width: 1px;
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  background: #fff;
+}
+.codepen .FAKECLEAR .FAKECLEARBUTTON:after {
+  content: '';
+  width: 7.2em;
+  height: 1px;
+  position: absolute;
+  right: 100%;
+  top: 50%;
+  background: #fff;
+}
+.codepen .LightLabel {
+  font-size: 6px;
+  line-height: 1;
+  font-family: sans-serif;
+  color: #ccc;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.roland .ScaleToggler {
+  margin-top: 1px;
+}
+.roland .ScaleToggler .Toggle .labels div:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  margin-left: -3px;
+  height: 1px;
+  width: 4px;
+  background: #979D9D;
+}
+.roland .Scale {
+  position: relative;
+}
+.roland .Scale:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  height: 1px;
+  width: 7px;
+  margin-right: -4px;
+  background: #979D9D;
+}
+.roland .Scale:after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  height: 1px;
+  width: 8px;
+  background: #979D9D;
+  margin-right: 3px;
+  -webkit-transform-origin: 100% 50%;
+          transform-origin: 100% 50%;
+}
+.roland .Scale:nth-child(1):after {
+  -webkit-transform: rotate(-65deg);
+          transform: rotate(-65deg);
+  width: 15px;
+}
+.roland .Scale:nth-child(2):after {
+  -webkit-transform: rotate(-35deg);
+          transform: rotate(-35deg);
+  width: 9px;
+}
+.roland .Scale:nth-child(3):after {
+  -webkit-transform: rotate(25deg);
+          transform: rotate(25deg);
+  width: 8px;
+}
+.roland .Scale:nth-child(4):after {
+  -webkit-transform: rotate(59deg);
+          transform: rotate(59deg);
+  width: 13px;
+}
+.roland .Scale .ScaleMeasure {
+  position: relative;
+  border-radius: 2px;
+  height: 12px;
+  line-height: 10px;
+  color: #121611;
+}
+.roland .Scale .ScaleMeasure:before {
+  content: '';
+  background: #979D9D;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 6px;
+  right: 6px;
+  border-radius: 2px;
+  border-top-right-radius: inherit;
+  border-bottom-right-radius: inherit;
+}
+.roland .Scale:nth-child(1) .ScaleMeasure:last-child:after, .roland .Scale:nth-child(2) .ScaleMeasure:last-child:after {
+  content: '';
+  background: #2f2c2b;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 2;
+  width: 6px;
+}
+.roland .Scale .note {
+  position: relative;
+  z-index: 1;
+}
+.roland .Button {
+  background: #F4F4D1;
+  color: #121611;
+  border-radius: 2px;
+  background-image: -webkit-linear-gradient(bottom, rgba(255, 255, 255, 0.1) 2%, rgba(0, 0, 0, 0.1) 20%, rgba(255, 255, 255, 0.2) 70%);
+  background-image: linear-gradient(to top, rgba(255, 255, 255, 0.1) 2%, rgba(0, 0, 0, 0.1) 20%, rgba(255, 255, 255, 0.2) 70%);
+  box-shadow: 0 4px 0 0 #92927d, 0 3px 0 3px #121611, 0 5px 0 3px #121611, 0 0 0 2px #F4F4D1 inset, 0 -2px 0 3px #92927d inset;
+}
+.roland .Button * {
+  pointer-events: none;
+}
+.roland .Button > div {
+  margin-top: -6px;
+}
+.roland .Button:active {
+  -webkit-transform: translateY(4px);
+          transform: translateY(4px);
+  background-image: -webkit-linear-gradient(bottom, rgba(0, 0, 0, 0.05) 5%, rgba(255, 255, 255, 0.05) 20%, rgba(0, 0, 0, 0.05) 80%);
+  background-image: linear-gradient(to top, rgba(0, 0, 0, 0.05) 5%, rgba(255, 255, 255, 0.05) 20%, rgba(0, 0, 0, 0.05) 80%);
+  box-shadow: 0 1px 0 0 #92927d, 0 0 0 3px #121611, 0 1px 0 3px #121611, 0 0 0 2px #F4F4D1 inset, 0 -2px 0 3px #92927d inset;
+}
+.roland .Button.onOffButton {
+  position: absolute;
+  top: 28px;
+  left: 72px;
+  height: 16px !important;
+  width: 25px !important;
+  min-width: 20px !important;
+  background-color: #121611;
+  background-image: -webkit-linear-gradient(bottom, rgba(255, 255, 255, 0.05) 2%, rgba(0, 0, 0, 0.1) 20%, rgba(255, 255, 255, 0.05) 70%);
+  background-image: linear-gradient(to top, rgba(255, 255, 255, 0.05) 2%, rgba(0, 0, 0, 0.1) 20%, rgba(255, 255, 255, 0.05) 70%);
+  box-shadow: 0 3px 0 0 #111211, 0 2px 0 2px #121611, 0 3px 0 2px #121611;
+}
+.roland .Button.onOffButton:active {
+  -webkit-transform: translateY(3px);
+          transform: translateY(3px);
+  background-image: -webkit-linear-gradient(bottom, rgba(0, 0, 0, 0.05) 5%, rgba(255, 255, 255, 0.05) 20%, rgba(0, 0, 0, 0.05) 80%);
+  background-image: linear-gradient(to top, rgba(0, 0, 0, 0.05) 5%, rgba(255, 255, 255, 0.05) 20%, rgba(0, 0, 0, 0.05) 80%);
+  box-shadow: 0 1px 0 0 #111211, 0 0 0 2px #121611, 0 -1px 0 1px #121611;
+}
+.roland .Instrument {
+  box-shadow: 1px 0 0 #979D9D;
+}
+.roland .Instrument:last-child {
+  box-shadow: none;
+}
+.roland .Instrument .InstrumentName {
+  background: #F4F4D1;
+  color: #121611;
+  margin: 2px 2px 2px 3px;
+  padding: 4px 3px;
+  text-align: center;
+  line-height: 1;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+.roland .Step {
+  background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.1) 2px, rgba(0, 0, 0, 0.3) 12px, rgba(0, 0, 0, 0.1) 15px, rgba(255, 255, 255, 0.2) 15px, rgba(0, 0, 0, 0.1) 20px, rgba(255, 255, 255, 0.2) calc(100% - 5px), rgba(255, 255, 255, 0.1) calc(100% - 5px), rgba(0, 0, 0, 0.2) calc(100% - 4px), rgba(0, 0, 0, 0.3));
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 2px, rgba(0, 0, 0, 0.3) 12px, rgba(0, 0, 0, 0.1) 15px, rgba(255, 255, 255, 0.2) 15px, rgba(0, 0, 0, 0.1) 20px, rgba(255, 255, 255, 0.2) calc(100% - 5px), rgba(255, 255, 255, 0.1) calc(100% - 5px), rgba(0, 0, 0, 0.2) calc(100% - 4px), rgba(0, 0, 0, 0.3));
+  border-radius: 2px;
+  box-shadow: 0 1px 0 3px #121611;
+  cursor: pointer;
+}
+.roland .Step:active {
+  background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.4) 2px, rgba(0, 0, 0, 0.2) 2px, rgba(0, 0, 0, 0.3) 14px, rgba(0, 0, 0, 0.1) 17px, rgba(255, 255, 255, 0.2) 17px, rgba(0, 0, 0, 0.1) 28px, rgba(255, 255, 255, 0.2) calc(100% - 2px), rgba(255, 255, 255, 0.1) calc(100% - 2px), rgba(0, 0, 0, 0.2) calc(100% - 1px), rgba(0, 0, 0, 0.3));
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.4) 2px, rgba(0, 0, 0, 0.2) 2px, rgba(0, 0, 0, 0.3) 14px, rgba(0, 0, 0, 0.1) 17px, rgba(255, 255, 255, 0.2) 17px, rgba(0, 0, 0, 0.1) 28px, rgba(255, 255, 255, 0.2) calc(100% - 2px), rgba(255, 255, 255, 0.1) calc(100% - 2px), rgba(0, 0, 0, 0.2) calc(100% - 1px), rgba(0, 0, 0, 0.3));
+}
+.roland .Step:active .StepLight {
+  margin-top: 2px;
+}
+.roland .Step:active.selected .glow {
+  box-shadow: 0 0 3px 2px orange;
+}
+.roland .Step.selected .glow {
+  box-shadow: 0 0 2px 1px red, 0 0 3px 2px orange, 0 0 4px 1px rgba(0, 0, 0, 0.8);
+}
+.roland .Step.active .glow {
+  box-shadow: 0 0 3px 2px orange, 0 0 3px 3px red, 0 0 2px 2px rgba(0, 0, 0, 0.7);
+}
+.roland .Step .StepLight {
+  box-shadow: 0 1px 0 1px #121611;
+}
+.roland .Step .count {
+  color: #F4F4D1;
+}
+.roland .Step .rhythm {
+  color: #121611;
+  background: #979D9D;
+}
+.roland .Step:last-child .rhythm:before {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  right: 0;
+  height: 6px;
+  width: 6px;
+  border-radius: 100%;
+  box-shadow: 2px 2px 0 #979D9D;
+}
+.roland .Step:first-child .rhythm:before {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  height: 6px;
+  width: 6px;
+  border-radius: 100%;
+  box-shadow: -2px 2px 0 #979D9D;
+}
+.roland .Step._colored.red {
+  color: #FD4D20;
+}
+.roland .Step._colored.orange {
+  color: #FE7F00;
+}
+.roland .Step._colored.yellow {
+  color: #FAEF1B;
+}
+.roland .Step._colored.white {
+  color: #F4F4D1;
+}
+.roland .Poti .PotiIndicator:before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 2px;
+  background: #979D9D;
+  margin-bottom: -1px;
+  border-radius: 100%;
+}
+.roland .Poti .PotiIndicator._numbered:before {
+  content: normal;
+}
+.roland .Poti.measures > label {
+  margin-top: -1em;
+  padding-bottom: 2em;
+}
+.roland .Poti.measures > label div:last-child {
+  font-size: 1.3em;
+}
+.roland .Poti.measures .PotiIndicator:nth-child(1) .label {
+  padding-right: 3em;
+}
+.roland .Poti.pattern-write {
+  vertical-align: top;
+}
+.roland .Poti.pattern-write > label {
+  padding-bottom: 1.2em;
+}
+.roland .Poti.pattern-write > label > div:first-child {
+  color: #F4F4D1;
+  box-shadow: 0 0 0 1px;
+  padding: 1px;
+  line-height: 1;
+  position: relative;
+}
+.roland .Poti.pattern-write > label > div:first-child:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  height: 20em;
+  width: 4em;
+  border: 1px solid;
+  border-right: 0;
+  border-bottom: 0;
+}
+.roland .Poti.pattern-write .PotiIndicator:nth-child(1) .label {
+  white-space: nowrap;
+  margin-left: 4.3em;
+  margin-top: -5em;
+  box-shadow: 0 0 0 1px;
+  padding: 1px;
+  line-height: 1;
+  color: #F4F4D1;
+}
+.roland .Poti.pattern-write .PotiIndicator:nth-child(1) .label:before {
+  content: '';
+  position: absolute;
+  bottom: 50%;
+  right: 100%;
+  height: 8em;
+  width: 2em;
+  border: 1px solid;
+  border-right: 0;
+}
+.roland .Poti.pattern-write .PotiIndicator:nth-child(2) .label {
+  margin-left: 1em;
+  margin-top: 1em;
+  color: #F4F4D1;
+  text-transform: initial !important;
+}
+.roland .Poti.pattern-write .PotiIndicator:nth-child(2) .label:before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  width: 1px;
+  height: 2.5em;
+  background: currentColor;
+}
+.roland .Poti.pattern-write .PotiIndicator:nth-child(2) .label:after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  width: 2.8em;
+  height: 1px;
+  margin-bottom: 2.5em;
+  background: currentColor;
+}
+.roland .Poti.pattern-write .PotiIndicator:nth-child(3) .label {
+  margin-left: 1em;
+  margin-top: 1em;
+  color: #F4F4D1;
+  text-transform: initial !important;
+}
+.roland .Poti.pattern-write .PotiIndicator:nth-child(3) .label:before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  width: 1px;
+  height: .5em;
+  background: currentColor;
+}
+.roland .Poti.pattern-write .PotiIndicator:nth-child(3) .label:after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  width: 1px;
+  height: 0.5em;
+  margin-bottom: 0.5em;
+  margin-left: -1em;
+  background: currentColor;
+}
+.roland .Poti.pattern-write .PotiIndicator:nth-child(4) .label {
+  margin-left: -3em;
+  margin-top: 1.5em;
+  box-shadow: 0 0 0 1px;
+  padding: 1px;
+  line-height: 1;
+}
+.roland .Poti.pattern-write .PotiIndicator:nth-child(4) .label:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  height: 0.7em;
+  width: 2.6em;
+  border: 1px solid;
+  border-right: 0;
+  border-bottom: 0;
+}
+.roland .Poti.pattern-write .PotiIndicator:nth-child(5) .label {
+  margin-left: -1em;
+  margin-top: 0.5em;
+  color: #FE7F00;
+}
+.roland .Poti.pattern-write .PotiIndicator:nth-child(5) .label:after {
+  content: '';
+  position: absolute;
+  left: 100%;
+  bottom: 50%;
+  width: 4em;
+  height: 1px;
+  background: currentColor;
+}
+.roland .Poti.pattern-write .PotiIndicator:nth-child(6) .label {
+  margin-top: 1.5em;
+  margin-left: -0.5em;
+  color: #FE7F00;
+}
+.roland .Poti.pattern-write .PotiIndicator:nth-child(6) .label:before {
+  content: '';
+  position: absolute;
+  right: 50%;
+  top: 100%;
+  width: 6em;
+  height: 11.6em;
+  border-right: 1px solid;
+  border-bottom: 1px solid;
+}
+.roland .Poti.pattern-write .PotiIndicator:nth-child(6) .label:after {
+  content: '';
+  position: absolute;
+  left: 100%;
+  bottom: 50%;
+  width: 2.2em;
+  height: 1px;
+  background: currentColor;
+}
+.roland .Poti.instrument-select {
+  margin: 0 0 20px;
+}
+.roland .Poti.instrument-select > label div:first-child {
+  color: #F4F4D1;
+  position: relative;
+}
+.roland .Poti.instrument-select > label div:first-child:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  width: 10em;
+  height: 1px;
+  background: currentColor;
+}
+.roland .Poti.instrument-select > label div:last-child {
+  color: #FE7F00;
+  box-shadow: 0 0 0 1px #FE7F00;
+  padding: 2px 10px;
+  line-height: 1;
+  margin: 2px auto;
+  position: relative;
+}
+.roland .Poti.instrument-select > label div:last-child:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  height: 5.5em;
+  width: 3em;
+  border: 1px solid;
+  border-right: 0;
+  border-bottom: 0;
+}
+.roland .Poti.instrument-select .PotiIndicator {
+  color: #121611;
+}
+.roland .Poti.instrument-select .PotiIndicator:before {
+  background: #FE7F00;
+}
+.roland .Poti.instrument-select .PotiIndicator > .label {
+  background: #F4F4D1;
+  border-radius: 2px;
+  padding: 1px;
+  line-height: 1;
+  font-weight: bold;
+}
+.roland .Poti.instrument-select .PotiIndicator > .number {
+  color: #FE7F00;
+  font-weight: bold;
+}
+.roland .Poti._ring {
+  margin-top: 40px;
+}
+.roland .Poti._ring .\@decorator:before {
+  content: '';
+  height: 50%;
+  width: 50%;
+  padding: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  border-radius: 100%;
+  box-shadow: 0 0 0 12px #979D9D;
+  pointer-events: none;
+}
+.roland .Poti._ring .PotiIndicator > .label {
+  color: #121611;
+  font-weight: bolder;
+  margin-top: 4px;
+}
+.roland .Poti .PotiKnob {
+  z-index: 2;
+  box-shadow: 0 0 2px 1px rgba(244, 244, 209, 0.1) inset, 0 0 0 2px #121611 inset;
+  margin-top: -5px;
+}
+.roland .Poti .PotiKnob:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  height: 100%;
+  width: 110%;
+  padding: 4px 0;
+  border-radius: 100%;
+  box-shadow: 0 2px 0 1px #121611, 0 2px 0 6px #1d1e1c, 0 2px 0 7px #121611;
+  background-color: #1d1e1c;
+  background-image: -webkit-linear-gradient(bottom, rgba(0, 0, 0, 0.5) 0, transparent 10px), -webkit-linear-gradient(left, transparent 20%, rgba(255, 255, 255, 0.2) 40%, transparent 70%);
+  background-image: linear-gradient(to top, rgba(0, 0, 0, 0.5) 0, transparent 10px), linear-gradient(to right, transparent 20%, rgba(255, 255, 255, 0.2) 40%, transparent 70%);
+}
+.roland .Poti .PotiKnob:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  border-radius: 100%;
+  background-color: #1d1e1c;
+  background-image: -webkit-radial-gradient(closest-corner, rgba(18, 22, 17, 0.2) 10%, rgba(18, 22, 17, 0.1) 60%, rgba(244, 244, 209, 0.1) 80%);
+  background-image: radial-gradient(closest-corner, rgba(18, 22, 17, 0.2) 10%, rgba(18, 22, 17, 0.1) 60%, rgba(244, 244, 209, 0.1) 80%);
+  box-shadow: inherit;
+}
+.roland .Poti .PotiMarker {
+  z-index: 2;
+  color: #FD4D20;
+  font-size: 6px;
+  will-change: transform;
+}
+.roland .Poti._colored .PotiIndicator:before {
+  background: #979D9D;
+  height: 10px;
+  margin-bottom: 7px;
+  border-radius: 0;
+}
+.roland .Poti._colored .PotiKnob {
+  z-index: 2;
+  box-shadow: 0 0 0 2px #1d1e1c inset;
+  margin-top: -5px;
+}
+.roland .Poti._colored .PotiKnob:before {
+  height: 120%;
+  width: 110%;
+  padding: 1px;
+  box-shadow: 0 1px 0 1px #121611;
+  top: 0;
+}
+.roland .Poti._colored .PotiKnob:after {
+  background-color: inherit;
+}
+.roland .Poti._colored .PotiMarker {
+  z-index: 2;
+  color: #121611;
+  font-size: 6px;
+}
+.roland .Poti._colored.orange .PotiKnob {
+  color: #FE7F00;
+}
+.roland .Poti._colored.white .PotiKnob {
+  color: #F4F4D1;
+}
+.roland.Eight_0_Eight {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  position: relative;
+  margin: auto;
+  padding: 10px 30px;
+  background-color: #34302F;
+  background-image: -webkit-linear-gradient(left bottom, rgba(255, 255, 255, 0.05) 1px, rgba(255, 255, 255, 0) 100px), -webkit-linear-gradient(left top, rgba(255, 255, 255, 0.2) 1px, rgba(255, 255, 255, 0) 300px), -webkit-linear-gradient(right bottom, rgba(0, 0, 0, 0.5) 1px, transparent 100px), -webkit-linear-gradient(top, rgba(0, 0, 0, 0.5) 1px, rgba(255, 255, 255, 0.2) 4px, rgba(0, 0, 0, 0.1) 8px, rgba(0, 0, 0, 0.3) 30%, rgba(0, 0, 0, 0.1) 50%, rgba(0, 0, 0, 0.1) calc(100% - 15px), rgba(255, 255, 255, 0.2) calc(100% - 3px), rgba(0, 0, 0, 0.3) calc(100% - 1px));
+  background-image: linear-gradient(to right top, rgba(255, 255, 255, 0.05) 1px, rgba(255, 255, 255, 0) 100px), linear-gradient(to right bottom, rgba(255, 255, 255, 0.2) 1px, rgba(255, 255, 255, 0) 300px), linear-gradient(to left top, rgba(0, 0, 0, 0.5) 1px, transparent 100px), linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 1px, rgba(255, 255, 255, 0.2) 4px, rgba(0, 0, 0, 0.1) 8px, rgba(0, 0, 0, 0.3) 30%, rgba(0, 0, 0, 0.1) 50%, rgba(0, 0, 0, 0.1) calc(100% - 15px), rgba(255, 255, 255, 0.2) calc(100% - 3px), rgba(0, 0, 0, 0.3) calc(100% - 1px));
+  box-shadow: 0 20px 0 #1c1e1a, 0 30px 0 #141813, 0 -10px 0 #1d1e1c;
+  color: #979D9D;
+}
+.roland.Eight_0_Eight:before, .roland.Eight_0_Eight:after {
+  content: '';
+  position: absolute;
+  z-index: 2;
+  top: -5px;
+  bottom: 5px;
+  width: 35px;
+  background-color: #121611;
+  background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.5) 1px, rgba(255, 255, 255, 0.2) 4px, rgba(0, 0, 0, 0.1) 8px, rgba(0, 0, 0, 0.3) 30%, rgba(0, 0, 0, 0.1) 50%, rgba(0, 0, 0, 0.1) calc(100% - 15px), rgba(255, 255, 255, 0.2) calc(100% - 4px), rgba(0, 0, 0, 0.3) calc(100% - 1px));
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 1px, rgba(255, 255, 255, 0.2) 4px, rgba(0, 0, 0, 0.1) 8px, rgba(0, 0, 0, 0.3) 30%, rgba(0, 0, 0, 0.1) 50%, rgba(0, 0, 0, 0.1) calc(100% - 15px), rgba(255, 255, 255, 0.2) calc(100% - 4px), rgba(0, 0, 0, 0.3) calc(100% - 1px));
+  box-shadow: 0 30px 0 #151814, 0 40px 0 #121611, 0 -10px 0 #121611;
+}
+.roland.Eight_0_Eight:before {
+  left: -30px;
+  border-radius: 3px 2px 2px 3px;
+}
+.roland.Eight_0_Eight:after {
+  right: -30px;
+  border-radius: 2px 3px 3px 2px;
+}
+.roland .title-area .primary {
+  color: #FE7F00;
+  text-shadow: -2px -2px 0 #34302F, -2px -1px 0 #34302F, -2px 0px 0 #34302F, -2px 1px 0 #34302F, -2px 2px 0 #34302F, -1px -2px 0 #34302F, -1px -1px 0 #34302F, -1px 0px 0 #34302F, -1px 1px 0 #34302F, -1px 2px 0 #34302F, 0px -2px 0 #34302F, 0px -1px 0 #34302F, 0px 0px 0 #34302F, 0px 1px 0 #34302F, 0px 2px 0 #34302F, 1px -2px 0 #34302F, 1px -1px 0 #34302F, 1px 0px 0 #34302F, 1px 1px 0 #34302F, 1px 2px 0 #34302F, 2px -2px 0 #34302F, 2px -1px 0 #34302F, 2px 0px 0 #34302F, 2px 1px 0 #34302F, 2px 2px 0 #34302F;
+}
+.roland .title-area .underline {
+  color: #FE7F00;
+}
+.roland .title-area .secondary {
+  color: #979D9D;
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 100%;
+          flex: 0 0 100%;
+  box-sizing: border-box;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  font-size: 0.5em;
+}
+.roland .top {
+  border-top: 5px solid #979D9D;
+  border-bottom: 5px solid #979D9D;
+  padding: 5px 0;
+  margin: 10px;
+}
+.roland .top > .left,
+.roland .top > .right {
+  box-shadow: 2px 0 0 #979D9D;
+  margin-right: 5px;
+}
+.roland .bottom {
+  padding: 5px 0;
+  margin: 10px;
+}
+.roland .LoadingBuffers {
+  position: absolute;
+  z-index: 999;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 2em;
+  max-width: 400px;
+  background: #F4F4D1;
+  color: #121611;
+  box-shadow: 0 2px 4px 3px rgba(0, 0, 0, 0.4);
+  border-radius: 2px;
+  font-family: 'Josefin Sans';
+}
+.roland .LoadingBuffers > div:last-child {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  padding-left: 20px;
+}
+.roland .Loader {
+  height: 50px;
+  width: 50px;
+  position: relative;
+}
+.roland .Loader div {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 10px;
+  width: 10px;
+  margin: -5px;
+  border-radius: 100%;
+  -webkit-animation: Loader 2s ease-out infinite;
+          animation: Loader 2s ease-out infinite;
+}
+.roland .Loader div:nth-child(1) {
+  background: #FD4D20;
+}
+.roland .Loader div:nth-child(2) {
+  background: #FE7F00;
+  -webkit-animation-delay: -0.5s;
+          animation-delay: -0.5s;
+}
+.roland .Loader div:nth-child(3) {
+  background: #1d1e1c;
+  -webkit-animation-delay: -1s;
+          animation-delay: -1s;
+}
+@keyframes Loader {
+  0% {
+    -webkit-transform: rotate(0deg) translateY(20px);
+            transform: rotate(0deg) translateY(20px);
+  }
+  30% {
+    -webkit-transform: rotate(180deg) translateY(10px);
+            transform: rotate(180deg) translateY(10px);
+  }
+  50% {
+    -webkit-transform: rotate(300deg) translateY(25px);
+            transform: rotate(300deg) translateY(25px);
+  }
+  100% {
+    -webkit-transform: rotate(360deg) translateY(20px);
+            transform: rotate(360deg) translateY(20px);
+  }
+}
+.roland .Logo {
+  color: #FE7F00;
+}
+.roland .Toggle {
+  background-color: #1c1d1b;
+  background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0.2) 5%, rgba(0, 0, 0, 0.1) 30%, rgba(0, 0, 0, 0.2) 90%);
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0.2) 5%, rgba(0, 0, 0, 0.1) 30%, rgba(0, 0, 0, 0.2) 90%);
+  box-shadow: 0 0 0 2px #121611, 0 1px 3px 3px rgba(255, 255, 255, 0.05), 0 2px 8px 1px rgba(255, 255, 255, 0.05);
+}
+.roland .Toggle .ToggleSwitch {
+  color: #1d1e1c;
+  background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.1) 1px, rgba(255, 255, 255, 0.1) 1px);
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 1px, rgba(255, 255, 255, 0.1) 1px);
+  background-size: 100% 2px;
+  box-shadow: 0 0 1px 1px #121611;
+  will-change: transform;
+}
+.roland .Toggle._horizontal .ToggleSwitch {
+  background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0.1) 1px, rgba(255, 255, 255, 0.1) 1px);
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0.1) 1px, rgba(255, 255, 255, 0.1) 1px);
+  background-size: 2px 100%;
+}
+.roland .Toggle._horizontal .stem {
+  border-radius: 0 10px 10px 0;
+  background-image: -webkit-linear-gradient(right, rgba(255, 255, 255, 0) 10%, rgba(255, 255, 255, 0.5)), -webkit-linear-gradient(top, rgba(0, 0, 0, 0.5) 10%, rgba(255, 255, 255, 0.1) 20%, rgba(0, 0, 0, 0.05), 70%, rgba(0, 0, 0, 0.6));
+  background-image: linear-gradient(to left, rgba(255, 255, 255, 0) 10%, rgba(255, 255, 255, 0.5)), linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 10%, rgba(255, 255, 255, 0.1) 20%, rgba(0, 0, 0, 0.05), 70%, rgba(0, 0, 0, 0.6));
+}
+.roland .Toggle._horizontal .cap {
+  background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0.1) 1px, rgba(255, 255, 255, 0.1) 1px);
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0.1) 1px, rgba(255, 255, 255, 0.1) 1px);
+  background-size: 2px 100%;
+}
+.roland .Toggle .stem {
+  background: #b3b3b3;
+  visibility: visible;
+  border-radius: 0 0 10px 10px;
+  background-image: -webkit-linear-gradient(bottom, rgba(255, 255, 255, 0) 10%, rgba(255, 255, 255, 0.5)), -webkit-linear-gradient(left, rgba(0, 0, 0, 0.5) 10%, rgba(255, 255, 255, 0.1) 20%, rgba(0, 0, 0, 0.05), 70%, rgba(0, 0, 0, 0.6));
+  background-image: linear-gradient(to top, rgba(255, 255, 255, 0) 10%, rgba(255, 255, 255, 0.5)), linear-gradient(to right, rgba(0, 0, 0, 0.5) 10%, rgba(255, 255, 255, 0.1) 20%, rgba(0, 0, 0, 0.05), 70%, rgba(0, 0, 0, 0.6));
+}
+.roland .Toggle._stem {
+  border-radius: 10px;
+}
+.roland .Toggle._stem .ToggleSwitch {
+  visibility: hidden;
+}
+.roland .Toggle._stem:before {
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  content: '';
+  height: 10px;
+  width: 10px;
+  background: #b3b3b3;
+  -webkit-transition: -webkit-transform 0.2s;
+  transition: -webkit-transform 0.2s;
+  transition: transform 0.2s;
+  transition: transform 0.2s, -webkit-transform 0.2s;
+  visibility: visible;
+  border-radius: 10px;
+  background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0.5) 10%, rgba(255, 255, 255, 0.1) 20%, rgba(0, 0, 0, 0.05), 70%, rgba(0, 0, 0, 0.6));
+  background-image: linear-gradient(to right, rgba(0, 0, 0, 0.5) 10%, rgba(255, 255, 255, 0.1) 20%, rgba(0, 0, 0, 0.05), 70%, rgba(0, 0, 0, 0.6));
+}
+.roland .Toggle._stem._horizontal:before {
+  background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.5) 10%, rgba(255, 255, 255, 0.1) 20%, rgba(0, 0, 0, 0.05), 70%, rgba(0, 0, 0, 0.6));
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.5) 10%, rgba(255, 255, 255, 0.1) 20%, rgba(0, 0, 0, 0.05), 70%, rgba(0, 0, 0, 0.6));
+}
+.roland .Toggle .cap {
+  background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.1) 1px, rgba(255, 255, 255, 0.1) 1px);
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 1px, rgba(255, 255, 255, 0.1) 1px);
+  background-size: 100% 2px;
+  border-radius: 100%;
+  background-color: white;
+  visibility: visible;
+  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.2) inset;
+}
+.roland .tap-area {
+  background: #979D9D;
+  color: #121611;
+  margin-bottom: 6px;
+  margin-left: 6px;
+  border-radius: 2px 2px 2px 0;
+}
+.roland .main-control {
+  background: #979D9D;
+  color: #121611;
+  margin-bottom: 6px;
+  margin-right: 54px;
+  border-radius: 2px 2px 0 2px;
+}
+.roland .tempoBoxBorder {
+  pointer-events: none;
+  position: absolute;
+  top: 30px;
+  left: 10px;
+  height: 2px;
+  width: 110px;
+  background: #979D9D;
+}
+.roland .tempoBoxBorder:before, .roland .tempoBoxBorder:after {
+  content: '';
+  position: absolute;
+  background: inherit;
+}
+.roland .tempoBoxBorder:before {
+  bottom: 0;
+  right: 0;
+  width: 2px;
+  height: 40px;
+}
+.roland .tempoBoxBorder:after {
+  bottom: 38px;
+  left: 100%;
+  height: 2px;
+  width: 110px;
+}
+.roland .Screws {
+  pointer-events: none;
+  visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+.roland .Screws .Screw {
+  visibility: visible;
+  position: absolute;
+  top: 12px;
+  left: 10px;
+  height: 12px;
+  width: 12px;
+  border-radius: 100%;
+  box-shadow: 0 1px 0 1px #121101, 0 2px 1px 1px rgba(0, 0, 0, 0.5), -3px 5px 0 -1px rgba(0, 0, 0, 0.4) inset, 2px 4px 0 -1px rgba(255, 255, 255, 0.2) inset, -2px 0 0 0 rgba(0, 0, 0, 0.5) inset;
+  background-color: #1d1e1c;
+  background-image: -webkit-radial-gradient(rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.3)), -webkit-linear-gradient(bottom, rgba(0, 0, 0, 0.4), rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.1));
+  background-image: radial-gradient(rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.3)), linear-gradient(to top, rgba(0, 0, 0, 0.4), rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.1));
+}
+.roland .Screws .Screw:before, .roland .Screws .Screw:after {
+  content: '';
+  height: 2px;
+  width: 6px;
+  margin: -1px -3px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: black;
+  box-shadow: 1px 1px 1px rgba(255, 255, 255, 0.2) inset;
+  border-radius: 100%;
+}
+.roland .Screws .Screw:after {
+  -webkit-transform: rotate(90deg);
+          transform: rotate(90deg);
+}
+.roland .Screws .Screw:nth-child(1) {
+  -webkit-transform: translate(0, -5px);
+          transform: translate(0, -5px);
+}
+.roland .Screws .Screw:nth-child(2) {
+  -webkit-transform: translate(200px, 0);
+          transform: translate(200px, 0);
+}
+.roland .Screws .Screw:nth-child(3) {
+  -webkit-transform: translate(900px, 0);
+          transform: translate(900px, 0);
+}
+.roland .Screws .Screw:nth-child(4) {
+  -webkit-transform: translate(1010px, -5px);
+          transform: translate(1010px, -5px);
+}
+.roland .Screws .Screw:nth-child(5) {
+  -webkit-transform: translate(70px, 5px);
+          transform: translate(70px, 5px);
+}
+.roland .Screws .Screw:nth-child(6) {
+  -webkit-transform: translate(70px, 40px);
+          transform: translate(70px, 40px);
+}
+.roland .Screws .Screw:nth-child(7) {
+  -webkit-transform: translate(0, 200px);
+          transform: translate(0, 200px);
+}
+.roland .Screws .Screw:nth-child(8) {
+  -webkit-transform: translate(1010px, 200px);
+          transform: translate(1010px, 200px);
+}
+.roland .Screws .Screw:nth-child(9) {
+  -webkit-transform: translate(1010px, 340px);
+          transform: translate(1010px, 340px);
+}
+.roland .Screws .Screw:nth-child(10) {
+  -webkit-transform: translate(850px, 340px);
+          transform: translate(850px, 340px);
+}
+.roland .Screws .Screw:nth-child(11) {
+  -webkit-transform: translate(500px, 340px);
+          transform: translate(500px, 340px);
+}
+.roland .Screws .Screw:nth-child(12) {
+  -webkit-transform: translate(200px, 286px);
+          transform: translate(200px, 286px);
+}
+.roland .Screws .Screw:nth-child(13) {
+  top: auto;
+  bottom: 15px;
+  -webkit-transform: translate(100px, 0);
+          transform: translate(100px, 0);
+}
+.roland .Screws .Screw:nth-child(14) {
+  top: auto;
+  bottom: 15px;
+  -webkit-transform: translate(900px, 0);
+          transform: translate(900px, 0);
+}
+.roland .Screws .Screw:nth-child(15) {
+  -webkit-transform: translate(500px, 0);
+          transform: translate(500px, 0);
+}
+.roland .Screws .Screw:nth-child(16) {
+  top: auto;
+  bottom: 15px;
+  -webkit-transform: translate(500px, 0);
+          transform: translate(500px, 0);
+}
+.roland .Arrow {
+  position: relative;
+  padding: 2px 8px;
+  background: #34302F;
+  color: #979D9D;
+  font-family: sans-serif;
+  text-transform: uppercase;
+  line-height: 1;
+  font-size: 8px;
+  white-space: nowrap;
+  margin-top: 20px;
+  z-index: 2;
+}
+.roland .Arrow.grey {
+  background: #979D9D;
+  color: #34302F;
+  margin: 0 4px 0 10px;
+}
+.roland .Arrow.grey.right:after {
+  border-left-color: #979D9D;
+}
+.roland .Arrow.grey.left:after {
+  border-right-color: #979D9D;
+}
+.roland .Arrow.basic-rhythm {
+  left: 80px;
+}
+.roland .Arrow:before, .roland .Arrow:after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
+.roland .Arrow:before {
+  height: 4px;
+  width: 6px;
+  background: inherit;
+}
+.roland .Arrow:after {
+  border: 6px solid transparent;
+}
+.roland .Arrow.right:before {
+  left: 100%;
+}
+.roland .Arrow.right:after {
+  border-left-color: #34302F;
+  border-right: 0;
+  left: calc(100% + 5px);
+}
+.roland .Arrow.left:before {
+  right: 100%;
+}
+.roland .Arrow.left:after {
+  border-right-color: #34302F;
+  border-left: 0;
+  right: calc(100% + 5px);
+}
+.roland .onOfflabels {
+  position: absolute;
+  top: 10px;
+  left: 75px;
+  width: 60px;
+  height: 40px;
+  font-size: 6px;
+  line-height: 1;
+  font-family: sans-serif;
+  text-transform: uppercase;
+}
+.roland .onOfflabels div {
+  position: absolute;
+  width: 20px;
+}
+.roland .onOfflabels div:nth-child(1) {
+  top: 0;
+  left: 0;
+}
+.roland .onOfflabels div:nth-child(2) {
+  top: 50%;
+  right: 0;
+}
+.roland .onOfflabels div:nth-child(2):before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 100%;
+  height: 1px;
+  width: 10px;
+  background: currentColor;
+}
+.roland .onOfflabels div:nth-child(2):after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 100%;
+  height: 3px;
+  width: 6px;
+  margin-right: 2px;
+  background: currentColor;
+  border-radius: 1px 1px 0 0;
+}
+.roland .onOfflabels div:nth-child(3) {
+  bottom: 0;
+  right: 0;
+}
+.roland .onOfflabels div:nth-child(3):before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 100%;
+  height: 1px;
+  width: 10px;
+  background: currentColor;
+}
+.roland .onOfflabels div:nth-child(3):after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 100%;
+  height: 5px;
+  width: 6px;
+  margin-right: 2px;
+  background: currentColor;
+  border-radius: 1px 1px 0 0;
+}
+.roland .FAKECLEAR {
+  position: absolute;
+  height: 30px;
+  width: 80px;
+  top: 189px;
+  left: 60px;
+  font-size: 6px;
+  line-height: 1;
+  font-family: sans-serif;
+  text-transform: uppercase;
+}
+.roland .FAKECLEAR > div {
+  position: absolute;
+  text-align: center;
+  padding: 2px 4px;
+  max-width: 30px;
+}
+.roland .FAKECLEAR > div:nth-child(1) {
+  bottom: 50%;
+  left: 0;
+  color: #F4F4D1;
+}
+.roland .FAKECLEAR > div:nth-child(2) {
+  top: 50%;
+  left: 0;
+  color: #F4F4D1;
+}
+.roland .FAKECLEAR > div:nth-child(3) {
+  bottom: 50%;
+  right: 0;
+  color: #FE7F00;
+}
+.roland .FAKECLEAR .FAKECLEARBUTTON {
+  top: 50%;
+  left: 50%;
+  height: 12px;
+  width: 12px;
+  padding: 0;
+  border-radius: 100%;
+  background: #FD4D20;
+  box-shadow: 0 3px 0 1px #982e13, 0 5px 0 2px #979D9D;
+  z-index: 2;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+.roland .FAKECLEAR .FAKECLEARBUTTON:before {
+  content: '';
+  height: 2em;
+  width: 1px;
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  background: #F4F4D1;
+}
+.roland .FAKECLEAR .FAKECLEARBUTTON:after {
+  content: '';
+  width: 7.2em;
+  height: 1px;
+  position: absolute;
+  right: 100%;
+  top: 50%;
+  background: #F4F4D1;
+}
+.roland .LightLabel {
+  font-size: 6px;
+  line-height: 1;
+  font-family: sans-serif;
+  color: #979D9D;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+body {
+  margin: 0;
+  padding: 50px 40px;
+  min-height: 100vh;
+  box-sizing: border-box;
+}

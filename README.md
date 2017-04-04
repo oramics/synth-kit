@@ -23,10 +23,10 @@ kick.trigger()
 
 **Features**
 
-- Sound reasonably good
 - No setup: nice defaults, no config
 - Easy and simple API
 - Extensible and flexible
+- It sounds... well, it's a work in progress.
 
 ## SynthKit
 
@@ -34,7 +34,7 @@ kick.trigger()
 
 - [Kick](https://oramics.github.io/synth-kit/literate/kick)
 - [Snare](https://oramics.github.io/synth-kit/literate/snare)
-- [Hat](https://oramics.github.io/synth-kit/literate/hat)
+- [HiHat](https://oramics.github.io/synth-kit/literate/hihat)
 - [Cowbell](https://oramics.github.io/synth-kit/literate/cowbell)
 - [Conga](https://oramics.github.io/synth-kit/literate/cowbell)
 - [Tom](https://oramics.github.io/synth-kit/literate/tom)

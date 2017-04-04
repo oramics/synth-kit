@@ -1,0 +1,365 @@
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  background: #fff;
+  background: -webkit-repeating-linear-gradient(left, red 0%, red 20%, #ccff00 20.001%, #ccff00 40%, #00ff66 40.001%, #00ff66 60%, #0066ff 60.001%, #0066ff 80%, #cc00ff 80.001%, #cc00ff 100%);
+  background: repeating-linear-gradient(to right, red 0%, red 20%, #ccff00 20.001%, #ccff00 40%, #00ff66 40.001%, #00ff66 60%, #0066ff 60.001%, #0066ff 80%, #cc00ff 80.001%, #cc00ff 100%);
+  background-position: center;
+}
+
+body {
+  font-size: 0.8rem;
+  background-size: 64px 64px;
+}
+body section {
+  width: 320px;
+  padding: 0.5rem;
+  border-radius: 6.4px 6.4px;
+  left: calc(50% - 160px);
+  box-shadow: 0px 0 0px 1px #d0d0d0, 0px 3.2px 0px 4px #dbdbdb, 0px 0px 0px 4px #dbdbdb, 0px 0px 12.8px 4px rgba(0, 0, 0, 0.5);
+}
+body main {
+  width: calc(320px - 1rem);
+  height: calc(320px - 1rem);
+}
+body header {
+  margin-bottom: 0.5rem;
+}
+body header span {
+  width: 1rem;
+  height: 1rem;
+}
+body footer .row + .row {
+  margin-top: 0.5rem;
+}
+body .custom-select {
+  font-size: 0.8rem;
+}
+@media (min-width: 580px) and (min-height: 684px) {
+  body {
+    font-size: 1rem;
+    background-size: 100px 100px;
+  }
+  body section {
+    width: 500px;
+    padding: 1rem;
+    border-radius: 10px 10px;
+    left: calc(50% - 250px);
+    box-shadow: 0px 0 0px 1px #d0d0d0, 0px 5px 0px 4px #dbdbdb, 0px 0px 0px 4px #dbdbdb, 0px 0px 20px 4px rgba(0, 0, 0, 0.5);
+  }
+  body main {
+    width: calc(500px - 2rem);
+    height: calc(500px - 2rem);
+  }
+  body header {
+    margin-bottom: 0.75rem;
+  }
+  body header span {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  body footer .row + .row {
+    margin-top: 0.75rem;
+  }
+  body .custom-select {
+    font-size: 1rem;
+  }
+}
+@media (min-width: 780px) and (min-height: 904px) {
+  body {
+    font-size: 1rem;
+    background-size: 140px 140px;
+  }
+  body section {
+    width: 700px;
+    padding: 2rem;
+    border-radius: 14px 14px;
+    left: calc(50% - 350px);
+    box-shadow: 0px 0 0px 1px #d0d0d0, 0px 7px 0px 4px #dbdbdb, 0px 0px 0px 4px #dbdbdb, 0px 0px 28px 4px rgba(0, 0, 0, 0.5);
+  }
+  body main {
+    width: calc(700px - 4rem);
+    height: calc(700px - 4rem);
+  }
+  body header {
+    margin-bottom: 1rem;
+  }
+  body header span {
+    width: 2rem;
+    height: 2rem;
+  }
+  body footer .row + .row {
+    margin-top: 1rem;
+  }
+  body .custom-select {
+    font-size: 1rem;
+  }
+}
+
+section {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+  background: #f0f0f0;
+  background: -webkit-linear-gradient(top left, #f9f9f9, #e0e0e0);
+  background: linear-gradient(to bottom right, #f9f9f9, #e0e0e0);
+  box-sizing: border-box;
+}
+
+header .colors {
+  text-align: center;
+}
+header .colors span {
+  border-radius: 50%;
+  position: relative;
+  display: inline-block;
+  border: 4px solid;
+  box-sizing: border-box;
+  cursor: pointer;
+  opacity: 0.2;
+}
+header .colors span.active {
+  opacity: 1;
+}
+header .colors span + span {
+  margin-left: 0.5rem;
+}
+
+main {
+  position: relative;
+  box-sizing: border-box;
+  border: 4px solid #e9e9e9;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #f0f0f0;
+}
+main canvas {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  height: 95%;
+  width: 95%;
+  cursor: crosshair;
+}
+main canvas:first-of-type {
+  border-radius: 4px;
+  background: white;
+}
+
+footer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  margin-top: 1rem;
+  box-sizing: border-box;
+  text-align: center;
+}
+footer .row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+footer .row > * {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  display: block;
+}
+footer .row > input ~ *,
+footer .row > div ~ *,
+footer .row > a:not(:empty) ~ * {
+  margin-left: 1rem;
+}
+footer a,
+footer .custom-select {
+  text-transform: uppercase;
+  font-weight: 100;
+  letter-spacing: 0.025em;
+  background: white;
+  color: black;
+  cursor: pointer;
+  border-radius: 2px;
+  box-shadow: 0px 2px 0px 1px #dbdbdb, 0px 0px 0px 1px #dbdbdb;
+}
+footer a {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  border: none;
+  text-decoration: none;
+  display: block;
+  padding: 0.5rem 1rem;
+}
+footer a:empty {
+  display: none;
+}
+footer a:hover, footer a:active {
+  box-shadow: 0px 0px 0px 1px #dbdbdb;
+  -webkit-transform: translateY(2px);
+          transform: translateY(2px);
+}
+footer a.active, footer a#link {
+  background: #444;
+  color: white;
+  box-shadow: 0px 2px 0px 1px #333, 0px 0px 0px 1px #333;
+}
+footer a.active:hover, footer a.active:active, footer a#link:hover, footer a#link:active {
+  box-shadow: 0px 0px 0px 1px #333;
+}
+footer .custom-select {
+  position: relative;
+  display: block;
+}
+footer .custom-select select {
+  cursor: pointer;
+  padding-right: 2em;
+  background: none;
+  border: 1px solid transparent;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  width: 100%;
+  margin: 0;
+  outline: none;
+  padding: .5em .8em .4em .8em;
+  box-sizing: border-box;
+  font-family: sans-serif;
+  font-weight: 100;
+  text-transform: uppercase;
+  color: #444;
+  line-height: 1.3;
+  border-radius: .2em;
+}
+footer .custom-select::after {
+  content: ' ';
+  position: absolute;
+  top: 50%;
+  right: 1em;
+  z-index: 2;
+  pointer-events: none;
+  display: block;
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 7px solid #666;
+  margin-top: -3px;
+}
+
+input[type=range] {
+  -webkit-appearance: none;
+  margin: 10px 0;
+  width: 100%;
+  background: transparent;
+}
+
+input[type=range]:focus {
+  outline: none;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 2px;
+  cursor: pointer;
+  animate: 0.2s;
+  box-shadow: 0px 0px 0px #000000;
+  background: #dbdbdb;
+  border-radius: 0px;
+  border: 0px solid #000000;
+}
+
+input[type=range]::-webkit-slider-thumb {
+  box-shadow: 0px 0px 0px #000000;
+  border: 0px solid #000000;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0px 0px 0px 2px #dbdbdb;
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -10px;
+}
+
+input[type=range]:focus::-webkit-slider-runnable-track {
+  background: #ccc;
+}
+
+input[type=range]::-moz-range-track {
+  width: 100%;
+  height: 2px;
+  cursor: pointer;
+  animate: 0.2s;
+  box-shadow: 0px 0px 0px #000000;
+  background: #dbdbdb;
+  border-radius: 0px;
+  border: 0px solid #000000;
+}
+
+input[type=range]::-moz-range-thumb {
+  box-shadow: 0px 0px 0px #000000;
+  border: 0px solid #000000;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0px 0px 0px 2px #dbdbdb;
+  cursor: pointer;
+}
+
+input[type=range]::-ms-track {
+  width: 100%;
+  height: 2px;
+  cursor: pointer;
+  animate: 0.2s;
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+
+input[type=range]::-ms-fill-lower {
+  background: #dbdbdb;
+  border: 0px solid #000000;
+  border-radius: 0px;
+  box-shadow: 0px 0px 0px #000000;
+}
+
+input[type=range]::-ms-fill-upper {
+  background: #dbdbdb;
+  border: 0px solid #000000;
+  border-radius: 0px;
+  box-shadow: 0px 0px 0px #000000;
+}
+
+input[type=range]::-ms-thumb {
+  box-shadow: 0px 0px 0px #000000;
+  border: 0px solid #000000;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0px 0px 0px 2px #dbdbdb;
+  cursor: pointer;
+}
+
+input[type=range]:focus::-ms-fill-lower {
+  background: #dbdbdb;
+}
+
+input[type=range]:focus::-ms-fill-upper {
+  background: #dbdbdb;
+}
