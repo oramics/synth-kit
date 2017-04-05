@@ -1,12 +1,3 @@
 {
-  "extends": [
-    "standard"
-  ],
-  "env": {
-    "jest": true
-  },
-  "rules": {
-    "quotes": ["error", "double"],
-    "comma-dangle": ["error", "only-multiline"]
-  }
+  "extends": "react-app"
 }
