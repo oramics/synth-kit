@@ -17,7 +17,8 @@
     "build": "rollup -cm -n SynthKit -f umd -i lib/index.js -o dist/synth-kit.js && cp dist/* docs/dist/",
     "watch": "rollup --watch -cm -n SynthKit -f umd -i lib/index.js -o dist/synth-kit.js",
     "release": "npm test && npm run build && npm run docco && git commit -am $npm_package_version && git tag $npm_package_version && git push && git push --tags && npm publish",
-    "docco": "docco lib/* lib/**/* -o docs/literate"
+    "docco": "docco lib/* lib/**/* -o docs/literate",
+    "commit": "git-cz"
   },
   "authors": "@danigb",
   "keywords": [
@@ -35,6 +36,7 @@
     "babel-jest": "^19.0.0",
     "babel-preset-es2015": "^6.24.0",
     "babel-preset-es2015-rollup": "^3.0.0",
+    "cz-conventional-changelog": "^2.0.0",
     "docco": "^0.7.0",
     "eslint": "3.16.1",
     "eslint-config-react-app": "^0.6.2",
@@ -51,5 +53,10 @@
     "rollup-plugin-uglify": "^1.0.1",
     "rollup-watch": "^3.2.2",
     "web-audio-test-api": "^0.5.2"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }

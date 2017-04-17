@@ -3,6 +3,7 @@
 [![Codecov](https://img.shields.io/codecov/c/github/oramics/synth-kit/master.svg)](https://codecov.io/gh/oramics/synth-kit)
 [![CDNJS](https://img.shields.io/cdnjs/v/synth-kit.svg?colorB=ff69b4)](https://cdnjs.com/libraries/synth-kit)
 [![npm](https://img.shields.io/npm/v/synth-kit.svg?colorB=ff69b4)](https://www.npmjs.org/package/synth-kit)
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
 
 > Synthesizers construction kit for Web Audio API
